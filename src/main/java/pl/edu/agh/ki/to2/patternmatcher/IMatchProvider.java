@@ -1,6 +1,4 @@
-package src.main.java.pl.edu.agh.ki.to2.patternmatcher;
-
-import src.main.java.pl.edu.agh.ki.to2.patternmatcher.models.ISearchPattern;
+package main.java.pl.edu.agh.ki.to2.patternmatcher;
 
 import java.util.List;
 

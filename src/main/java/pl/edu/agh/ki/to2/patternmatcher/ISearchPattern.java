@@ -1,4 +1,4 @@
-package src.main.java.pl.edu.agh.ki.to2.patternmatcher.models;
+package main.java.pl.edu.agh.ki.to2.patternmatcher;
 
 public interface ISearchPattern {
     String getDescription();
