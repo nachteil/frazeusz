@@ -1,6 +1,6 @@
-package pl.edu.agh.to2.frazeusz.pattern_matcher;
+package src.main.java.pl.edu.agh.ki.to2.patternmatcher;
 
-import pl.edu.agh.to2.frazeusz.nlprocessor.IWordProvider;
+import src.main.java.pl.edu.agh.ki.to2.nlprocessor.IWordProvider;
 
 import javax.swing.*;
 import java.util.List;

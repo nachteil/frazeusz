@@ -1,6 +1,6 @@
-package pl.edu.agh.to2.frazeusz.pattern_matcher;
+package src.main.java.pl.edu.agh.ki.to2.patternmatcher;
 
-import pl.edu.agh.to2.frazeusz.pattern_matcher.ui.models.SearchPattern;
+import pl.edu.agh.to2.frazeusz.pattern_matcher.models.SearchPattern;
 
 import java.util.List;
 
