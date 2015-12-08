@@ -1,6 +1,6 @@
 package pl.edu.agh.ki.to2.patternmatcher.ui.views;
 
-import pl.edu.agh.ki.to2.patternmatcher.ui.models.SearchPattern;
+import pl.edu.agh.ki.to2.patternmatcher.models.SearchPattern;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;

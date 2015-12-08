@@ -3,7 +3,7 @@ package pl.edu.agh.ki.to2.patternmatcher;
 import pl.edu.agh.ki.to2.monitor.MonitorPubSub;
 import pl.edu.agh.ki.to2.nlprocessor.IWordProvider;
 import pl.edu.agh.ki.to2.patternmatcher.ui.controllers.PatternController;
-import pl.edu.agh.ki.to2.patternmatcher.ui.models.SearchPattern;
+import pl.edu.agh.ki.to2.patternmatcher.models.SearchPattern;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.swing.*;

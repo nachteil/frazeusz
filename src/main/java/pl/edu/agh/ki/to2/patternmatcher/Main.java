@@ -1,6 +1,6 @@
 package pl.edu.agh.ki.to2.patternmatcher;
 
-import pl.edu.agh.ki.to2.patternmatcher.ui.models.SearchPattern;
+import pl.edu.agh.ki.to2.patternmatcher.models.SearchPattern;
 import pl.edu.agh.ki.to2.patternmatcher.matcher.IMatcher;
 import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.EmptyStrategy;
 import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.RegexMatcher;
