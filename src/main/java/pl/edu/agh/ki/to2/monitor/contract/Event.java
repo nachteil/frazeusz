@@ -1,5 +1,10 @@
 package pl.edu.agh.ki.to2.monitor.contract;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@AllArgsConstructor
 public class Event {
 
     protected EventType type;

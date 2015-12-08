@@ -6,16 +6,22 @@ import org.hornetq.api.core.client.ClientMessage;
 import org.hornetq.api.core.client.ClientProducer;
 import org.hornetq.api.core.client.ClientSession;
 import pl.edu.agh.ki.to2.monitor.contract.Event;
+import pl.edu.agh.ki.to2.monitor.contract.EventType;
+
+import javax.inject.Inject;
 
 public class InMemoryMessageQueue implements MessageQueue {
 
     private static final boolean MESSAGE_DURABLE_PROP = false;
-    private static final String EVENT_PROPERTY_KEY = "event.property";
+    private static final String AMOUNT_PROPERTY_KEY = "event.property.amount";
+    private static final String TYPE_PROPERTY_KEY = "event.property.type";
+    private static final String TIMESTAMP_PROPERTY_KEY = "event.property.timestamp";
 
     private final ClientConsumer consumer;
     private final ClientProducer producer;
     private final ClientSession  session ;
 
+    @Inject
     public InMemoryMessageQueue(ClientConsumer consumer, ClientProducer producer, ClientSession session) {
         this.producer = producer;
         this.consumer = consumer;
@@ -24,8 +30,7 @@ public class InMemoryMessageQueue implements MessageQueue {
 
     @Override
     public void push(Event event) {
-        ClientMessage message = session.createMessage(MESSAGE_DURABLE_PROP);
-        message.putObjectProperty(EVENT_PROPERTY_KEY, event);
+        ClientMessage message = createClientMessage(event);
         trySend(message);
     }
 
@@ -35,7 +40,28 @@ public class InMemoryMessageQueue implements MessageQueue {
         while(message == null) {
             message = tryPop();
         }
-        return (Event) message.getObjectProperty(EVENT_PROPERTY_KEY);
+
+        return createEvent(message);
+    }
+
+    private Event createEvent(ClientMessage message) {
+
+
+        EventType eventType = EventType.fromValue(message.getStringProperty(TYPE_PROPERTY_KEY));
+        int amount = message.getIntProperty(AMOUNT_PROPERTY_KEY);
+        long timestamp = message.getLongProperty(TIMESTAMP_PROPERTY_KEY);
+
+        return new Event(eventType, amount, timestamp);
+    }
+
+    private ClientMessage createClientMessage(Event event) {
+
+        ClientMessage message = session.createMessage(MESSAGE_DURABLE_PROP);
+        message.putIntProperty(AMOUNT_PROPERTY_KEY, event.getAmount());
+        message.putStringProperty(TYPE_PROPERTY_KEY, event.getType().toString());
+        message.putLongProperty(TIMESTAMP_PROPERTY_KEY, event.getTimestamp());
+
+        return message;
     }
 
     private void trySend(ClientMessage message) {

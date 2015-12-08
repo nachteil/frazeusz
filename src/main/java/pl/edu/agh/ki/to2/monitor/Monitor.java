@@ -1,6 +1,9 @@
 package pl.edu.agh.ki.to2.monitor;
 
 import dagger.ObjectGraph;
+import org.hornetq.api.core.client.ClientSession;
+import org.hornetq.api.core.client.ClientSessionFactory;
+import org.hornetq.core.server.HornetQServer;
 import pl.edu.agh.ki.to2.monitor.contract.MonitorPubSub;
 import pl.edu.agh.ki.to2.monitor.messaging.MessagingModule;
 
@@ -10,6 +13,9 @@ import javax.swing.*;
 public class Monitor {
 
     @Inject MonitorPubSub pubSub;
+    @Inject HornetQServer server;
+    @Inject ClientSession session;
+    @Inject ClientSessionFactory sessionFactory;
 
     private static final class LazyHolder {
         private static Monitor createInstance() {
@@ -40,5 +46,15 @@ public class Monitor {
      * */
     public MonitorPubSub getMonitorPubSub() {
         return pubSub;
+    }
+
+    public void cleanUp() {
+        sessionFactory.close();
+        try {
+            server.stop();
+        } catch (Exception e) {
+            System.out.println("HornetQ server shutdown failed");
+            e.printStackTrace();
+        }
     }
 }
