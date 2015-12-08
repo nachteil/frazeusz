@@ -14,30 +14,13 @@ public class DiminutiveStrategy extends AbstractMatchingStrategy {
 
     @Override
     public String format(String pattern) {
-        Set<String> words = split(pattern);
-        Set<String> addWords;
 
-        for (String word : words) {
-            addWords = wordProvider.getDiminutives(word);
-            addWords.add(word);
-            pattern = pattern.replaceAll(word, join(addWords));
-        }
-
-        return pattern;
+        return MatchingStrategyHelper.createWordAltList(pattern, word -> wordProvider.getDiminutives(word));
     }
 
     @Override
     public Map<String, Set<String>> getWords(String pattern) {
-        Set<String> words = split(pattern);
-        Set<String> addWords;
-        Map<String, Set<String>> wordMap = new HashMap<>();
 
-        for (String word : words) {
-            addWords = wordProvider.getDiminutives(word);
-            addWords.add(word);
-            wordMap.put(word, addWords);
-        }
-
-        return wordMap;
+        return MatchingStrategyHelper.createWordMap(pattern, word -> wordProvider.getDiminutives(word));
     }
 }

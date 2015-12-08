@@ -19,7 +19,7 @@ public class MultiStrategy extends AbstractMatchingStrategy {
         Map<String, Set<String>> wordMap = getWords(pattern);
 
         for (String word : wordMap.keySet())
-            pattern = pattern.replaceAll(word, join(wordMap.get(word)));
+            pattern = pattern.replaceAll(word, MatchingStrategyHelper.join(wordMap.get(word)));
 
         return pattern;
     }
