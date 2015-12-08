@@ -53,6 +53,7 @@ public class HornetModule {
             queueSession.createQueue(QUEUE_NAME, QUEUE_NAME, true);
             queueSession.close();
             session = sessionFactory.createSession();
+            session.start();
         } catch (HornetQException exception) {
             System.out.println("Client session failed");
             exception.printStackTrace();
