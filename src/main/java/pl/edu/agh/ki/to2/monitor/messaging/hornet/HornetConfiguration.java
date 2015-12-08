@@ -15,6 +15,7 @@ class HornetConfiguration {
     Configuration getConfiguration() {
 
         Configuration configuration = new ConfigurationImpl();
+        configuration.setJournalDirectory("target/data/journal");
         configuration.setPersistenceEnabled(PERSISTENCE_ENABLED);
         configuration.setSecurityEnabled(SECURITY_ENABLED);
         configuration.getAcceptorConfigurations().add(new TransportConfiguration(InVMAcceptorFactory.class.getName()));

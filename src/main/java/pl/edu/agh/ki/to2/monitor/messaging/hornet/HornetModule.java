@@ -11,7 +11,7 @@ import org.hornetq.core.server.HornetQServers;
 
 import javax.inject.Singleton;
 
-@Module(complete = false, library = true)
+@Module(library = true)
 public class HornetModule {
 
     private static final String QUEUE_NAME = "queue.monitorQueue";
@@ -30,32 +30,60 @@ public class HornetModule {
 
     @Provides
     @Singleton
-    ClientSessionFactory createClientSessionFactory() throws Exception {
+    ClientSessionFactory createClientSessionFactory(HornetQServer server) {
         ServerLocator serverLocator = HornetQClient.createServerLocatorWithoutHA(new TransportConfiguration(InVMConnectorFactory.class.getName()));
-        return serverLocator.createSessionFactory();
+        ClientSessionFactory sessionFactory = null;
+        try {
+             server.start();
+             sessionFactory = serverLocator.createSessionFactory();
+        } catch (Exception e) {
+            System.out.println("Factory failed");
+            e.printStackTrace();
+        }
+        return sessionFactory;
     }
 
     @Provides
     @Singleton
-    ClientSession createClientSession(ClientSessionFactory sessionFactory) throws HornetQException {
+    ClientSession createClientSession(ClientSessionFactory sessionFactory) {
 
-        ClientSession queueSession = sessionFactory.createSession(false, false, false);
-        queueSession.createQueue(QUEUE_NAME, QUEUE_NAME, true);
-        queueSession.close();
-
-        return sessionFactory.createSession();
+        ClientSession session = null;
+        try {
+            ClientSession queueSession = sessionFactory.createSession(false, false, false);
+            queueSession.createQueue(QUEUE_NAME, QUEUE_NAME, true);
+            queueSession.close();
+            session = sessionFactory.createSession();
+        } catch (HornetQException exception) {
+            System.out.println("Client session failed");
+            exception.printStackTrace();
+        }
+        return session;
     }
 
     @Provides
     @Singleton
-    ClientProducer createProducer(ClientSession session) throws HornetQException {
-        return session.createProducer(QUEUE_NAME);
+    ClientProducer createProducer(ClientSession session) {
+        ClientProducer producer = null;
+        try {
+            producer = session.createProducer(QUEUE_NAME);
+        } catch (HornetQException exception) {
+            System.out.println("producer failed");
+            exception.printStackTrace();
+        }
+        return producer;
     }
 
     @Provides
     @Singleton
-    ClientConsumer createConsumer(ClientSession session) throws HornetQException {
-        return session.createConsumer(QUEUE_NAME);
+    ClientConsumer createConsumer(ClientSession session) {
+        ClientConsumer consumer = null;
+        try {
+            consumer = session.createConsumer(QUEUE_NAME);
+        } catch (HornetQException exception) {
+            System.out.println("consumer failed");
+            exception.printStackTrace();
+        }
+        return consumer;
     }
 
 
