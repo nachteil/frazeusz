@@ -1,16 +1,21 @@
 package pl.edu.agh.ki.to2.patternmatcher;
 
+import org.mockito.Mockito;
+import pl.edu.agh.ki.to2.nlprocessor.IWordProvider;
 import pl.edu.agh.ki.to2.patternmatcher.models.SearchPattern;
 import pl.edu.agh.ki.to2.patternmatcher.matcher.IMatcher;
 import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.EmptyStrategy;
 import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.RegexMatcher;
 import pl.edu.agh.ki.to2.patternmatcher.ui.controllers.PatternController;
 
+import static org.mockito.Mockito.*;
+
 import javax.swing.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 public class Main {
@@ -30,13 +35,18 @@ public class Main {
         createGUI();
 
         String[] patterns = {
-                "to",
-                "to **",
-                "to **** and",
+                "take",
+                "take **",
+                "take **** and",
                 "to **** and ** the",
                 "** to **** and **** the ",
                 "** to **** and **** the *** is *** a"
         };
+
+        IWordProvider mockWordProvider = mock(IWordProvider.class);
+        when(mockWordProvider.getSynonyms("take")).thenReturn(new HashSet<>(Arrays.asList("get")));
+        when(mockWordProvider.getVariants("take")).thenReturn(new HashSet<>(Arrays.asList("takes", "taking", "took")));
+        when(mockWordProvider.getDiminutives("take")).thenReturn(new HashSet<>(Arrays.asList("taketh")));
 
         try {
             FileInputStream input = new FileInputStream("pg4351.txt");
@@ -51,7 +61,7 @@ public class Main {
 
             for (String pattern : patterns) {
                 System.out.println(pattern);
-                IMatcher matcher = new RegexMatcher(new SearchPattern(pattern), new EmptyStrategy(new MockWordProvider()));
+                IMatcher matcher = new RegexMatcher(new SearchPattern(pattern), new EmptyStrategy(mockWordProvider));
 
                 double start = System.currentTimeMillis();
 
