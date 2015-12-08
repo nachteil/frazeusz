@@ -1,10 +1,9 @@
 package pl.edu.agh.ki.to2.patternmatcher;
 
-import org.mockito.Mockito;
 import pl.edu.agh.ki.to2.nlprocessor.IWordProvider;
 import pl.edu.agh.ki.to2.patternmatcher.models.SearchPattern;
 import pl.edu.agh.ki.to2.patternmatcher.matcher.IMatcher;
-import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.EmptyStrategy;
+import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.matching_strategy.EmptyStrategy;
 import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.RegexMatcher;
 import pl.edu.agh.ki.to2.patternmatcher.ui.controllers.PatternController;
 

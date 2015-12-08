@@ -1,5 +1,6 @@
 package pl.edu.agh.ki.to2.patternmatcher.matcher;
 
+import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.matching_strategy.*;
 import pl.edu.agh.ki.to2.patternmatcher.models.SearchPattern;
 import pl.edu.agh.ki.to2.nlprocessor.IWordProvider;
 import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.*;
