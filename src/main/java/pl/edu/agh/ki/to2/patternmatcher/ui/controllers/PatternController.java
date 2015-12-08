@@ -1,7 +1,7 @@
-package main.java.pl.edu.agh.ki.to2.patternmatcher.ui.controllers;
+package pl.edu.agh.ki.to2.patternmatcher.ui.controllers;
 
-import main.java.pl.edu.agh.ki.to2.patternmatcher.ui.models.SearchPattern;
-import main.java.pl.edu.agh.ki.to2.patternmatcher.ui.views.PatternView;
+import pl.edu.agh.ki.to2.patternmatcher.ui.models.SearchPattern;
+import pl.edu.agh.ki.to2.patternmatcher.ui.views.PatternView;
 
 import javax.swing.*;
 import java.util.List;

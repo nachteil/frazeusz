@@ -1,8 +1,8 @@
-package main.java.pl.edu.agh.ki.to2.patternmatcher.matcher;
+package pl.edu.agh.ki.to2.patternmatcher.matcher;
 
-import main.java.pl.edu.agh.ki.to2.patternmatcher.ui.models.SearchPattern;
-import pl.edu.agh.to2.frazeusz.nlprocessor.IWordProvider;
-import main.java.pl.edu.agh.ki.to2.patternmatcher.matcher.regex.*;
+import pl.edu.agh.ki.to2.patternmatcher.ui.models.SearchPattern;
+import pl.edu.agh.ki.to2.nlprocessor.IWordProvider;
+import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.*;
 
 import java.util.ArrayList;
 import java.util.List;

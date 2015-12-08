@@ -1,9 +1,9 @@
-package main.java.pl.edu.agh.ki.to2.patternmatcher;
+package pl.edu.agh.ki.to2.patternmatcher;
 
-import main.java.pl.edu.agh.ki.to2.patternmatcher.ui.models.SearchPattern;
-import pl.edu.agh.to2.frazeusz.monitor.MonitorPubSub;
-import pl.edu.agh.to2.frazeusz.nlprocessor.IWordProvider;
-import main.java.pl.edu.agh.ki.to2.patternmatcher.ui.controllers.PatternController;
+import pl.edu.agh.ki.to2.monitor.MonitorPubSub;
+import pl.edu.agh.ki.to2.nlprocessor.IWordProvider;
+import pl.edu.agh.ki.to2.patternmatcher.ui.controllers.PatternController;
+import pl.edu.agh.ki.to2.patternmatcher.ui.models.SearchPattern;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.swing.*;

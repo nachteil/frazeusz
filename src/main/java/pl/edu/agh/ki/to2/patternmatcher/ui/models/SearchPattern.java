@@ -1,4 +1,4 @@
-package main.java.pl.edu.agh.ki.to2.patternmatcher.ui.models;
+package pl.edu.agh.ki.to2.patternmatcher.ui.models;
 
 public class SearchPattern {
     private String pattern = "";

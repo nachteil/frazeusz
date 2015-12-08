@@ -1,4 +1,4 @@
-package main.java.pl.edu.agh.ki.to2.patternmatcher.matcher;
+package pl.edu.agh.ki.to2.patternmatcher.matcher;
 
 import java.util.List;
 

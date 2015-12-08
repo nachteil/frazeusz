@@ -1,9 +1,9 @@
-package main.java.pl.edu.agh.ki.to2.patternmatcher.matcher.regex;
+package pl.edu.agh.ki.to2.patternmatcher.matcher.regex;
 
-import main.java.pl.edu.agh.ki.to2.patternmatcher.ui.models.SearchPattern;
-import main.java.pl.edu.agh.ki.to2.patternmatcher.IMatchListener;
-import main.java.pl.edu.agh.ki.to2.patternmatcher.IMatchProvider;
-import main.java.pl.edu.agh.ki.to2.patternmatcher.matcher.IMatcher;
+import pl.edu.agh.ki.to2.patternmatcher.ui.models.SearchPattern;
+import pl.edu.agh.ki.to2.patternmatcher.IMatchListener;
+import pl.edu.agh.ki.to2.patternmatcher.IMatchProvider;
+import pl.edu.agh.ki.to2.patternmatcher.matcher.IMatcher;
 
 import java.util.ArrayList;
 import java.util.List;

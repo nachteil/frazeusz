@@ -1,11 +1,10 @@
-package main.java.pl.edu.agh.ki.to2.patternmatcher;
+package pl.edu.agh.ki.to2.patternmatcher;
 
-import main.java.pl.edu.agh.ki.to2.patternmatcher.ui.models.SearchPattern;
-import pl.edu.agh.to2.frazeusz.nlprocessor.MockWordProvider;
-import main.java.pl.edu.agh.ki.to2.patternmatcher.matcher.IMatcher;
-import main.java.pl.edu.agh.ki.to2.patternmatcher.matcher.regex.EmptyStrategy;
-import main.java.pl.edu.agh.ki.to2.patternmatcher.matcher.regex.RegexMatcher;
-import main.java.pl.edu.agh.ki.to2.patternmatcher.ui.controllers.PatternController;
+import pl.edu.agh.ki.to2.patternmatcher.ui.models.SearchPattern;
+import pl.edu.agh.ki.to2.patternmatcher.matcher.IMatcher;
+import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.EmptyStrategy;
+import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.RegexMatcher;
+import pl.edu.agh.ki.to2.patternmatcher.ui.controllers.PatternController;
 
 import javax.swing.*;
 import java.io.FileInputStream;
