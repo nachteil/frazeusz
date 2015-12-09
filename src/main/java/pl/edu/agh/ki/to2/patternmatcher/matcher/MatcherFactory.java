@@ -10,27 +10,36 @@ import java.util.List;
 
 public class MatcherFactory {
 
-    public static IMatcher getMatcher(SearchPattern pattern, IWordProvider wordProvider) {
+    public enum MatcherType {
+        REGEX
+    }
 
-        IMatchingStrategy strategy;
+    public static IMatcher getMatcher(MatcherType type, SearchPattern pattern, IWordProvider wordProvider) {
 
-        List<IMatchingStrategy> strategies = new ArrayList<>(4);
-        if (pattern.getSynonyms())
-            strategies.add(new SynonymStrategy(wordProvider));
-        if (pattern.getVariants())
-            strategies.add(new VariantStrategy(wordProvider));
-        if (pattern.getDiminutives())
-            strategies.add(new DiminutiveStrategy(wordProvider));
-        if (!pattern.getCaseSensitive())
-            strategies.add(new CaseInsensitiveStrategy(wordProvider));
+        if (type == MatcherType.REGEX) {
+            IMatchingStrategy strategy;
 
-        if (strategies.size() == 0)
-            strategy = new EmptyStrategy(wordProvider);
-        else if (strategies.size() == 1)
-            strategy = strategies.get(0);
-        else
-            strategy = new MultiStrategy(strategies, wordProvider);
+            List<IMatchingStrategy> strategies = new ArrayList<>(4);
+            if (pattern.getSynonyms())
+                strategies.add(new SynonymStrategy(wordProvider));
+            if (pattern.getVariants())
+                strategies.add(new VariantStrategy(wordProvider));
+            if (pattern.getDiminutives())
+                strategies.add(new DiminutiveStrategy(wordProvider));
+            if (!pattern.getCaseSensitive())
+                strategies.add(new CaseInsensitiveStrategy(wordProvider));
 
-        return new RegexMatcher(pattern, strategy);
+            if (strategies.size() == 0)
+                strategy = new EmptyStrategy(wordProvider);
+            else if (strategies.size() == 1)
+                strategy = strategies.get(0);
+            else
+                strategy = new MultiStrategy(strategies, wordProvider);
+
+
+            return new RegexMatcher(pattern, strategy);
+        }
+
+        return null;
     }
 }
