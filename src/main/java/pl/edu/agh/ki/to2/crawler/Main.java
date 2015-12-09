@@ -1,5 +1,8 @@
 package pl.edu.agh.ki.to2.crawler;
 
+import pl.edu.agh.ki.to2.crawler.data.CrawlingData;
+import pl.edu.agh.ki.to2.crawler.gui.DataFrame;
+import pl.edu.agh.ki.to2.crawler.gui.controllers.DateFrameController;
 import pl.edu.agh.ki.to2.crawler.model.Crawler;
 import pl.edu.agh.ki.to2.nlprocessor.NLProcessor;
 
