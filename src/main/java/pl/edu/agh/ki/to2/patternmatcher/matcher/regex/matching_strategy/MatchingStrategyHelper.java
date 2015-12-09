@@ -28,8 +28,10 @@ public class MatchingStrategyHelper {
     public static String createWordAltList(String pattern, Function<String, Set<String>> wordMapper) {
         Map<String, Set<String>> wordMap = createWordMap(pattern, wordMapper);
 
-        for (String word : wordMap.keySet())
+        for (String word : wordMap.keySet()) {
+            if (wordMap.get(word).size() <= 1) continue;
             pattern = pattern.replaceAll(word, join(wordMap.get(word)));
+        }
 
         return pattern;
     }
