@@ -10,8 +10,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.everyItem;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.mockito.Mockito.mock;
 
 public class CaseInsensitiveStrategyTest {
@@ -36,9 +38,9 @@ public class CaseInsensitiveStrategyTest {
     @Test
     public void testCompile() throws Exception {
         Pattern p = strategy.compile(pattern);
-        Matcher m = p.matcher("matching strategy under test");
+        Matcher m = p.matcher("Matching strategy under test");
         assertThat(m.matches(), is(true));
-        m = p.matcher("Matching strategy under test");
+        m = p.matcher("matching strategy under test");
         assertThat(m.matches(), is(true));
     }
 
@@ -52,6 +54,6 @@ public class CaseInsensitiveStrategyTest {
         Map<String, Set<String>> wordMap = strategy.getWords(pattern);
 
         for (String word : wordMap.keySet())
-            assertThat(wordMap.get(word).size(), is(1));
+            assertThat(wordMap.get(word), hasSize(1));
     }
 }

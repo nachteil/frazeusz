@@ -15,15 +15,15 @@ import static org.mockito.Mockito.mock;
 
 public class EmptyStrategyTest {
 
+    static IWordProvider wordProvider;
     String pattern;
-    IWordProvider wordProvider;
     EmptyStrategy strategy;
 
     @Before
     public void setUp() {
         wordProvider = mock(IWordProvider.class);
+        pattern = "matching strategy under test";
         strategy = new EmptyStrategy(wordProvider);
-        pattern = "matching *** strategy ** under * test";
     }
 
     @Test
@@ -33,11 +33,9 @@ public class EmptyStrategyTest {
 
     @Test
     public void testCompile() throws Exception {
-        Pattern p = strategy.compile(pattern.replaceAll("\\*", "\\\\*"));
-        assertThat(p.flags(), is(0));
-
-        Matcher matcher = p.matcher(pattern);
-        assertThat(matcher.matches(), is(true));
+        Pattern p = strategy.compile(pattern);
+        Matcher m = p.matcher(pattern);
+        assertThat(m.matches(), is(true));
     }
 
     @Test
