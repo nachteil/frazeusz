@@ -71,10 +71,9 @@ public class PatternView extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().getClass().equals(PatternPartial.class)) {
-            PatternPartial partial = (PatternPartial) e.getSource();
-            controller.removePattern(partial.getModel());
-            removePatternInput(partial);
-        }
+        JButton button = (JButton) e.getSource();
+        PatternPartial partial = (PatternPartial) button.getParent();
+        controller.removePattern(partial.getModel());
+        removePatternInput(partial);
     }
 }
