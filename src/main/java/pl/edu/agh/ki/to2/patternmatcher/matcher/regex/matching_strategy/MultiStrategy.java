@@ -30,8 +30,10 @@ public class MultiStrategy extends AbstractMatchingStrategy {
     public String format(String pattern) {
         Map<String, Set<String>> wordMap = getWords(pattern);
 
-        for (String word : wordMap.keySet())
+        for (String word : wordMap.keySet()) {
+            if (wordMap.get(word).size() <= 1) continue;
             pattern = pattern.replaceAll(word, MatchingStrategyHelper.join(wordMap.get(word)));
+        }
 
         return pattern;
     }
