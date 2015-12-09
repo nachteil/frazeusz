@@ -35,7 +35,7 @@ public class RegexMatcherTest {
 
     @Before
     public void setUp() throws Exception {
-        pattern = new SearchPattern("Matcher ** test.", true, true, false, false);
+        pattern = new SearchPattern("Matcher ** test", true, true, false, false);
         IMatchingStrategy strategy = new MultiStrategy(Arrays.asList(
                 new CaseInsensitiveStrategy(wordProvider),
                 new SynonymStrategy(wordProvider)),
@@ -64,8 +64,8 @@ public class RegexMatcherTest {
         };
 
         List<String> matches = matcher.match(Arrays.asList(sentences));
-        assertThat(matches, hasSize(6));
         assertThat(matches, hasItems(matching));
+        assertThat(matches, hasSize(6));
     }
 
     @Test

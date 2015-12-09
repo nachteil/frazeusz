@@ -13,14 +13,14 @@ import java.util.regex.Pattern;
 
 public class RegexMatcher implements IMatcher, IMatchProvider {
 
-    private static final Pattern starGroupPattern = Pattern.compile("(?<=\\s|^)([*\\s])+(?=\\s|$)");
+    private static final Pattern starGroupPattern = Pattern.compile("(^|\\s+)([*\\s])+(?=$|\\s)");
     private static final Pattern starPattern = Pattern.compile("\\*");
     private static final Pattern whitespacePattern = Pattern.compile("\\s+");
 
-    private static final String starReplace = "(\\b[^\\s]+\\b\\W*){0,%d}";
+    private static final String starReplace = "([\\s,;:\\-'\"\\(\\)]+(\\b[^\\s]+\\b\\W*){0,%d})?";
     private static final String whitespaceReplace = "[\\s,;:\\-'\"\\(\\)]+";
-    private static final String lookbehind = "(?<=[\\s\\-'\"\\(])";
-    private static final String lookahead = "(?=[\\s.?!,;:\\-'\"\\)])";
+    private static final String lookbehind = "(?<=^|[\\s\\-'\"\\(])";
+    private static final String lookahead = "(?=$|[\\s.?!,;:\\-'\"\\)])";
 
     private SearchPattern pattern;
     private IMatchingStrategy matchingStrategy;
