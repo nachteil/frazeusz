@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public class MultiStrategy extends AbstractMatchingStrategy {
 
-    private List<IMatchingStrategy> strategies = new LinkedList<>();
+    private List<IMatchingStrategy> strategies;
 
     public MultiStrategy(List<IMatchingStrategy> strategies, IWordProvider wordProvider) {
         super(wordProvider);
