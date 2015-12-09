@@ -14,6 +14,18 @@ public class MultiStrategy extends AbstractMatchingStrategy {
         this.strategies = strategies;
     }
 
+    public List<IMatchingStrategy> getStrategies() {
+        return strategies;
+    }
+
+    public void addStrategy(IMatchingStrategy strategy) {
+        strategies.add(strategy);
+    }
+
+    public void removeStrategy(IMatchingStrategy strategy) {
+        strategies.remove(strategy);
+    }
+
     @Override
     public String format(String pattern) {
         Map<String, Set<String>> wordMap = getWords(pattern);
