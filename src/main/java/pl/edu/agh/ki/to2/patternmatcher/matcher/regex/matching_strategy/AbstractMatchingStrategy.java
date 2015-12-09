@@ -27,7 +27,7 @@ public abstract class AbstractMatchingStrategy implements IMatchingStrategy {
 
     @Override
     public Map<String, Set<String>> getWords(String pattern) {
-        return new HashMap<>();
+        return MatchingStrategyHelper.createWordMap(pattern, word -> new HashSet<>(Collections.singletonList(word)));
     }
 
     @Override
