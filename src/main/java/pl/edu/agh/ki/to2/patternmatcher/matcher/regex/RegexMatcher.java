@@ -1,5 +1,6 @@
 package pl.edu.agh.ki.to2.patternmatcher.matcher.regex;
 
+import pl.edu.agh.ki.to2.patternmatcher.AbstractMatchProvider;
 import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.matching_strategy.IMatchingStrategy;
 import pl.edu.agh.ki.to2.patternmatcher.models.ISearchPattern;
 import pl.edu.agh.ki.to2.patternmatcher.models.SearchPattern;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RegexMatcher implements IMatcher, IMatchProvider {
+public class RegexMatcher extends AbstractMatchProvider implements IMatcher {
 
     private static final Pattern starGroupPattern = Pattern.compile("(^|\\s+)([*\\s])+(?=$|\\s)");
     private static final Pattern starPattern = Pattern.compile("\\*");
@@ -27,12 +28,14 @@ public class RegexMatcher implements IMatcher, IMatchProvider {
     private SearchPattern pattern;
     private IMatchingStrategy matchingStrategy;
 
-    private List<IMatchListener> listeners;
-
     public RegexMatcher(SearchPattern pattern, IMatchingStrategy matchingStrategy) {
+        super();
         this.pattern = pattern;
         this.matchingStrategy = matchingStrategy;
-        this.listeners = new LinkedList<>();
+    }
+
+    public IMatchingStrategy getMatchingStrategy() {
+        return matchingStrategy;
     }
 
     private String escape(String pattern) {
@@ -88,18 +91,7 @@ public class RegexMatcher implements IMatcher, IMatchProvider {
                 result.add(sentence);
         }
 
-        onMatchCompleted(this.pattern, sentences);
+        onMatchCompleted(this.pattern, sentences, null);
         return result;
-    }
-
-    @Override
-    public void onMatchCompleted(ISearchPattern pattern, List<String> sentences) {
-        for (IMatchListener listener : listeners)
-            listener.addMatches(pattern, sentences, null);
-    }
-
-    @Override
-    public void addListener(IMatchListener listener) {
-        listeners.add(listener);
     }
 }

@@ -2,29 +2,27 @@ package pl.edu.agh.ki.to2.patternmatcher;
 
 import pl.edu.agh.ki.to2.monitor.MonitorPubSub;
 import pl.edu.agh.ki.to2.nlprocessor.IWordProvider;
-import pl.edu.agh.ki.to2.patternmatcher.models.ISearchPattern;
-import pl.edu.agh.ki.to2.patternmatcher.ui.controllers.PatternController;
+import pl.edu.agh.ki.to2.patternmatcher.matcher.IMatcher;
+import pl.edu.agh.ki.to2.patternmatcher.matcher.MatcherFactory;
+import pl.edu.agh.ki.to2.patternmatcher.matcher.MatcherFactory.MatcherType;
 import pl.edu.agh.ki.to2.patternmatcher.models.SearchPattern;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import pl.edu.agh.ki.to2.patternmatcher.ui.controllers.PatternController;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PatternMatcher implements IPatternMatcher {
+public class PatternMatcher extends AbstractMatchProvider implements IPatternMatcher {
 
     private MonitorPubSub monitor;
 
-    private String url;
     private List<SearchPattern> patterns = new ArrayList<>();
     private IWordProvider wordProvider;
 
-    private List<IMatchListener> listeners = new LinkedList<>();
-
-    public PatternMatcher(String url, IWordProvider wordProvider, MonitorPubSub monitor) {
+    public PatternMatcher(IWordProvider wordProvider, MonitorPubSub monitor) {
+        super();
         this.monitor = monitor;
-        this.url = url;
         this.wordProvider = wordProvider;
     }
 
@@ -35,7 +33,17 @@ public class PatternMatcher implements IPatternMatcher {
 
     @Override
     public List<String> match(List<String> sentences, String url) {
-        throw new NotImplementedException();
+
+        List<String> result = new LinkedList<>();
+        for (SearchPattern pattern : patterns) {
+            IMatcher matcher = MatcherFactory.getMatcher(MatcherType.REGEX, pattern, wordProvider);
+
+            List<String> matched = matcher.match(sentences);
+            result.addAll(matched);
+            onMatchCompleted(pattern, matched, url);
+        }
+
+        return result;
     }
 
     @Override
@@ -43,16 +51,5 @@ public class PatternMatcher implements IPatternMatcher {
         PatternController controller = new PatternController(patterns);
         controller.init();
         return controller.getView();
-    }
-
-    @Override
-    public void onMatchCompleted(ISearchPattern pattern, List<String> sentences) {
-        for (IMatchListener listener : listeners)
-            listener.addMatches(pattern, sentences, url);
-    }
-
-    @Override
-    public void addListener(IMatchListener listener) {
-        listeners.add(listener);
     }
 }

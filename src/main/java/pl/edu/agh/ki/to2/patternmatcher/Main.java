@@ -45,7 +45,7 @@ public class Main {
         IWordProvider mockWordProvider = mock(IWordProvider.class);
         when(mockWordProvider.getSynonyms("take")).thenReturn(new HashSet<>(Arrays.asList("get")));
         when(mockWordProvider.getVariants("take")).thenReturn(new HashSet<>(Arrays.asList("takes", "taking", "took")));
-        when(mockWordProvider.getDiminutives("take")).thenReturn(new HashSet<>(Arrays.asList("taketh")));
+        when(mockWordProvider.getDiminutives("take")).thenReturn(new HashSet<>(Arrays.asList("t.")));
 
         try {
             FileInputStream input = new FileInputStream("pg4351.txt");
