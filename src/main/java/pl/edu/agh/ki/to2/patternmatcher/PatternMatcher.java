@@ -2,6 +2,7 @@ package pl.edu.agh.ki.to2.patternmatcher;
 
 import pl.edu.agh.ki.to2.monitor.MonitorPubSub;
 import pl.edu.agh.ki.to2.nlprocessor.IWordProvider;
+import pl.edu.agh.ki.to2.patternmatcher.models.ISearchPattern;
 import pl.edu.agh.ki.to2.patternmatcher.ui.controllers.PatternController;
 import pl.edu.agh.ki.to2.patternmatcher.models.SearchPattern;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -45,7 +46,7 @@ public class PatternMatcher implements IPatternMatcher {
     }
 
     @Override
-    public void onMatchCompleted(SearchPattern pattern, List<String> sentences) {
+    public void onMatchCompleted(ISearchPattern pattern, List<String> sentences) {
         for (IMatchListener listener : listeners)
             listener.addMatches(pattern, sentences, url);
     }

@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import pl.edu.agh.ki.to2.nlprocessor.IWordProvider;
+import pl.edu.agh.ki.to2.patternmatcher.IMatchListener;
 import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.matching_strategy.CaseInsensitiveStrategy;
 import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.matching_strategy.IMatchingStrategy;
 import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.matching_strategy.MultiStrategy;
@@ -18,14 +19,14 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class RegexMatcherTest {
 
     static IWordProvider wordProvider;
     SearchPattern pattern;
     RegexMatcher matcher;
+    IMatchListener listener;
 
     @BeforeClass
     public static void setUpClass() {
@@ -41,6 +42,8 @@ public class RegexMatcherTest {
                 new SynonymStrategy(wordProvider)),
             wordProvider);
         matcher = new RegexMatcher(pattern, strategy);
+
+        listener = mock(IMatchListener.class);
     }
 
     @Test
@@ -70,11 +73,8 @@ public class RegexMatcherTest {
 
     @Test
     public void testOnMatchCompleted() throws Exception {
-
-    }
-
-    @Test
-    public void testAddListener() throws Exception {
-
+        matcher.addListener(listener);
+        matcher.match(Collections.singletonList("matcher under test"));
+        verify(listener, times(1)).addMatches(eq(pattern), eq(Collections.singletonList("matcher under test")), anyString());
     }
 }
