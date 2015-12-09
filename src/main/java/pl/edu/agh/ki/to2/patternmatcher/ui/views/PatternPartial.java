@@ -43,7 +43,7 @@ public class PatternPartial extends JPanel {
 
     private void createUIComponents() {
         patternTextField = new JTextField(20);
-        deleteButton = new JButton("Usuń");
+        deleteButton = new JButton("Usun");
         caseSensitiveCheckBox = new JCheckBox("wielkie litery");
         synonymsCheckBox = new JCheckBox("synonimy");
         variantCheckBox = new JCheckBox("odmiany");
