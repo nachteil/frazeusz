@@ -1,13 +1,57 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>pl.edu.agh.ki.to2</groupId>
     <artifactId>frazeusz</artifactId>
-    <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
     <name>frazeusz</name>
-    <url>http://maven.apache.org</url>
+    <url>https://trac.iisg.agh.edu.pl/to2/</url>
+
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+
     <dependencies>
+
+        <dependency>
+            <groupId>org.hornetq</groupId>
+            <artifactId>hornetq-server</artifactId>
+            <version>2.4.0.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hornetq</groupId>
+            <artifactId>hornetq-core-client</artifactId>
+            <version>2.4.0.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hornetq</groupId>
+            <artifactId>hornetq-commons</artifactId>
+            <version>2.4.0.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.squareup.dagger</groupId>
+            <artifactId>dagger</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.squareup.dagger</groupId>
+            <artifactId>dagger-compiler</artifactId>
+            <version>1.2.2</version>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jfree</groupId>
+            <artifactId>jfreechart</artifactId>
+            <version>1.0.19</version>
+        </dependency>
 
         <dependency>
             <groupId>org.hamcrest</groupId>
@@ -27,7 +71,21 @@
             <artifactId>mockito-all</artifactId>
             <version>1.10.19</version>
         </dependency>
-        
+
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
