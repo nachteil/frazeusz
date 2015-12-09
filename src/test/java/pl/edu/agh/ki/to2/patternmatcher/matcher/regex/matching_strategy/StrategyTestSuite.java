@@ -8,7 +8,8 @@ import org.junit.runners.Suite;
         MatchingStrategyHelperTest.class,
         EmptyStrategyTest.class,
         CaseInsensitiveStrategyTest.class,
-        AltWordStrategyTest.class
+        AltWordStrategyTest.class,
+        MultiStrategyTest.class
 })
 
 public class StrategyTestSuite {
