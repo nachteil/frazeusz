@@ -14,7 +14,6 @@ import java.util.regex.Pattern;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.text.IsEqualIgnoringWhiteSpace.equalToIgnoringWhiteSpace;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -40,8 +39,7 @@ public class AltWordStrategyTest {
     @Test
     public void testFormat() throws Exception {
         String formatted = strategy.format(pattern);
-        assertThat(formatted, startsWith("matching strategy under "));
-        assertThat(formatted, is(equalToIgnoringWhiteSpace("matching strategy under (test|check|trial)")));
+        assertThat(formatted, is(equalTo("matching strategy under (test|check|trial)")));
     }
 
     @Test
