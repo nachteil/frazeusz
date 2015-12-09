@@ -1,6 +1,8 @@
 package pl.edu.agh.ki.to2.patternmatcher;
 
-import pl.edu.agh.ki.to2.monitor.MonitorPubSub;
+import pl.edu.agh.ki.to2.monitor.contract.Event;
+import pl.edu.agh.ki.to2.monitor.contract.EventType;
+import pl.edu.agh.ki.to2.monitor.contract.MonitorPubSub;
 import pl.edu.agh.ki.to2.nlprocessor.IWordProvider;
 import pl.edu.agh.ki.to2.patternmatcher.matcher.IMatcher;
 import pl.edu.agh.ki.to2.patternmatcher.matcher.MatcherFactory;
@@ -31,16 +33,29 @@ public class PatternMatcher extends AbstractMatchProvider implements IPatternMat
         this.wordProvider = wordProvider;
     }
 
+    private void pushEvent(int sentences, long timestamp) {
+        Event event = new Event();
+        event.setType(EventType.SENTENCES_MATCHED);
+        event.setAmount(sentences);
+        event.setTimestamp(timestamp);
+        monitor.pushEvent(event);
+    }
+
     @Override
     public List<String> match(List<String> sentences, String url) {
+        long start;
 
         List<String> result = new LinkedList<>();
         for (SearchPattern pattern : patterns) {
+            start = System.currentTimeMillis();
+
             IMatcher matcher = MatcherFactory.getMatcher(MatcherType.REGEX, pattern, wordProvider);
 
             List<String> matched = matcher.match(sentences);
             result.addAll(matched);
             onMatchCompleted(pattern, matched, url);
+
+            pushEvent(sentences.size(), System.currentTimeMillis() - start);
         }
 
         return result;
