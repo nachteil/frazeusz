@@ -1,6 +1,6 @@
-package main.java.pl.edu.agh.ki.to2.patternmatcher;
+package pl.edu.agh.ki.to2.patternmatcher;
 
-import main.java.pl.edu.agh.ki.to2.nlprocessor.IWordProvider;
+import pl.edu.agh.ki.to2.nlprocessor.IWordProvider;
 
 import javax.swing.*;
 import java.util.List;
