@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.nio.file.Files;
+import java.nio.charset.Charset;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -25,8 +27,9 @@ public class HTMLParser implements IFileParser {
     public Set<URL> getUrls(ParserFile parserFile) {
     	
     	//TODO Implement getting String from file
+  	String content =  new String(Files.readAllBytes(parserFile.getFile().getPath()), defaultCharset());
     	
-    	Document doc = Jsoup.parse(parserFile.getFile().toString()); ///not working
+    	Document doc = Jsoup.parse(content); ///not working
     	doc.setBaseUri(parserFile.getUrl().toString());
     	Elements links = doc.select("a");
     	Set<URL> urls = new HashSet<URL>();
@@ -45,9 +48,9 @@ public class HTMLParser implements IFileParser {
 
     @Override
     public List<String> getSentences(ParserFile parserFile) {
+    	String content =  new String(Files.readAllBytes(parserFile.getFile().getPath()), defaultCharset());
     	
-    	//TODO getting content from file.
-    	Document doc = Jsoup.parse(parserFile.getFile().toString()); //not working
+    	Document doc = Jsoup.parse(content); ///not working
     	Elements elements = doc.body().select("*");
     	List<String> sentences = new ArrayList<String>();
     	for (Element element : elements) 
