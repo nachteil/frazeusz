@@ -1,22 +1,14 @@
 package pl.edu.agh.ki.to2.plotter;
 
 import pl.edu.agh.ki.to2.patternmatcher.models.ISearchPattern;
-import pl.edu.agh.ki.to2.patternmatcher.models.SearchPattern;
 import pl.edu.agh.ki.to2.plotter.model.Occurrences;
 
-import java.awt.Color;
-import java.awt.GridLayout;
+import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.util.List;
 import java.util.Map;
-
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.border.Border;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 /**
  * Created by Nina on 2015-12-10.
@@ -44,18 +36,18 @@ public class Table extends JPanel{
         while (dataModel.getRowCount() > 0) {
     	       dataModel.removeRow(0);
     	}
-        SearchPattern key;
+        ISearchPattern key;
         Map<String, List<String>> map;
         String url;
         List<String> list;
-        for (Map.Entry<SearchPattern, Occurrences> entry : searches.entrySet()) {
+        for (Map.Entry<ISearchPattern, Occurrences> entry : searches.entrySet()) {
             key = entry.getKey();
             map = entry.getValue().getUrlSentenceMap();
             for (Map.Entry<String, List<String>> lowerEntry : map.entrySet()){
                 url = lowerEntry.getKey();
                 list = lowerEntry.getValue();
                 for (String value : list){
-                    dataModel.addRow(new Object[] {key.getPattern(), url, value});
+                    dataModel.addRow(new Object[] {key.getDescription(), url, value});
                 }
             }
         }
