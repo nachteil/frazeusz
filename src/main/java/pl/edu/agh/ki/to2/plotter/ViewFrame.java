@@ -41,8 +41,10 @@ public class ViewFrame extends JFrame{
             public void actionPerformed(ActionEvent evt) {
 
                 //Refresh the panel
+
                 tab.update(ploter.getPatternOccurrencesHashMap());
                 tab.revalidate();
+                graph.update(ploter.getPatternOccurrencesHashMap());
                 graph.revalidate();
 
                 //System.out.println("1");

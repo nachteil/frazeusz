@@ -15,13 +15,14 @@ public class Main {
     public static void main(String [] args){
         Map<SearchPattern, Occurrences> hashMapToCompare = new HashMap<SearchPattern, Occurrences>();
         SearchPattern searchPattern = new SearchPattern("kot", true, true, true, true);
-        SearchPattern searchPattern2 = new SearchPattern("kot", true, true, true, true);
+        SearchPattern searchPattern2 = new SearchPattern("pies", true, true, true, true);
         String url = "http://www.elo.pl/";
         String url2 = "http://www.czesc.pl/";
         List<String> sentencesList = new ArrayList<String>();
         List<String> sentencesList2 = new ArrayList<String>();
         sentencesList.add("slon");
         sentencesList.add("pies");
+        sentencesList.add("żyrafa");
         sentencesList2.add("kot");
         sentencesList2.add("mysz");
         Occurrences occurrences = new Occurrences(url, sentencesList);
