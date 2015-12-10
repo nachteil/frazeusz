@@ -1,10 +1,11 @@
 package pl.edu.agh.ki.to2.crawler.model;
 
-import javax.activation.MimetypesFileTypeMap;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.concurrent.BlockingQueue;
 
 public class DownloadTask implements Runnable{
 
@@ -12,13 +13,16 @@ public class DownloadTask implements Runnable{
     private int depth;
     private BlockingQueue<ParserFile> fileQueue;
     private Counter counter;
+    private String tempDir;
+    private final int BUFFER_SIZE = 4096;
 
     public DownloadTask(URL url, int depth, BlockingQueue<ParserFile> fileQueue,
-                        Counter counter) {
+                        Counter counter, String tempDir) {
         this.url = url;
         this.depth = depth;
         this.fileQueue = fileQueue;
         this.counter = counter;
+        this.tempDir = tempDir;
     }
 
     public URL getURL() {
@@ -28,41 +32,66 @@ public class DownloadTask implements Runnable{
     @Override
     public void run() {
         try {
-            String content = getPage(url);
-
-            fileQueue.put(new ParserFile(
-                    new MimetypesFileTypeMap().getContentType(url.getFile()),
-                    content, depth + 1, url));
-
-        } catch (InterruptedException e) {
+            File file = downloadFile();
+            if(file == null)
+                return;
+            fileQueue.put(new ParserFile(file, url, depth + 1));
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        } catch (UnsupportedFileException e) {
             e.printStackTrace();
         }
         counter.increase();
     }
 
-    public static String getPage(URL url) {
+    private File downloadFile() throws IOException {
 
-        // Get stream of the response.
-        int chunk = 1024;
-        int c;
-        InputStream in = null;
+        HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
+        int responseCode = httpConn.getResponseCode();
+        String fileName = "";
+        String urlPath = url.toString();
+        String saveFilePath;
 
-        // Store results in StringBuilder.
-        StringBuilder builder = new StringBuilder();
-        byte[] data = new byte[chunk];
-        try {
-            in = url.openStream();
+        // check HTTP response code first
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            String disposition = httpConn.getHeaderField("Content-Disposition");
+            //String contentType = httpConn.getContentType();
+            //int contentLength = httpConn.getContentLength();
 
-            // Read in the response into the buffer.
-            // ... Read many bytes each iteration.
-            while ((c = in.read(data, 0, chunk)) != -1) {
-                builder.append(new String(data, 0, c));
+            if (disposition != null) {
+                // extracts file name from header field
+                int index = disposition.indexOf("filename=");
+                if (index > 0) {
+                    fileName = disposition.substring(index + 10,
+                            disposition.length() - 1);
+                }
+            } else {
+                // extracts file name from URL
+                fileName = urlPath.substring(urlPath.lastIndexOf("/") + 1,
+                        urlPath.length());
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        // Return String.
-        return builder.toString();
+            // opens input stream from the HTTP connection
+            InputStream inputStream = httpConn.getInputStream();
+            saveFilePath = tempDir + File.separator + fileName;
+
+
+            // opens an output stream to save into file
+            FileOutputStream outputStream = new FileOutputStream(saveFilePath);
+
+            int bytesRead = -1;
+            byte[] buffer = new byte[BUFFER_SIZE];
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+            outputStream.close();
+            inputStream.close();
+
+        } else {
+            httpConn.disconnect();
+            return null;
+        }
+        httpConn.disconnect();
+        return new File(saveFilePath);
     }
 }

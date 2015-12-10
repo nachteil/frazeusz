@@ -25,7 +25,7 @@ public class Main {
     public static void start(CrawlingData crawlingData) throws InterruptedException {
 
         Crawler crawler = new Crawler(100, 500);
-        Parser parser = new Parser(crawler.getFileQueue(),
+        ParsingControl.Parser parser = new Parser(crawler.getFileQueue(),
                 crawler.getTaskQueue(), patternMatcher, crawlingData.getMaxDepth());
         parser.start();
         crawler.startCrawling();

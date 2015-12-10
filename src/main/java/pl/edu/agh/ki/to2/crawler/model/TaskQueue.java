@@ -12,13 +12,15 @@ public class TaskQueue implements IPutter {
     private BlockingQueue<ParserFile> fileQueue;
     private int maxDepth;
     private Counter counter;
+    private String tempDir ;
 
     public TaskQueue(BlockingQueue<ParserFile> fileQueue, int maxDepth,
-                     Counter counter) {
+                     Counter counter, String tempDir) {
         this.tasks = new LinkedBlockingQueue<>();
         this.fileQueue = fileQueue;
         this.maxDepth = maxDepth;
         this.counter = counter;
+        this.tempDir = tempDir;
     }
 
     DownloadTask get() throws InterruptedException {
@@ -27,10 +29,10 @@ public class TaskQueue implements IPutter {
 
     @Override
     public void put(URL url, int depth) {
-        if (depth == maxDepth)
+        if(depth == maxDepth)
             return;
         try {
-            this.tasks.put(new DownloadTask(url, depth, fileQueue, counter));
+            this.tasks.put(new DownloadTask(url, depth, fileQueue, counter, tempDir));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

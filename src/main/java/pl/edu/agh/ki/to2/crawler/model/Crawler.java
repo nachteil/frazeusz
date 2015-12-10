@@ -1,5 +1,6 @@
 package pl.edu.agh.ki.to2.crawler.model;
 
+import java.io.File;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.concurrent.BlockingQueue;
@@ -15,22 +16,22 @@ public class Crawler {
     ExecutorService executor;
     private Counter counter;
     private int maxSites;
+    private String tempDir = "/tmp/frazeusz";
 
     public Crawler(int workersPool, int maxSites, int maxDepth) {
         this.fileQueue = new LinkedBlockingQueue<>();
         this.counter = new Counter();
-        this.taskQueue = new TaskQueue(fileQueue, maxDepth, counter);
+        this.taskQueue = new TaskQueue(fileQueue, maxDepth, counter, tempDir);
         this.executor = Executors.newFixedThreadPool(workersPool);
         this.maxSites = maxSites;
         this.downloadedURLS = new HashSet();
-        new Parser(fileQueue, taskQueue, new PatternMatcher(), maxDepth).start();
+        new File(tempDir).mkdir();
     }
 
     public void startCrawling() throws InterruptedException {
         DownloadTask task;
         URL url;
         while(notFinished()) {
-            //TODO sending messages with statistics to Monitor
             task = taskQueue.get();
             url = task.getURL();
             if(isDownloaded(url))
@@ -38,6 +39,8 @@ public class Crawler {
             executor.execute(task);
             markDownloaded(url);
         }
+
+        new File(tempDir).delete();
     }
 
     synchronized boolean notFinished() {
