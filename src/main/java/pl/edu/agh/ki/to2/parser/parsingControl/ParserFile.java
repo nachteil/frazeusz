@@ -5,22 +5,24 @@ import pl.edu.agh.ki.to2.parser.exceptions.UnsupportedFileException;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+// https://commons.apache.org/proper/commons-io/ required
+import org.apache.commons.io.FilenameUtils;
 
 public class ParserFile{
 
     private File file;
     private URL url;
     private int depth;
+    private String fileExtension;
     
     /*list of all supported files*/
 	private static final ArrayList<String> supportedFiles = new ArrayList<String>() {{
         add("html");
-        add("doc");
-        add("pdf");
     }};
 
     public ParserFile(File file, URL url, int depth)  throws UnsupportedFileException {
-        if(supportedFiles.contains(this.getFileExtension())) {
+    	this.fileExtension = getExtension(file.getName());
+        if(supportedFiles.contains(this.fileExtension)) {
             this.file = file;
             this.url = url;
             this.depth = depth;
@@ -30,17 +32,21 @@ public class ParserFile{
         }
     }
 
-    public String getFileExtension() {
-        String name = this.file.getName();
-        try {
-            return name.substring(name.lastIndexOf(".") + 1);
-        } catch (Exception e) {
-            return "";
-        }
-    }
+    //public String getFileExtension() {
+    //    String name = this.file.getName();
+    //    try {
+    //        return name.substring(name.lastIndexOf(".") + 1);
+    //    } catch (Exception e) {
+    //        return "";
+    //    }
+    //}
     
     public File getFile() {
         return file;
+    }
+    
+    public String getFileExtension(){
+    	return fileExtension();
     }
 
     public URL getUrl() {
