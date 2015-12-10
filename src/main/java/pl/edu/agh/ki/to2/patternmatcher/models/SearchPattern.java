@@ -1,6 +1,7 @@
 package pl.edu.agh.ki.to2.patternmatcher.models;
 
-public class SearchPattern implements ISearchPattern {
+
+public class SearchPattern {
     private String pattern = "";
     private Boolean caseSensitive = false;
     private Boolean synonyms = false;
@@ -58,18 +59,32 @@ public class SearchPattern implements ISearchPattern {
     }
 
     @Override
-    public String getDescription() {
-        StringBuilder builder = new StringBuilder(pattern);
-        builder.append("\n");
-        if (caseSensitive)
-            builder.append("\t+ wielkie litery\n");
-        if (synonyms)
-            builder.append("\t+ synonimy\n");
-        if (variants)
-            builder.append("\t+ odmiany\n");
-        if (diminutives)
-            builder.append("\t+ skróty\n");
+    public boolean equals(Object obj) {
+        if(obj == null){
+            return false;
+        }
+        if(!(obj instanceof SearchPattern)){
+            return false;
+        }
+        SearchPattern that = (SearchPattern) obj;
 
-        return builder.toString();
+        if(this.pattern.equals(that.pattern)
+                && this.caseSensitive.equals(that.caseSensitive)
+                && this.synonyms.equals(that.synonyms)
+                && this.variants.equals(that.variants)
+                && this.diminutives.equals(that.diminutives)){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = pattern.hashCode();
+        result = 31 * result + caseSensitive.hashCode();
+        result = 31 * result + synonyms.hashCode();
+        result = 31 * result + variants.hashCode();
+        result = 31 * result + diminutives.hashCode();
+        return result;
     }
 }
