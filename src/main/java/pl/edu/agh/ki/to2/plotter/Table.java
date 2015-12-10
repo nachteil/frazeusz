@@ -33,7 +33,7 @@ public class Table extends JPanel{
         setBorder(empty);
         setBackground(Color.white);
 
-        dataModel = new DefaultTableModel();
+        dataModel = new DefaultTableModel(colNames, 20);
         tab = new JTable(dataModel);
 
         JScrollPane scrollPane = new JScrollPane(tab);
