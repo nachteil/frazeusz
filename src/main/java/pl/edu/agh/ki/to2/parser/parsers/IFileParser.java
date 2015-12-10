@@ -1,6 +1,6 @@
-package Parsers;
+package pl.edu.agh.ki.to2.parser.parsers;
 
-import ParsingControl.ParserFile;
+import pl.edu.agh.ki.to2.parser.parsingControl.ParserFile;
 
 import java.net.URL;
 import java.util.List;

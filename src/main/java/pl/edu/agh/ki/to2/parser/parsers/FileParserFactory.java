@@ -1,8 +1,6 @@
-package Parsers;
+package pl.edu.agh.ki.to2.parser.parsers;
 
-import Parsers.HTMLParser;
-import Parsers.IFileParser;
-import ParsingControl.ParserFile;
+import pl.edu.agh.ki.to2.parser.parsingControl.ParserFile;
 /**
  * Created by Adam on 29.11.2015.
  */

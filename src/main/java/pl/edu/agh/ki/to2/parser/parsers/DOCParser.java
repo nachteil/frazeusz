@@ -1,9 +1,10 @@
-package Parsers;
+package pl.edu.agh.ki.to2.parser.parsers;
+
+import pl.edu.agh.ki.to2.parser.parsingControl.ParserFile;
 
 import java.net.URL;
 import java.util.List;
 import java.util.Set;
-import ParsingControl.ParserFile;
 
 /**
  * Created by Adam on 29.11.2015.

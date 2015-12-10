@@ -1,8 +1,8 @@
-package ParsingControl;
+package pl.edu.agh.ki.to2.parser;
 
-import ExteriorInterfaces.IMatcher;
-import ExteriorInterfaces.IPutter;
-import Parsers.FileParserFactory;
+import pl.edu.agh.ki.to2.crawler.IPutter;
+import pl.edu.agh.ki.to2.patternmatcher.IPatternMatcher;
+import pl.edu.agh.ki.to2.parser.parsers.FileParserFactory;
 
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -11,14 +11,14 @@ public class Parser {
 
     private List<ParserThread> threadsList;
 
-    public Parser(BlockingQueue<ParserFile> fileQueue, IPutter iPutter, IMatcher iMatcher, int threads){
-        init(fileQueue, iPutter, iMatcher, threads);
+    public Parser(BlockingQueue<ParserFile> fileQueue, IPutter iPutter, IPatternMatcher iPatternMatcher, int threads){
+        init(fileQueue, iPutter, iPatternMatcher, threads);
     }
 
-    private void init(BlockingQueue<ParserFile> fileQueue, IPutter iPutter, IMatcher iMatcher, int threads) {
+    private void init(BlockingQueue<ParserFile> fileQueue, IPutter iPutter, IPatternMatcher iPatternMatcher, int threads) {
         FileParserFactory factory = new FileParserFactory();
         for (int i = 0; i < threads; i++) {
-            ParserThread thread = new ParserThread(fileQueue, iPutter, iMatcher, factory);
+            ParserThread thread = new ParserThread(fileQueue, iPutter, iPatternMatcher, factory);
             thread.run();
             threadsList.add(thread);
         }
