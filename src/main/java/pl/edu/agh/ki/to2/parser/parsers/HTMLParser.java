@@ -27,7 +27,7 @@ public class HTMLParser implements IFileParser {
     public Set<URL> getUrls(ParserFile parserFile) {
     	
     	//TODO Implement getting String from file
-  	String content =  new String(Files.readAllBytes(parserFile.getFile().getPath()), defaultCharset());
+  	String content =  new String(Files.readAllBytes(parserFile.getFile().getPath()), Charset.defaultCharset());
     	
     	Document doc = Jsoup.parse(content); ///not working
     	doc.setBaseUri(parserFile.getUrl().toString());
@@ -48,7 +48,7 @@ public class HTMLParser implements IFileParser {
 
     @Override
     public List<String> getSentences(ParserFile parserFile) {
-    	String content =  new String(Files.readAllBytes(parserFile.getFile().getPath()), defaultCharset());
+    	String content =  new String(Files.readAllBytes(parserFile.getFile().getPath()), Charset.defaultCharset());
     	
     	Document doc = Jsoup.parse(content); ///not working
     	Elements elements = doc.body().select("*");
