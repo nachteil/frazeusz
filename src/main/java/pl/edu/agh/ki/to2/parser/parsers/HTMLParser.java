@@ -1,4 +1,4 @@
-package Parsers;
+package main.java.pl.edu.agh.ki.to2.parser.parsers;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -12,7 +12,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.jsoup.nodes.Element;
 
-import ParsingControl.ParserFile;
+import main.java.pl.edu.agh.ki.to2.parser.parsingControl.ParserFile;
 
 /**
  * Created by Adam on 29.11.2015.
@@ -26,7 +26,7 @@ public class HTMLParser implements IFileParser {
     	
     	//TODO Implement getting String from file
     	
-    	Document doc = Jsoup.parse(parserFile.getFile().toString());
+    	Document doc = Jsoup.parse(parserFile.getFile().toString()); ///not working
     	doc.setBaseUri(parserFile.getUrl().toString());
     	Elements links = doc.select("a");
     	Set<URL> urls = new HashSet<URL>();
@@ -47,7 +47,7 @@ public class HTMLParser implements IFileParser {
     public List<String> getSentences(ParserFile parserFile) {
     	
     	//TODO getting content from file.
-    	Document doc = Jsoup.parse(parserFile.getFile().toString());
+    	Document doc = Jsoup.parse(parserFile.getFile().toString()); //not working
     	Elements elements = doc.body().select("*");
     	List<String> sentences = new ArrayList<String>();
     	for (Element element : elements) 

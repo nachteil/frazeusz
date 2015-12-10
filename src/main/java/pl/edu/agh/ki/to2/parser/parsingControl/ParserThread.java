@@ -1,8 +1,8 @@
-package ParsingControl;
+package main.java.pl.edu.agh.ki.to2.parser.parsingControl;
 
-import ExteriorInterfaces.IMatcher;
-import ExteriorInterfaces.IPutter;
-import Parsers.FileParserFactory;
+import main.java.pl.edu.agh.ki.to2.crawler.IPutter;
+import main.java.pl.edu.agh.ki.to2.patternmatcher.IPatternMatcher;
+import main.java.pl.edu.agh.ki.to2.parser.parsers.FileParserFactory;
 
 import java.net.URL;
 import java.util.List;
@@ -18,14 +18,14 @@ public class ParserThread implements Runnable {
     boolean isWorking;
     private BlockingQueue<ParserFile> fileQueue;
     private IPutter iPutter;
-    private IMatcher iMatcher;
+    private IPatternMatcher iPatternMatcher;
     private FileParserFactory factory;
 
-    protected ParserThread(BlockingQueue<ParserFile> fileQueue, IPutter iPutter, IMatcher iMatcher, FileParserFactory factory){
+    protected ParserThread(BlockingQueue<ParserFile> fileQueue, IPutter iPutter, IPatternMatcher iPatternMatcher, FileParserFactory factory){
         this.isWorking = true;
         this.fileQueue = fileQueue;
         this.iPutter = iPutter;
-        this.iMatcher = iMatcher;
+        this.iPatternMatcher = iPatternMatcher;
         this.factory = factory;
     }
 
@@ -48,8 +48,7 @@ public class ParserThread implements Runnable {
                 for (URL url : urls) {
                     iPutter.put(url, file.getDepth() + 1);
                 }
-                iMatcher.match(file.getUrl(), sentences);
-                iMatcher.matchVer2(sentences); //unintegrated interface?
+                iPatternMatcher.match(sentences, file.getUrl());
             }
             else{
                 try {
