@@ -5,6 +5,7 @@ import main.java.pl.edu.agh.ki.to2.parser.exceptions.UnsupportedFileException;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+// https://commons.apache.org/proper/commons-io/ required
 import org.apache.commons.io.FilenameUtils;
 
 public class ParserFile{
