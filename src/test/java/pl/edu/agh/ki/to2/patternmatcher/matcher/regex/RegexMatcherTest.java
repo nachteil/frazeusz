@@ -17,8 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
 
 public class RegexMatcherTest {
@@ -47,28 +46,30 @@ public class RegexMatcherTest {
     }
 
     @Test
-    public void testMatch() throws Exception {
-        String[] sentences = new String[] {
-                "Matcher under test.",
-                "matcher under test!",
-                "matcher is under test",
-                "matcher is not under test",
-                "matcher on trial",
-                "matcher test",
-                "A matcher inside a test suite"
-        };
-        String[] matching = new String[] {
-                "Matcher under test.",
-                "matcher under test!",
-                "matcher is under test",
-                "matcher on trial",
-                "matcher test",
-                "A matcher inside a test suite"
-        };
+    public void testDefault() {
+        assertThat(matcher.match(Collections.singletonList("Matcher test!")), is(not(empty())));
+    }
 
-        List<String> matches = matcher.match(Arrays.asList(sentences));
-        assertThat(matches, hasItems(matching));
-        assertThat(matches, hasSize(6));
+    @Test
+    public void testCase() {
+        assertThat(matcher.match(Collections.singletonList("matcher test")), is(not(empty())));
+    }
+
+    @Test
+    public void testStarGroup() {
+        assertThat(matcher.match(Collections.singletonList("matcher under test")), is(not(empty())));
+        assertThat(matcher.match(Collections.singletonList("matcher is under test")), is(not(empty())));
+        assertThat(matcher.match(Collections.singletonList("matcher is not under test")), is(empty()));
+    }
+
+    @Test
+    public void testAltWords() {
+        assertThat(matcher.match(Collections.singletonList("matcher on trial")), is(not(empty())));
+    }
+
+    @Test
+    public void testSentence() {
+        assertThat(matcher.match(Collections.singletonList("A matcher inside a test sentence.")), is(not(empty())));
     }
 
     @Test
