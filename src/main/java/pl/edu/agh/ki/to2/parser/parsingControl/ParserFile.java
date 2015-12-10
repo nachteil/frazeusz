@@ -21,7 +21,7 @@ public class ParserFile{
     }};
 
     public ParserFile(File file, URL url, int depth)  throws UnsupportedFileException {
-    	fileExtension = getExtension(file.getName());
+    	this.fileExtension = getExtension(file.getName());
         if(supportedFiles.contains(this.fileExtension)) {
             this.file = file;
             this.url = url;
