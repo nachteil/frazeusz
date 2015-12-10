@@ -49,9 +49,9 @@ public class PatternMatcherTest {
 		sentences.add("test");
 		sentences.add("test1");
 		sentences.add("test test1");
-		sentences.add("abc");
-		sentences.add("def");
-		searchPatterns.add(new SearchPattern("test"));
+		sentences.add("Test");
+		sentences.add("Test1");
+		searchPatterns.add(new SearchPattern("test", true, false, false, false));
 		patternMatcher.setPatterns(searchPatterns);
 		
 		List<String> results = patternMatcher.match(sentences, "url");
@@ -172,7 +172,7 @@ public class PatternMatcherTest {
 		
 		
 		List<String> results = patternMatcher.match(sentences, "url");
-		System.out.print(results.toString());
+//		System.out.print(results.toString());
 		assertThat(results, hasSize(7));
 		assertFalse(results.contains("dont test"));
 	}
