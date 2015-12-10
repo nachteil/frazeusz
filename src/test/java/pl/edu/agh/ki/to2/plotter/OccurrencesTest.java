@@ -26,7 +26,7 @@ public class OccurrencesTest{
 
         Occurrences occurrences = new Occurrences(url, matchesList);
 
-        Assert.assertEquals(fullList, occurrences.getList());
+        Assert.assertEquals(fullList, occurrences.getUrlSentenceMap());
     }
 
     @Test
@@ -49,7 +49,7 @@ public class OccurrencesTest{
         Occurrences occurrences = new Occurrences(url, matchesList);
         occurrences.add(url2, matchesList2);
 
-        Assert.assertEquals(fullList, occurrences.getList());
+        Assert.assertEquals(fullList, occurrences.getUrlSentenceMap());
     }
 
     @Test
@@ -77,7 +77,7 @@ public class OccurrencesTest{
         Map<String, List<String>> fullList = new HashMap<String, List<String>>();
         fullList.put("http://www.elo.pl/", matchesListToCompare);
 
-        Assert.assertEquals(fullList, occurrences.getList());
+        Assert.assertEquals(fullList, occurrences.getUrlSentenceMap());
     }
 
 }

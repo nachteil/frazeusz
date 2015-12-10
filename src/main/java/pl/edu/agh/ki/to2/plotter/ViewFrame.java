@@ -12,30 +12,37 @@ public class ViewFrame extends JFrame{
     public final static int INTERVAL = 1000;
     Timer timer;
     Ploter ploter;
-    Table table = new Table();
+
+    Table tab = new Table();
     Graph graph = new Graph();
 
-    public ViewFrame(Ploter ploter) throws HeadlessException {
-        this.ploter = ploter;
+    public ViewFrame(){
+        setLayout(new GridLayout(1,2));
+        add(tab);
+        add(graph);
     }
 
-    private void refreshPanels(){
-        timer = new Timer(INTERVAL, new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+//    private void refreshPanels(){
+//        timer = new Timer(INTERVAL, new ActionListener() {
+//            public void actionPerformed(ActionEvent evt) {
+//
+//                //Refresh the panel
+//                tab.revalidate();
+//                graph.revalidate();
+//
+//                //if (/* condition to terminate the thread. */) {
+//                //    timer.stop();
+//                //}
+//            }
+//        });
+//
+//        timer.start();
+//
+//
+//    }
 
-                //Refresh the panel
-                table.revalidate();
-                graph.revalidate();
-
-                //if (/* condition to terminate the thread. */) {
-                //    timer.stop();
-                //}
-            }
-        });
-
-        timer.start();
-
-
+    public void setPloter(Ploter ploter) {
+        this.ploter = ploter;
     }
 
 }

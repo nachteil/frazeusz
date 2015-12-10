@@ -40,9 +40,10 @@ public class Occurrences {
         return toReturn;
     }
 
-    public Map<String, List<String>> getList() {
+    public Map<String, List<String>> getUrlSentenceMap() {
         return urlSentenceMap;
     }
+
 
     @Override
     public boolean equals(Object o) {

@@ -14,7 +14,6 @@ import java.util.Map;
  */
 public class Ploter implements IMatchListener {
     private Map<SearchPattern, Occurrences> patternOccurrencesHashMap = new HashMap<SearchPattern, Occurrences>();
-    Ploter ploter = this;
     ViewFrame viewFrame;
 
     @Override
@@ -27,23 +26,21 @@ public class Ploter implements IMatchListener {
             occurrence.add(url, sentences);
         }
     }
+
     private void createAndShowGui(){
 
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                viewFrame = new ViewFrame(ploter);
-            }
-        });
-        refreshGui();
-    }
 
+    }
     private void refreshGui(){
 
     }
 
     public Map<SearchPattern, Occurrences> getPatternOccurrencesHashMap() {
         return patternOccurrencesHashMap;
+    }
+
+    public void setViewFrame(ViewFrame viewFrame) {
+        this.viewFrame = viewFrame;
     }
 
 }
