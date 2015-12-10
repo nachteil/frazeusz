@@ -6,25 +6,37 @@ import com.nexagis.jawbone.filter.WildcardFilter;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-public class NLProcessor implements IWordProvider {
+import static org.jgroups.util.Util.sleep;
+
+public class NLProcessor  implements IWordProvider {
     private Dictionary dictionary_instance;
+    public Map<String, String[]> map = new HashMap<String, String[]>();
+    NLPThread t = new NLPThread();
+
     public NLProcessor() {
-        Path dictionary_path = Paths.get(System.getProperty("user.dir")  + "src\\main\\java\\pl\\edu\\agh\\ki\\to2\\nlprocessor\\dictionary");
+        Thread t2 = new Thread(t);
+        t2.start();
+
+        Path dictionary_path = Paths.get(System.getProperty("user.dir") + "\\src\\main\\java\\pl\\edu\\agh\\ki\\to2\\nlprocessor\\dictionary");
         Dictionary.initialize(String.valueOf(dictionary_path));
         dictionary_instance = Dictionary.getInstance();
+        return;
     }
-
     public Set<String> getVariants(String word) {
-        return null;
+        checkThreadEnd();
+        Set<String> variants =new HashSet<String>();
+        String[] result = map.get(word);
+        if(result==null)
+            return variants;
+        for(int i=0; i<result.length-1; i++){
+            variants.add(result[i]);
+        }
+        return variants;
     }
 
     public Set<String> getDiminutives(String word) {
-
         WildcardFilter var2 = new WildcardFilter(word, true);
         Iterator var3 = dictionary_instance.getIndexTermIterator( 1, var2);
         Set<String> diminutives =new HashSet<String>();
@@ -66,6 +78,14 @@ public class NLProcessor implements IWordProvider {
         return synonyms;
     }
 
-
+    public void checkThreadEnd(){
+        if(map.isEmpty()){
+            map = t.getMap();
+        }
+        while(map.isEmpty()){
+            map = t.getMap();
+            sleep(1);
+        }
+    }
 }
 

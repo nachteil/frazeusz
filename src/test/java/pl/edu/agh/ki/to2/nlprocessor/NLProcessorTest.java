@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by Zuch on 2015-12-10.
  */
-public class NLProcessorTest  {
+public class NLProcessorTest {
     NLProcessor nlProcessor;
     @Before
     public void initialize(){
@@ -43,6 +43,20 @@ public class NLProcessorTest  {
     @Test
     public void returnsEmptySetOfDiminutives(){
         Set<String> result= nlProcessor.getDiminutives("toNieJEstSLowo");
+        Set<String> expected_result = new HashSet<String>();
+        assertEquals(result,expected_result);
+    }
+
+    @Test
+    public void returnSetOfVariants(){
+        Set<String> result= nlProcessor.getVariants("aberracja");
+        Set<String> expected_result = new HashSet<String>(Arrays.asList( "aberracje", "aberracjach", "aberracji", "aberracjom", "aberracjami", "aberracjo", "aberracj�", "aberracja"));
+        assertEquals(result,expected_result);
+    }
+
+    @Test
+    public void returnEmptySetOfVariants(){
+        Set<String> result= nlProcessor.getVariants("toNieJEstSLowo");
         Set<String> expected_result = new HashSet<String>();
         assertEquals(result,expected_result);
     }
