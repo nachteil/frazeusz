@@ -6,6 +6,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import pl.edu.agh.ki.to2.parser.parsingControl.ParserFile;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -26,9 +27,14 @@ public class HTMLParser implements IFileParser {
     public Set<URL> getUrls(ParserFile parserFile) {
     	
     	//TODO Implement getting String from file
-  	String content =  new String(Files.readAllBytes(parserFile.getFile().getPath()), Charset.defaultCharset());
-    	
-    	Document doc = Jsoup.parse(content); ///not working
+		String content = null;
+		try {
+			content = new String(Files.readAllBytes(parserFile.getFile().toPath()), Charset.defaultCharset());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		Document doc = Jsoup.parse(content); ///not working
     	doc.setBaseUri(parserFile.getUrl().toString());
     	Elements links = doc.select("a");
     	Set<URL> urls = new HashSet<URL>();
@@ -47,9 +53,14 @@ public class HTMLParser implements IFileParser {
 
     @Override
     public List<String> getSentences(ParserFile parserFile) {
-    	String content =  new String(Files.readAllBytes(parserFile.getFile().getPath()), Charset.defaultCharset());
-    	
-    	Document doc = Jsoup.parse(content); ///not working
+		String content = null;
+		try {
+			content = new String(Files.readAllBytes(parserFile.getFile().toPath()), Charset.defaultCharset());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		Document doc = Jsoup.parse(content); ///not working
     	Elements elements = doc.body().select("*");
     	List<String> sentences = new ArrayList<String>();
     	for (Element element : elements) 

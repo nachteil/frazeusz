@@ -5,8 +5,7 @@ import pl.edu.agh.ki.to2.parser.exceptions.UnsupportedFileException;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
-// https://commons.apache.org/proper/commons-io/ required
-import org.apache.commons.io.FilenameUtils;
+import static org.apache.commons.io.FilenameUtils.getExtension;
 
 public class ParserFile{
 
@@ -46,7 +45,7 @@ public class ParserFile{
     }
     
     public String getFileExtension(){
-    	return fileExtension();
+    	return fileExtension;
     }
 
     public URL getUrl() {
