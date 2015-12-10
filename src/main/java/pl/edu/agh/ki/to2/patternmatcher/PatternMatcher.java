@@ -32,6 +32,11 @@ public class PatternMatcher extends AbstractMatchProvider implements IPatternMat
     public void setWordProvider(IWordProvider wordProvider) {
         this.wordProvider = wordProvider;
     }
+    
+    //for easier testing
+    public void setPatterns(List<SearchPattern> patterns){
+    	this.patterns = patterns;
+    }
 
     private void pushEvent(int sentences, long timestamp) {
         Event event = new Event();

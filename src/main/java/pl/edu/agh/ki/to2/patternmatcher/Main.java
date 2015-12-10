@@ -6,10 +6,11 @@ import pl.edu.agh.ki.to2.patternmatcher.matcher.IMatcher;
 import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.matching_strategy.EmptyStrategy;
 import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.RegexMatcher;
 import pl.edu.agh.ki.to2.patternmatcher.ui.controllers.PatternController;
-
 import static org.mockito.Mockito.*;
 
 import javax.swing.*;
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,7 +32,10 @@ public class Main {
 
     public static void main(String[] args) {
 
-        createGUI();
+    	System.out.println("Working Directory = " +
+                System.getProperty("user.dir"));
+    	
+    	createGUI();
 
         String[] patterns = {
                 "take",
@@ -48,7 +52,8 @@ public class Main {
         when(mockWordProvider.getDiminutives("take")).thenReturn(new HashSet<>(Arrays.asList("t.")));
 
         try {
-            FileInputStream input = new FileInputStream("pg4351.txt");
+        	File file = new File("./src/main/java/pl/edu/agh/ki/to2/patternmatcher/pg4351.txt");
+        	FileInputStream input = new FileInputStream(file);
             byte[] fileData = new byte[input.available()];
 
             input.read(fileData);
