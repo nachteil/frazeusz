@@ -1,4 +1,10 @@
-package main.java.pl.edu.agh.ki.to2.parser.parsers;
+package pl.edu.agh.ki.to2.parser.parsers;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import pl.edu.agh.ki.to2.parser.parsingControl.ParserFile;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -6,13 +12,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-import org.jsoup.nodes.Element;
-
-import main.java.pl.edu.agh.ki.to2.parser.parsingControl.ParserFile;
 
 /**
  * Created by Adam on 29.11.2015.

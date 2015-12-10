@@ -1,8 +1,8 @@
-package main.java.pl.edu.agh.ki.to2.parser;
+package pl.edu.agh.ki.to2.parser;
 
-import main.java.pl.edu.agh.ki.to2.crawler.IPutter;
-import main.java.pl.edu.agh.ki.to2.patternmatcher.IPatternMatcher;
-import main.java.pl.edu.agh.ki.to2.parser.parsers.FileParserFactory;
+import pl.edu.agh.ki.to2.crawler.IPutter;
+import pl.edu.agh.ki.to2.patternmatcher.IPatternMatcher;
+import pl.edu.agh.ki.to2.parser.parsers.FileParserFactory;
 
 import java.util.List;
 import java.util.concurrent.BlockingQueue;

@@ -1,4 +1,4 @@
-package main.java.pl.edu.agh.ki.to2.parser.exceptions;
+package pl.edu.agh.ki.to2.parser.exceptions;
 
 /**
  * Created by Adam on 29.11.2015.

@@ -1,6 +1,6 @@
-package main.java.pl.edu.agh.ki.to2.parser.parsingControl;
+package pl.edu.agh.ki.to2.parser.parsingControl;
 
-import main.java.pl.edu.agh.ki.to2.parser.exceptions.UnsupportedFileException;
+import pl.edu.agh.ki.to2.parser.exceptions.UnsupportedFileException;
 
 import java.io.File;
 import java.net.URL;

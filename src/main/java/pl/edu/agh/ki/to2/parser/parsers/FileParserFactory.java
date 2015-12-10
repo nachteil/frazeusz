@@ -1,8 +1,6 @@
-package main.java.pl.edu.agh.ki.to2.parser.parsers;
+package pl.edu.agh.ki.to2.parser.parsers;
 
-import main.java.pl.edu.agh.ki.to2.parser.parsers.HTMLParser;
-import main.java.pl.edu.agh.ki.to2.parser.parsers.IFileParser;
-import main.java.pl.edu.agh.ki.to2.parser.parsingControl.ParserFile;
+import pl.edu.agh.ki.to2.parser.parsingControl.ParserFile;
 /**
  * Created by Adam on 29.11.2015.
  */
