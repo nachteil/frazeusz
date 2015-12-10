@@ -25,7 +25,7 @@ public class Counter {
     public synchronized void increase(){
         this.counter++;
         if(++pagesSinceLastMsg == chunk){
-            sendEvent();
+            sendEvent(chunk, EventType.PAGES_CRAWLED);
             pagesSinceLastMsg = 0;
         }
     }
@@ -34,7 +34,8 @@ public class Counter {
         Event event = new Event();
         event.setTimestamp(System.currentTimeMillis());
         event.setAmount(amount);
-        event.setType(EventType.fromValue());
+        event.setType(eventType);
+        monitorPubSub.pushEvent(event);
     }
 
 }
