@@ -43,6 +43,10 @@ public class ParserFile{
     public File getFile() {
         return file;
     }
+    
+    public String getFileExtension(){
+    	return fileExtension();
+    }
 
     public URL getUrl() {
         return url;
