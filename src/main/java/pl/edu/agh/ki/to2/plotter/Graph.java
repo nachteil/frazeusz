@@ -17,6 +17,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
+import pl.edu.agh.ki.to2.patternmatcher.models.ISearchPattern;
 import pl.edu.agh.ki.to2.patternmatcher.models.SearchPattern;
 import pl.edu.agh.ki.to2.plotter.model.Occurrences;
 
@@ -45,7 +46,7 @@ public class Graph extends JPanel{
 	}
 	
 	
-	public void update(Map<SearchPattern,Occurrences> searches){
+	public void update(Map<ISearchPattern, Occurrences> searches){
 		//dataset = null;
 		SearchPattern key;
 		Map<String, List<String>> map;

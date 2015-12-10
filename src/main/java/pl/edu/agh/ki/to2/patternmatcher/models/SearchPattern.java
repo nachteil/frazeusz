@@ -1,7 +1,7 @@
 package pl.edu.agh.ki.to2.patternmatcher.models;
 
 
-public class SearchPattern {
+public class SearchPattern implements ISearchPattern{
     private String pattern = "";
     private Boolean caseSensitive = false;
     private Boolean synonyms = false;
@@ -86,5 +86,21 @@ public class SearchPattern {
         result = 31 * result + variants.hashCode();
         result = 31 * result + diminutives.hashCode();
         return result;
+    }
+
+    @Override
+    public String getDescription() {
+        StringBuilder builder = new StringBuilder(pattern);
+        builder.append("\n");
+        if (caseSensitive)
+            builder.append("\t+ wielkie litery\n");
+        if (synonyms)
+            builder.append("\t+ synonimy\n");
+        if (variants)
+            builder.append("\t+ odmiany\n");
+        if (diminutives)
+            builder.append("\t+ skróty\n");
+
+        return builder.toString();
     }
 }

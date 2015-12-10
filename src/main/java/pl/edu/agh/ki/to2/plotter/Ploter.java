@@ -1,10 +1,9 @@
 package pl.edu.agh.ki.to2.plotter;
 
 import pl.edu.agh.ki.to2.patternmatcher.IMatchListener;
-import pl.edu.agh.ki.to2.patternmatcher.models.SearchPattern;
+import pl.edu.agh.ki.to2.patternmatcher.models.ISearchPattern;
 import pl.edu.agh.ki.to2.plotter.model.Occurrences;
 
-import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,11 +12,11 @@ import java.util.Map;
  * Created by Sara on 2015-12-09.
  */
 public class Ploter implements IMatchListener {
-    private Map<SearchPattern, Occurrences> patternOccurrencesHashMap = new HashMap<SearchPattern, Occurrences>();
+    private Map<ISearchPattern, Occurrences> patternOccurrencesHashMap = new HashMap<>();
     ViewFrame viewFrame;
 
     @Override
-    public void addMatches(SearchPattern pattern, List<String> sentences, String url) {
+    public void addMatches(ISearchPattern pattern, List<String> sentences, String url) {
 
         if(!patternOccurrencesHashMap.containsKey(pattern)){
             patternOccurrencesHashMap.put(pattern, new Occurrences(url, sentences));
@@ -35,7 +34,7 @@ public class Ploter implements IMatchListener {
 
     }
 
-    public Map<SearchPattern, Occurrences> getPatternOccurrencesHashMap() {
+    public Map<ISearchPattern, Occurrences> getPatternOccurrencesHashMap() {
         return patternOccurrencesHashMap;
     }
 

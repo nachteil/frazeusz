@@ -1,5 +1,6 @@
 package pl.edu.agh.ki.to2.plotter;
 
+import pl.edu.agh.ki.to2.patternmatcher.models.ISearchPattern;
 import pl.edu.agh.ki.to2.patternmatcher.models.SearchPattern;
 import pl.edu.agh.ki.to2.plotter.model.Occurrences;
 
@@ -39,7 +40,7 @@ public class Table extends JPanel{
         JScrollPane scrollPane = new JScrollPane(tab);
         add(scrollPane);
     }
-    public void update(Map<SearchPattern,Occurrences> searches){
+    public void update(Map<ISearchPattern, Occurrences> searches){
         while (dataModel.getRowCount() > 0) {
     	       dataModel.removeRow(0);
     	}
