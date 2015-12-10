@@ -40,6 +40,9 @@ public class Table extends JPanel{
         add(scrollPane);
     }
     public void update(Map<SearchPattern,Occurrences> searches){
+        while (dataModel.getRowCount() > 0) {
+    	       dataModel.removeRow(0);
+    	}
         SearchPattern key;
         Map<String, List<String>> map;
         String url;
