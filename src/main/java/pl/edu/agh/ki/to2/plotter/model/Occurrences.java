@@ -8,39 +8,57 @@ import java.util.Map;
  * Created by Sara on 2015-12-09.
  */
 public class Occurrences {
-    private Map<String, List<String>> list;
+    private Map<String, List<String>> urlSentenceMap;
 
     public Occurrences(String url, List<String> matches) {
-        list = new HashMap<String, List<String>>();
-        list.put(url, matches);
+        urlSentenceMap = new HashMap<String, List<String>>();
+        urlSentenceMap.put(url, matches);
     }
 
     public void add(String url, List<String> matches) {
-        if(!list.containsKey(url)){
-            list.put(url, matches);
-        }else if(list.containsKey(url)){
-            List<String> actualMatches = list.get(url);
+        if(!urlSentenceMap.containsKey(url)){
+            urlSentenceMap.put(url, matches);
+        }else if(urlSentenceMap.containsKey(url)){
+            List<String> actualMatches = urlSentenceMap.get(url);
             actualMatches.addAll(matches);
-            list.put(url, actualMatches);
+            urlSentenceMap.put(url, actualMatches);
         }
 
     }
 
     public String toString() {
         String toReturn = "";
-        for (String url : list.keySet()) {
-            String listString = url + ":\t";
+        for (String url : urlSentenceMap.keySet()) {
+            String urlSentenceMapString = url + ":\t";
 
 
-            for (String s : list.get(url)) {
-                listString += s + "\t";
+            for (String s : urlSentenceMap.get(url)) {
+                urlSentenceMapString += s + "\t";
             }
-            toReturn += listString + "\n";
+            toReturn += urlSentenceMapString + "\n";
         }
         return toReturn;
     }
 
     public Map<String, List<String>> getList() {
-        return list;
+        return urlSentenceMap;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Occurrences that = (Occurrences) o;
+
+        if (!urlSentenceMap.equals(that.urlSentenceMap)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return urlSentenceMap.hashCode();
+    }
+
 }
