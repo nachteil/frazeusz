@@ -6,12 +6,12 @@ import pl.edu.agh.ki.to2.nlprocessor.IWordProvider;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
+import static pl.edu.agh.ki.to2.patternmatcher.custom_matchers.IsRegexMatchingSequence.matchesSequence;
 
 public class EmptyStrategyTest {
 
@@ -34,8 +34,7 @@ public class EmptyStrategyTest {
     @Test
     public void testCompile() throws Exception {
         Pattern p = strategy.compile(pattern);
-        Matcher m = p.matcher(pattern);
-        assertThat(m.matches(), is(true));
+        assertThat(p, matchesSequence(pattern));
     }
 
     @Test

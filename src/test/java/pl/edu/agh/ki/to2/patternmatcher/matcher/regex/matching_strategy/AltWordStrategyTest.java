@@ -9,13 +9,13 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static pl.edu.agh.ki.to2.patternmatcher.custom_matchers.IsRegexMatchingSequence.matchesSequence;
 
 public class AltWordStrategyTest {
 
@@ -48,8 +48,7 @@ public class AltWordStrategyTest {
         Pattern p = strategy.compile(pattern);
 
         for (String alt : alts) {
-            Matcher m = p.matcher("matching strategy under " + alt);
-            assertThat(m.matches(), is(true));
+            assertThat(p, matchesSequence("matching strategy under " + alt));
         }
     }
 

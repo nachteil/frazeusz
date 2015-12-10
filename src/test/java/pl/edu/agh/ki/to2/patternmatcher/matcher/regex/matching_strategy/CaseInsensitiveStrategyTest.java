@@ -6,15 +6,14 @@ import pl.edu.agh.ki.to2.nlprocessor.IWordProvider;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.everyItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.mockito.Mockito.mock;
+import static pl.edu.agh.ki.to2.patternmatcher.custom_matchers.IsRegexMatchingSequence.matchesSequence;
 
 public class CaseInsensitiveStrategyTest {
 
@@ -38,10 +37,8 @@ public class CaseInsensitiveStrategyTest {
     @Test
     public void testCompile() throws Exception {
         Pattern p = strategy.compile(pattern);
-        Matcher m = p.matcher("Matching strategy under test");
-        assertThat(m.matches(), is(true));
-        m = p.matcher("matching strategy under test");
-        assertThat(m.matches(), is(true));
+        assertThat(p, matchesSequence("Matching strategy under test"));
+        assertThat(p, matchesSequence("matching strategy under test"));
     }
 
     @Test

@@ -6,16 +6,14 @@ import org.junit.Test;
 import pl.edu.agh.ki.to2.nlprocessor.IWordProvider;
 
 import java.util.*;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.hasItems;
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static pl.edu.agh.ki.to2.patternmatcher.custom_matchers.IsRegexMatchingSequence.matchesSequence;
 
 public class MultiStrategyTest {
 
@@ -51,23 +49,33 @@ public class MultiStrategyTest {
     }
 
     @Test
-    public void testCompile() throws Exception {
+    public void testDefault() {
         pattern = strategy.format(pattern);
-        Pattern p = strategy.compile(pattern);
+        assertThat(strategy.compile(pattern), matchesSequence("a b c D"));
+    }
 
-        String[] tests = new String[] {
-            "a b c D",
-            "e b c D",
-            "a ba c D",
-            "a b c. D",
-            "a b c d"
-        };
+    @Test
+    public void testSynonym() {
+        pattern = strategy.format(pattern);
+        assertThat(strategy.compile(pattern), matchesSequence("e b c D"));;
+    }
 
-        for (String test : tests) {
-            Matcher m = p.matcher(test);
-            assertThat(m.matches(), is(true));
-        }
+    @Test
+    public void testVariant() {
+        pattern = strategy.format(pattern);
+        assertThat(strategy.compile(pattern), matchesSequence("a ba c D"));;
+    }
 
+    @Test
+    public void testDiminutive() {
+        pattern = strategy.format(pattern);
+        assertThat(strategy.compile(pattern), matchesSequence("a b c. D"));;
+    }
+
+    @Test
+    public void testCase() {
+        pattern = strategy.format(pattern);
+        assertThat(strategy.compile(pattern), matchesSequence("a b c d"));;
     }
 
     @Test
