@@ -6,6 +6,7 @@ import pl.edu.agh.ki.to2.crawler.gui.controllers.DateFrameController;
 import pl.edu.agh.ki.to2.crawler.model.Crawler;
 import pl.edu.agh.ki.to2.monitor.Monitor;
 import pl.edu.agh.ki.to2.nlprocessor.NLProcessor;
+import pl.edu.agh.ki.to2.parser.Parser;
 import pl.edu.agh.ki.to2.patternmatcher.PatternMatcher;
 
 import java.awt.*;
@@ -28,7 +29,7 @@ public class Main {
     public static void start(CrawlingData crawlingData) throws InterruptedException {
 
         Crawler crawler = new Crawler(100, 500);
-        ParsingControl.Parser parser = new Parser(crawler.getFileQueue(),
+        Parser parser = new Parser(crawler.getFileQueue(),
                 crawler.getTaskQueue(), patternMatcher, crawlingData.getMaxDepth());
         parser.start();
         crawler.startCrawling();
