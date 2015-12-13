@@ -1,11 +1,15 @@
 package pl.edu.agh.ki.to2.crawler.model;
 
+import pl.edu.agh.ki.to2.parser.exceptions.UnsupportedFileException;
+import pl.edu.agh.ki.to2.parser.parsingControl.ParserFile;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.BlockingQueue;
 
 public class DownloadTask implements Runnable{
 

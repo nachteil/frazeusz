@@ -8,6 +8,7 @@ import pl.edu.agh.ki.to2.monitor.Monitor;
 import pl.edu.agh.ki.to2.nlprocessor.NLProcessor;
 import pl.edu.agh.ki.to2.parser.Parser;
 import pl.edu.agh.ki.to2.patternmatcher.PatternMatcher;
+import pl.edu.agh.ki.to2.plotter.Ploter;
 
 import java.awt.*;
 import java.net.MalformedURLException;
@@ -20,7 +21,7 @@ public class Main {
         NLProcessor nlProcessor = new NLProcessor();
         Monitor monitor = Monitor.getInstance();
         patternMatcher = new PatternMatcher(nlProcessor, monitor.getMonitorPubSub());
-        Plotter plotter = new Plotter();
+        Ploter plotter = new Ploter();
         patternMatcher.addObserver(plotter);
         DateFrameController dateFrameController = new DateFrameController();
         EventQueue.invokeLater(() -> new DataFrame(dateFrameController));
@@ -28,7 +29,7 @@ public class Main {
 
     public static void start(CrawlingData crawlingData) throws InterruptedException {
 
-        Crawler crawler = new Crawler(100, 500);
+        Crawler crawler = new Crawler(10, 50, 5);
         Parser parser = new Parser(crawler.getFileQueue(),
                 crawler.getTaskQueue(), patternMatcher, crawlingData.getMaxDepth());
         parser.start();

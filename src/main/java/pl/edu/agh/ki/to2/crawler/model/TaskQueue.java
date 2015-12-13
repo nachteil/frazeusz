@@ -1,6 +1,7 @@
 package pl.edu.agh.ki.to2.crawler.model;
 
 import pl.edu.agh.ki.to2.crawler.IPutter;
+import pl.edu.agh.ki.to2.parser.parsingControl.ParserFile;
 
 import java.net.URL;
 import java.util.concurrent.BlockingQueue;

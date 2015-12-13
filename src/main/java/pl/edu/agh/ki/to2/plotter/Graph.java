@@ -5,6 +5,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
+import pl.edu.agh.ki.to2.patternmatcher.models.ISearchPattern;
 import pl.edu.agh.ki.to2.patternmatcher.models.SearchPattern;
 import pl.edu.agh.ki.to2.plotter.model.Occurrences;
 
@@ -39,14 +40,14 @@ public class Graph extends JPanel{
 	}
 	
 	
-	public void update(Map<SearchPattern,Occurrences> searches){
+	public void update(Map<ISearchPattern,Occurrences> searches){
 		//dataset = null;
-		SearchPattern key;
+		ISearchPattern key;
 		Map<String, List<String>> map;
 		//String url;
 		List<String> list;
 		int counter;
-		for (Map.Entry<SearchPattern, Occurrences> entry : searches.entrySet()) {
+		for (Map.Entry<ISearchPattern, Occurrences> entry : searches.entrySet()) {
 			key = entry.getKey();
 			map = entry.getValue().getUrlSentenceMap();
 			counter = 0;
@@ -55,7 +56,7 @@ public class Graph extends JPanel{
 				list = lowerEntry.getValue();
 				counter+=list.size();
 			}
-			dataset.addValue(counter, "" , key.getPattern());
+			dataset.addValue(counter, "" , key.getDescription());
 		}
 		//tab.repaint();
 	}
