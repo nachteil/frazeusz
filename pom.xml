@@ -22,6 +22,7 @@
             <version>2.4.0.Final</version>
         </dependency>
 
+
         <dependency>
             <groupId>org.hornetq</groupId>
             <artifactId>hornetq-core-client</artifactId>
@@ -45,6 +46,12 @@
             <artifactId>dagger-compiler</artifactId>
             <version>1.2.2</version>
             <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nexagis.jawbone</groupId>
+            <artifactId>jawbone</artifactId>
+            <version>1.0</version>
         </dependency>
 
         <dependency>
@@ -85,8 +92,28 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                 </configuration>
-            </plugin>
 
+            </plugin>
+            <plugin>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.5.2</version>
+                <configuration>
+                    <groupId>com.nexagis.jawbone</groupId>
+                    <artifactId>jawbone</artifactId>
+                    <version>1.0</version>
+                    <packaging>jar</packaging>
+                    <file>${basedir}/jawbone.jar</file>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>install-jar-lib</id>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <phase>validate</phase>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
