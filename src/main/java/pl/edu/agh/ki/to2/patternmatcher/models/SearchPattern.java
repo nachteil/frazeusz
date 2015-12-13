@@ -1,7 +1,6 @@
 package pl.edu.agh.ki.to2.patternmatcher.models;
 
-
-public class SearchPattern implements ISearchPattern{
+public class SearchPattern implements ISearchPattern {
     private String pattern = "";
     private Boolean caseSensitive = false;
     private Boolean synonyms = false;
@@ -56,36 +55,6 @@ public class SearchPattern implements ISearchPattern{
     }
     public void setDiminutives(Boolean diminutives) {
         this.diminutives = diminutives;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if(obj == null){
-            return false;
-        }
-        if(!(obj instanceof SearchPattern)){
-            return false;
-        }
-        SearchPattern that = (SearchPattern) obj;
-
-        if(this.pattern.equals(that.pattern)
-                && this.caseSensitive.equals(that.caseSensitive)
-                && this.synonyms.equals(that.synonyms)
-                && this.variants.equals(that.variants)
-                && this.diminutives.equals(that.diminutives)){
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = pattern.hashCode();
-        result = 31 * result + caseSensitive.hashCode();
-        result = 31 * result + synonyms.hashCode();
-        result = 31 * result + variants.hashCode();
-        result = 31 * result + diminutives.hashCode();
-        return result;
     }
 
     @Override
