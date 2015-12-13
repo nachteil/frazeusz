@@ -1,5 +1,6 @@
 package pl.edu.agh.ki.to2.crawler.model;
 
+import pl.edu.agh.ki.to2.monitor.Monitor;
 import pl.edu.agh.ki.to2.parser.parsingControl.ParserFile;
 
 import java.io.File;
@@ -22,7 +23,7 @@ public class Crawler {
 
     public Crawler(int workersPool, int maxSites, int maxDepth) {
         this.fileQueue = new LinkedBlockingQueue<>();
-        this.counter = new Counter();
+        this.counter = new Counter(Monitor.getInstance().getMonitorPubSub(), 10);
         this.taskQueue = new TaskQueue(fileQueue, maxDepth, counter, tempDir);
         this.executor = Executors.newFixedThreadPool(workersPool);
         this.maxSites = maxSites;

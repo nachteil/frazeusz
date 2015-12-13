@@ -8,7 +8,6 @@ import pl.edu.agh.ki.to2.monitor.Monitor;
 import pl.edu.agh.ki.to2.nlprocessor.NLProcessor;
 import pl.edu.agh.ki.to2.parser.Parser;
 import pl.edu.agh.ki.to2.patternmatcher.PatternMatcher;
-import pl.edu.agh.ki.to2.plotter.Ploter;
 
 import java.awt.*;
 import java.net.MalformedURLException;
@@ -21,8 +20,8 @@ public class Main {
         NLProcessor nlProcessor = new NLProcessor();
         Monitor monitor = Monitor.getInstance();
         patternMatcher = new PatternMatcher(nlProcessor, monitor.getMonitorPubSub());
-        Ploter plotter = new Ploter();
-        patternMatcher.addObserver(plotter);
+//        Ploter plotter = new Ploter();
+//what with plotter?
         DateFrameController dateFrameController = new DateFrameController();
         EventQueue.invokeLater(() -> new DataFrame(dateFrameController));
     }
@@ -32,7 +31,6 @@ public class Main {
         Crawler crawler = new Crawler(10, 50, 5);
         Parser parser = new Parser(crawler.getFileQueue(),
                 crawler.getTaskQueue(), patternMatcher, crawlingData.getMaxDepth());
-        parser.start();
         crawler.startCrawling();
     }
 }
