@@ -1,25 +1,18 @@
 package pl.edu.agh.ki.to2.plotter;
 
-import javax.swing.*;
-
-import java.awt.Color;
-import java.awt.GridLayout;
-import java.util.List;
-import java.util.Map;
-
-import javax.swing.BorderFactory;
-import javax.swing.JCheckBox;
-import javax.swing.JPanel;
-import javax.swing.border.Border;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
-import pl.edu.agh.ki.to2.patternmatcher.models.ISearchPattern;
 import pl.edu.agh.ki.to2.patternmatcher.models.SearchPattern;
 import pl.edu.agh.ki.to2.plotter.model.Occurrences;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
+import java.util.List;
+import java.util.Map;
 
 public class Graph extends JPanel{
 	
@@ -46,7 +39,7 @@ public class Graph extends JPanel{
 	}
 	
 	
-	public void update(Map<ISearchPattern, Occurrences> searches){
+	public void update(Map<SearchPattern,Occurrences> searches){
 		//dataset = null;
 		SearchPattern key;
 		Map<String, List<String>> map;
