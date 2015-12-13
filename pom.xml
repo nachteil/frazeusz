@@ -102,7 +102,7 @@
                     <artifactId>jawbone</artifactId>
                     <version>1.0</version>
                     <packaging>jar</packaging>
-                    <file>${basedir}/jawbone.jar</file>
+                    <file>${basedir}/lib/jawbone.jar</file>
                 </configuration>
                 <executions>
                     <execution>
