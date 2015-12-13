@@ -22,6 +22,14 @@
             <version>2.4.0.Final</version>
         </dependency>
 
+        <dependency>
+            <groupId>jawbone</groupId>
+            <artifactId>com.nexagis.jawbone</artifactId>
+            <scope>system</scope>
+            <version>1.0</version>
+            <systemPath>${basedir}\lib\jawbone.jar</systemPath>
+        </dependency>
+
 
         <dependency>
             <groupId>org.hornetq</groupId>
