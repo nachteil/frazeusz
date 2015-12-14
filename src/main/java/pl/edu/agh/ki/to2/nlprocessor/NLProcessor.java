@@ -3,6 +3,7 @@ package pl.edu.agh.ki.to2.nlprocessor;
 
 import com.nexagis.jawbone.*;
 import com.nexagis.jawbone.filter.WildcardFilter;
+import com.nexagis.jawbone.Dictionary;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
