@@ -4,7 +4,6 @@ package pl.edu.agh.ki.to2.nlprocessor;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,18 +33,18 @@ public class NLProcessorTest {
 //        assertEquals(expected_result,result);
 //    }
 
-    @Test
-    public void returnsSetOfDiminutives(){
-        Set<String> result= nlProcessor.getDiminutives("dom");
-        Set<String> expected_result = new HashSet<String>(Arrays.asList("domina", "domek"));
-        assertEquals(expected_result,result);}
-
-    @Test
-    public void returnsEmptySetOfDiminutives(){
-        Set<String> result= nlProcessor.getDiminutives("toNieJEstSLowo");
-        Set<String> expected_result = new HashSet<String>();
-        assertEquals(expected_result, result);
-    }
+//    @Test
+//    public void returnsSetOfDiminutives(){
+//        Set<String> result= nlProcessor.getDiminutives("dom");
+//        Set<String> expected_result = new HashSet<String>(Arrays.asList("domina", "domek"));
+//        assertEquals(expected_result,result);}
+//
+//    @Test
+//    public void returnsEmptySetOfDiminutives(){
+//        Set<String> result= nlProcessor.getDiminutives("toNieJEstSLowo");
+//        Set<String> expected_result = new HashSet<String>();
+//        assertEquals(expected_result, result);
+//    }
 // TODO brak polskich znakow powoduje assert
 //    @Test
 //    public void returnSetOfVariants(){
