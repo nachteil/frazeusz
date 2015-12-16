@@ -1,9 +1,6 @@
 package pl.edu.agh.ki.to2.nlprocessor;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,13 +10,16 @@ import java.util.Map;
 public class NLPThread extends Thread {
 
     public Map<String, String[]> map = new HashMap<String, String[]>();
+    boolean finished = false;
 
     public void run() {
 
         BufferedReader in = null;
         try {
-            in = new BufferedReader(new FileReader(System.getProperty("user.dir") + "\\src\\main\\java\\pl\\edu\\agh\\ki\\to2\\nlprocessor\\dictionary\\kurnikOdmiana_CP1250.txt"));
+            in = new BufferedReader(new InputStreamReader(new FileInputStream(System.getProperty("user.dir") + "\\src\\main\\java\\pl\\edu\\agh\\ki\\to2\\nlprocessor\\dictionary\\kurnikOdmiana_CP1250.txt"), "CP1250"));
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         String line = "";
@@ -31,9 +31,13 @@ public class NLPThread extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        finished = true;
     }
 
     public Map<String, String[]> getMap(){
-        return map;
+        if(finished)
+            return map;
+        else
+            return null;
     }
 }

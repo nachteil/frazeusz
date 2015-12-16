@@ -46,13 +46,13 @@ public class NLProcessorTest {
         Set<String> expected_result = new HashSet<String>();
         assertEquals(expected_result, result);
     }
-// TODO brak polskich znakow powoduje assert
-//    @Test
-//    public void returnSetOfVariants(){
-//        Set<String> result= nlProcessor.getVariants("aberracja");
-//        Set<String> expected_result = new HashSet<String>(Arrays.asList( "aberracje", "aberracjach", "aberracji", "aberracjom", "aberracjami", "aberracjo", "aberracją", "aberracja","aberrację"));
-//        assertEquals(expected_result, result);
-//    }
+
+   @Test
+   public void returnSetOfVariants(){
+        Set<String> result= nlProcessor.getVariants("aberracja");
+       Set<String> expected_result = new HashSet<String>(Arrays.asList( "aberracje", "aberracjach", "aberracji", "aberracjom", "aberracjami", "aberracjo", "aberracją", "aberracja","aberrację"));
+       assertEquals(expected_result, result);
+    }
 
     @Test
     public void returnEmptySetOfVariants(){
