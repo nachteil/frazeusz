@@ -6,9 +6,15 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYDataset;
 
+import javax.inject.Inject;
 import javax.swing.*;
 
 public class Chart {
+
+    @Inject
+    public Chart() {
+
+    }
 
     public JPanel createFromDataSet(XYDataset dataset) {
 

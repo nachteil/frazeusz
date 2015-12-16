@@ -5,6 +5,7 @@ import org.jfree.data.xy.XYDataset;
 import pl.edu.agh.ki.to2.monitor.contract.Event;
 import pl.edu.agh.ki.to2.monitor.contract.EventType;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ public class PerformanceDataModel {
     private final List<Event> crawlEvents;
     private final List<Event> matchEvents;
 
+    @Inject
     public PerformanceDataModel() {
         this.bandwidthEvents = new ArrayList<>();
         this.crawlEvents = new ArrayList<>();
