@@ -1,7 +1,7 @@
-package main.java.pl.edu.agh.ki.to2.crawler;
+package pl.edu.agh.ki.to2.crawler;
 
 import java.net.URL;
 
-interface IPutter{
+public interface IPutter{
     void put(URL url, int depth);
 }
