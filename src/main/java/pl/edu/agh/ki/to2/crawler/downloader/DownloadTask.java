@@ -3,30 +3,29 @@ package pl.edu.agh.ki.to2.crawler.downloader;
 import pl.edu.agh.ki.to2.parser.exceptions.UnsupportedFileException;
 import pl.edu.agh.ki.to2.parser.parsingControl.ParserFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.BlockingQueue;
 
-public class DownloadTask implements Runnable{
+public class DownloadTask implements Runnable {
 
     private URL url;
     private int depth;
     private BlockingQueue<ParserFile> fileQueue;
     private Counter counter;
-    private String tempDir;
     private final int BUFFER_SIZE = 4096;
+    private int maxStreamSize;
 
-    public DownloadTask(URL url, int depth, BlockingQueue<ParserFile> fileQueue,
-                        Counter counter, String tempDir) {
-        this.url = url;
+    public DownloadTask(Counter counter, int depth,
+                        BlockingQueue<ParserFile> fileQueue,
+                        int maxStreamSize, URL url) {
+        this.counter = counter;
         this.depth = depth;
         this.fileQueue = fileQueue;
-        this.counter = counter;
-        this.tempDir = tempDir;
+        this.maxStreamSize = maxStreamSize;
+        this.url = url;
     }
 
     public URL getURL() {
@@ -36,66 +35,52 @@ public class DownloadTask implements Runnable{
     @Override
     public void run() {
         try {
-            File file = downloadFile();
-            if(file == null)
+            ParserFile parserFile = getContent();
+            if (parserFile == null)
                 return;
-            fileQueue.put(new ParserFile(file, url, depth + 1));
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        } catch (UnsupportedFileException e) {
+            fileQueue.put(parserFile);
+        } catch (IOException | InterruptedException | UnsupportedFileException e) {
             e.printStackTrace();
         }
-        counter.increase();
+        counter.increasePagesCounter();
     }
 
-    private File downloadFile() throws IOException {
+    private ParserFile getContent() throws IOException, UnsupportedFileException {
 
         HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
         int responseCode = httpConn.getResponseCode();
-        String fileName = "";
-        String urlPath = url.toString();
-        String saveFilePath;
+        String contentType;
+        StringBuilder stringBuilder;
+        byte[] buf;
+        InputStream inputStream;
+        int size, contentLength, downloadedSize;
 
         // check HTTP response code first
         if (responseCode == HttpURLConnection.HTTP_OK) {
-            String disposition = httpConn.getHeaderField("Content-Disposition");
-            //String contentType = httpConn.getContentType();
-            //int contentLength = httpConn.getContentLength();
-
-            if (disposition != null) {
-                // extracts file name from header field
-                int index = disposition.indexOf("filename=");
-                if (index > 0) {
-                    fileName = disposition.substring(index + 10,
-                            disposition.length() - 1);
-                }
-            } else {
-                // extracts file name from URL
-                fileName = urlPath.substring(urlPath.lastIndexOf("/") + 1,
-                        urlPath.length());
-            }
+            contentType = httpConn.getContentType();
+            contentLength = httpConn.getContentLength();
+            downloadedSize = 0;
 
             // opens input stream from the HTTP connection
-            InputStream inputStream = httpConn.getInputStream();
-            saveFilePath = tempDir + File.separator + fileName;
+            inputStream = httpConn.getInputStream();
 
-
-            // opens an output stream to save into file
-            FileOutputStream outputStream = new FileOutputStream(saveFilePath);
-
-            int bytesRead = -1;
-            byte[] buffer = new byte[BUFFER_SIZE];
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, bytesRead);
+            stringBuilder = new StringBuilder();
+            buf = new byte[BUFFER_SIZE];
+            while ((size = inputStream.read(buf)) != -1 &&
+                    downloadedSize < maxStreamSize - BUFFER_SIZE) {
+                stringBuilder.append(new String(buf, 0, size));
+                downloadedSize += size;
             }
-            outputStream.close();
+
             inputStream.close();
 
         } else {
             httpConn.disconnect();
             return null;
         }
+
         httpConn.disconnect();
-        return new File(saveFilePath);
+        return new ParserFile(contentType, stringBuilder.toString(), url,
+                depth + 1);
     }
 }
