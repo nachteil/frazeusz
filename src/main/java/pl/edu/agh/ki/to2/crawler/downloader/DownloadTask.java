@@ -1,4 +1,4 @@
-package pl.edu.agh.ki.to2.crawler.model;
+package pl.edu.agh.ki.to2.crawler.downloader;
 
 import pl.edu.agh.ki.to2.parser.exceptions.UnsupportedFileException;
 import pl.edu.agh.ki.to2.parser.parsingControl.ParserFile;

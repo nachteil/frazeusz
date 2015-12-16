@@ -3,7 +3,7 @@ package pl.edu.agh.ki.to2.crawler;
 import pl.edu.agh.ki.to2.crawler.data.CrawlingData;
 import pl.edu.agh.ki.to2.crawler.gui.DataFrame;
 import pl.edu.agh.ki.to2.crawler.gui.controllers.DateFrameController;
-import pl.edu.agh.ki.to2.crawler.model.Crawler;
+import pl.edu.agh.ki.to2.crawler.downloader.Crawler;
 import pl.edu.agh.ki.to2.monitor.Monitor;
 import pl.edu.agh.ki.to2.nlprocessor.NLProcessor;
 import pl.edu.agh.ki.to2.parser.Parser;
@@ -22,12 +22,7 @@ public class Main {
         NLProcessor nlProcessor = new NLProcessor();
         Monitor monitor = Monitor.getInstance();
         patternMatcher = new PatternMatcher(nlProcessor, monitor.getMonitorPubSub());
-        Ploter ploter = new Ploter();
-        ViewFrame viewFrame = new ViewFrame();
-        ploter.setViewFrame(viewFrame);
-        viewFrame.setPloter(ploter);
-        patternMatcher.addListener(ploter);
-        DateFrameController dateFrameController = new DateFrameController();
+        DateFrameController dateFrameController = new DateFrameController(patternMatcher);
         EventQueue.invokeLater(() -> new DataFrame(dateFrameController));
     }
 
@@ -36,6 +31,11 @@ public class Main {
         Crawler crawler = new Crawler(10, 50, 5);
         Parser parser = new Parser(crawler.getFileQueue(),
                 crawler.getTaskQueue(), patternMatcher, crawlingData.getMaxDepth());
+        Ploter ploter = new Ploter();
+        ViewFrame viewFrame = new ViewFrame();
+        ploter.setViewFrame(viewFrame);
+        viewFrame.setPloter(ploter);
+        patternMatcher.addListener(ploter);
         crawler.startCrawling();
     }
 }

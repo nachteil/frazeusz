@@ -4,6 +4,7 @@ package pl.edu.agh.ki.to2.crawler.gui.controllers;
 import pl.edu.agh.ki.to2.crawler.Main;
 import pl.edu.agh.ki.to2.crawler.data.CrawlingData;
 import pl.edu.agh.ki.to2.crawler.gui.DataFrame;
+import pl.edu.agh.ki.to2.patternmatcher.PatternMatcher;
 
 /**
  *
@@ -13,9 +14,11 @@ public class DateFrameController {
 
     private CrawlingData crawlingData;
     private DataFrame dataFrame;
+    private PatternMatcher patternMatcher;
 
-    public DateFrameController() {
+    public DateFrameController(PatternMatcher patternMatcher) {
         this.crawlingData = new CrawlingData();
+        this.patternMatcher = patternMatcher;
     }
 
     public void deleteUrl(){
@@ -50,5 +53,23 @@ public class DateFrameController {
 
     public CrawlingData getCrawlingData() {
         return crawlingData;
+    }
+
+    public PatternMatcher getPatternMatcher() {
+        return patternMatcher;
+    }
+
+    public String checkErrors() {
+        try {
+            Integer.parseInt(dataFrame.getInitialDataPanel().getMaxDepthField().getText());
+        } catch (NumberFormatException e) {
+            return "Wrong format of Max depth field";
+        }
+        try {
+            Integer.parseInt(dataFrame.getInitialDataPanel().getMaxNumberOfFilesField().getText());
+        } catch (NumberFormatException e) {
+            return "Wrong format of Max number of files field";
+        }
+        return null;
     }
 }

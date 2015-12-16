@@ -2,6 +2,7 @@ package pl.edu.agh.ki.to2.crawler.gui;
 
 
 import pl.edu.agh.ki.to2.crawler.gui.controllers.DateFrameController;
+import pl.edu.agh.ki.to2.monitor.Monitor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,8 +15,6 @@ import java.awt.event.WindowEvent;
 public class DataFrame extends JFrame {
     private JButton submitButton;
     private JButton closeButton;
-    private JPanel monitorJPanel;
-    private JPanel patternMatcherJPanel;
     private InitialDataPanel initialDataPanel;
 
     private DateFrameController dateFrameController;
@@ -29,7 +28,7 @@ public class DataFrame extends JFrame {
         initComponents();
         addListeners();
         setResizable(false);
-        setSize(new Dimension( 300, 400 ));
+        setSize(new Dimension( 500, 400 ));
     }
 
     private void initComponents() {
@@ -38,6 +37,8 @@ public class DataFrame extends JFrame {
         initialDataPanel = new InitialDataPanel(dateFrameController);
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Initial Data", initialDataPanel);
+        tabbedPane.addTab("Patterns", dateFrameController.getPatternMatcher().getView());
+        tabbedPane.addTab("Monitor", Monitor.getInstance().getMonitorTabPanel());
         add(tabbedPane, BorderLayout.NORTH);
         add(submitClosePanel(), BorderLayout.SOUTH);
 
@@ -59,8 +60,16 @@ public class DataFrame extends JFrame {
 
     private void addSubmitListener() {
         submitButton.addActionListener(e -> {
-            dateFrameController.start();
-            dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+            String error = dateFrameController.checkErrors();
+            if(error!=null){
+                JOptionPane.showMessageDialog(this,
+                        error,
+                        "Input data error",
+                        JOptionPane.ERROR_MESSAGE);
+            } else {
+                dateFrameController.start();
+                dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+            }
         });
     }
 
@@ -74,13 +83,4 @@ public class DataFrame extends JFrame {
     public InitialDataPanel getInitialDataPanel() {
         return initialDataPanel;
     }
-
-    public JPanel getPatternMatcherJPanel() {
-        return patternMatcherJPanel;
-    }
-
-    public JPanel getMonitorJPanel() {
-        return monitorJPanel;
-    }
-
 }
