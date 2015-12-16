@@ -45,10 +45,14 @@ public class PerformanceDataModel {
     }
 
     public XYDataset getBandwidthDataSet(long startingPointTimestamp) {
+        return createDataSet(bandwidthEvents, startingPointTimestamp);
+    }
+
+    private XYDataset createDataSet(List<Event> source, long startingPointTimestamp) {
         long now = System.currentTimeMillis();
         List<Event> eventsSinceStart = null;
-        synchronized (bandwidthEvents) {
-            eventsSinceStart = bandwidthEvents.stream()
+        synchronized (source) {
+            eventsSinceStart = source.stream()
                     .filter(event -> event.getTimestamp() >= startingPointTimestamp)
                     .collect(Collectors.toList());
         }
@@ -75,11 +79,11 @@ public class PerformanceDataModel {
     }
 
     public XYDataset getSentenceMatchDataSet(long startingPointTimestamp) {
-        return null;
+        return createDataSet(matchEvents, startingPointTimestamp);
     }
 
     public XYDataset getCrawledPagesDataSet(long startingPointTimestamp) {
-        return null;
+        return createDataSet(crawlEvents, startingPointTimestamp);
     }
 
     private final Predicate<Event> isBandwidth = e -> e.getType() == EventType.KILOBYTES_DOWNLOADED;
