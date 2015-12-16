@@ -64,6 +64,7 @@ public class DownloadTask implements Runnable {
             // opens input stream from the HTTP connection
             inputStream = httpConn.getInputStream();
 
+            // convert InputStream to String
             stringBuilder = new StringBuilder();
             buf = new byte[BUFFER_SIZE];
             while ((size = inputStream.read(buf)) != -1 &&
@@ -72,6 +73,7 @@ public class DownloadTask implements Runnable {
                 downloadedSize += size;
             }
 
+            counter.updateDataCounter(downloadedSize);
             inputStream.close();
 
         } else {
