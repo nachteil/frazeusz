@@ -3,6 +3,7 @@ package pl.edu.agh.ki.to2.crawler.downloader;
 import pl.edu.agh.ki.to2.parser.exceptions.UnsupportedFileException;
 import pl.edu.agh.ki.to2.parser.parsingControl.ParserFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -83,7 +84,6 @@ public class DownloadTask implements Runnable {
         }
 
         httpConn.disconnect();
-        return new ParserFile(contentType, stringBuilder.toString(), url,
-                depth + 1);
+        return new ParserFile(stringBuilder.toString(), contentType, url, depth + 1);
     }
 }
