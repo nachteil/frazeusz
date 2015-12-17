@@ -1,6 +1,6 @@
 package pl.edu.agh.ki.to2.patternmatcher;
 
-import pl.edu.agh.ki.to2.patternmatcher.models.ISearchPattern;
+import pl.edu.agh.ki.to2.patternmatcher.models.SearchPattern;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -14,7 +14,7 @@ public abstract class AbstractMatchProvider implements IMatchProvider {
     }
 
     @Override
-    public void onMatchCompleted(ISearchPattern pattern, List<String> sentences, String url) {
+    public void onMatchCompleted(SearchPattern pattern, List<String> sentences, String url) {
         for (IMatchListener listener : listeners)
             listener.addMatches(pattern, sentences, url);
     }

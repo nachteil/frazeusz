@@ -1,6 +1,6 @@
 package pl.edu.agh.ki.to2.patternmatcher.models;
 
-public class SearchPattern implements ISearchPattern {
+public class SearchPattern {
     private String pattern = "";
     private Boolean caseSensitive = false;
     private Boolean synonyms = false;
@@ -57,7 +57,6 @@ public class SearchPattern implements ISearchPattern {
         this.diminutives = diminutives;
     }
 
-    @Override
     public String getDescription() {
         StringBuilder builder = new StringBuilder(pattern);
         builder.append("\n");
