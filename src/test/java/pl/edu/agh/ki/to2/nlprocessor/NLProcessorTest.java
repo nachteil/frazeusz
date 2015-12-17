@@ -13,6 +13,10 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by Zuch on 2015-12-10.
  */
+
+import java.nio.charset.Charset;
+
+
 public class NLProcessorTest {
     NLProcessor nlProcessor;
     @Before
@@ -49,8 +53,8 @@ public class NLProcessorTest {
  //TODO brak polskich znakow powoduje assert
     @Test
     public void returnSetOfVariants(){
-        Set<String> result= nlProcessor.getVariants("aberracja");
-        Set<String> expected_result = new HashSet<String>(Arrays.asList( "aberracje", "aberracjach", "aberracji", "aberracjom", "aberracjami", "aberracjo", "aberracją", "aberracja","aberrację"));
+        Set<String> result= nlProcessor.getVariants("Atlantydy");
+        Set<String> expected_result = new HashSet<String>(Arrays.asList( "Atlantydy", "Atlantydach", "Atlantydami", "Atlantydom"));
         assertEquals(expected_result, result);
     }
 
@@ -60,4 +64,5 @@ public class NLProcessorTest {
         Set<String> expected_result = new HashSet<String>();
         assertEquals(expected_result,result);
     }
+
 }
