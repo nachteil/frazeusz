@@ -4,6 +4,7 @@ package pl.edu.agh.ki.to2.nlprocessor;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,40 +19,40 @@ public class NLProcessorTest {
     public void initialize(){
         nlProcessor = new NLProcessor();
     }
-//    @Test
-//    public void returnsSetOfSynonyms(){
-//        Set<String> result= nlProcessor.getSynonyms("nuda");
-//        Set<String> expected_result = new HashSet<String>(Arrays.asList("nuda", "znudzenie"));
-//        assertEquals(result,expected_result);
-//    }
-//
-//
-//    @Test
-//    public void returnsEmptySetOfSynonyms(){
-//        Set<String> result= nlProcessor.getSynonyms("toNieJEstSLowo");
-//        Set<String> expected_result = new HashSet<String>();
-//        assertEquals(expected_result,result);
-//    }
+    @Test
+    public void returnsSetOfSynonyms(){
+        Set<String> result= nlProcessor.getSynonyms("nuda");
+        Set<String> expected_result = new HashSet<String>(Arrays.asList("nuda", "znudzenie"));
+        assertEquals(result,expected_result);
+    }
 
-//    @Test
-//    public void returnsSetOfDiminutives(){
-//        Set<String> result= nlProcessor.getDiminutives("dom");
-//        Set<String> expected_result = new HashSet<String>(Arrays.asList("domina", "domek"));
-//        assertEquals(expected_result,result);}
-//
-//    @Test
-//    public void returnsEmptySetOfDiminutives(){
-//        Set<String> result= nlProcessor.getDiminutives("toNieJEstSLowo");
-//        Set<String> expected_result = new HashSet<String>();
-//        assertEquals(expected_result, result);
-//    }
-// TODO brak polskich znakow powoduje assert
-//    @Test
-//    public void returnSetOfVariants(){
-//        Set<String> result= nlProcessor.getVariants("aberracja");
-//        Set<String> expected_result = new HashSet<String>(Arrays.asList( "aberracje", "aberracjach", "aberracji", "aberracjom", "aberracjami", "aberracjo", "aberracją", "aberracja","aberrację"));
-//        assertEquals(expected_result, result);
-//    }
+
+    @Test
+    public void returnsEmptySetOfSynonyms(){
+        Set<String> result= nlProcessor.getSynonyms("toNieJEstSLowo");
+        Set<String> expected_result = new HashSet<String>();
+        assertEquals(expected_result,result);
+    }
+
+    @Test
+    public void returnsSetOfDiminutives(){
+        Set<String> result= nlProcessor.getDiminutives("dom");
+        Set<String> expected_result = new HashSet<String>(Arrays.asList("domina", "domek"));
+        assertEquals(expected_result,result);}
+
+    @Test
+    public void returnsEmptySetOfDiminutives(){
+        Set<String> result= nlProcessor.getDiminutives("toNieJEstSLowo");
+        Set<String> expected_result = new HashSet<String>();
+        assertEquals(expected_result, result);
+    }
+ //TODO brak polskich znakow powoduje assert
+    @Test
+    public void returnSetOfVariants(){
+        Set<String> result= nlProcessor.getVariants("aberracja");
+        Set<String> expected_result = new HashSet<String>(Arrays.asList( "aberracje", "aberracjach", "aberracji", "aberracjom", "aberracjami", "aberracjo", "aberracją", "aberracja","aberrację"));
+        assertEquals(expected_result, result);
+    }
 
     @Test
     public void returnEmptySetOfVariants(){

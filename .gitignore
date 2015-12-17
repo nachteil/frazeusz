@@ -24,3 +24,8 @@ hs_err_pid*
 .settings/org.eclipse.m2e.core.prefs
 
 
+
+*.adj text eol=lf
+*.noun text eol=lf
+*.verb text eol=lf
+*.sense text eol=lf
