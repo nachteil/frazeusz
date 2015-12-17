@@ -5,6 +5,8 @@ import org.hornetq.api.core.client.ClientSession;
 import org.hornetq.api.core.client.ClientSessionFactory;
 import org.hornetq.core.server.HornetQServer;
 import pl.edu.agh.ki.to2.monitor.contract.MonitorPubSub;
+import pl.edu.agh.ki.to2.monitor.gui.Chart;
+import pl.edu.agh.ki.to2.monitor.gui.MonitorTabPanel;
 import pl.edu.agh.ki.to2.monitor.messaging.MessagingModule;
 
 import javax.inject.Inject;
@@ -16,6 +18,7 @@ public class Monitor {
     @Inject HornetQServer server;
     @Inject ClientSession session;
     @Inject ClientSessionFactory sessionFactory;
+    @Inject MonitorTabPanel panel;
 
     private static final class LazyHolder {
         private static Monitor createInstance() {
@@ -35,8 +38,7 @@ public class Monitor {
      *     Monitor component will take care of data collection and content refreshing
      */
     public JPanel getMonitorTabPanel() {
-        // TODO: Implement
-        return null;
+        return panel;
     }
 
 
@@ -56,5 +58,14 @@ public class Monitor {
             System.out.println("HornetQ server shutdown failed");
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Test");
+        frame.getContentPane().add(Monitor.getInstance().getMonitorTabPanel());
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setSize(800, 600);
+        frame.setVisible(true);
     }
 }
