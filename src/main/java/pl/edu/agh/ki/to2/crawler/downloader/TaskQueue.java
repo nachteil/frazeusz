@@ -24,7 +24,7 @@ public class TaskQueue implements IPutter {
         this.maxStreamSize = maxStreamSize;
     }
 
-    DownloadTask get() throws InterruptedException {
+    public DownloadTask get() throws InterruptedException {
         return this.tasks.take();
     }
 
@@ -34,9 +34,15 @@ public class TaskQueue implements IPutter {
             return;
         try {
             this.tasks.put(
-                    new DownloadTask(counter, depth, fileQueue, maxStreamSize, url));
+                    makeDownloadTask(counter, depth, fileQueue, maxStreamSize, url));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    private DownloadTask makeDownloadTask(Counter counter, int depth,
+                                          BlockingQueue<ParserFile> fileQueue,
+                                          int maxStreamSize, URL url) {
+        return new DownloadTask(counter, depth, fileQueue, maxStreamSize, url);
     }
 }

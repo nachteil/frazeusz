@@ -23,7 +23,7 @@ public class Crawler {
     public Crawler(int workersPool, int maxSites, int maxDepth) {
         this.fileQueue = new LinkedBlockingQueue<>();
         this.counter = new Counter(Monitor.getInstance().getMonitorPubSub(), 10);
-        this.taskQueue = new TaskQueue(fileQueue, maxDepth, counter, maxStreamSize);
+        this.taskQueue = makeTaskQueue(fileQueue, maxDepth, counter, maxStreamSize);
         this.executor = Executors.newFixedThreadPool(workersPool);
         this.maxSites = maxSites;
         this.downloadedURLS = new HashSet();
@@ -62,4 +62,10 @@ public class Crawler {
     public BlockingQueue<ParserFile> getFileQueue() {
         return fileQueue;
     }
+
+    private TaskQueue makeTaskQueue(BlockingQueue<ParserFile> fileQueue, int maxDepth,
+                                    Counter counter, int maxStreamSize){
+        return new TaskQueue(fileQueue, maxDepth, counter, maxStreamSize);
+    }
+
 }

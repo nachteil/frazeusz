@@ -12,6 +12,7 @@ public class Counter {
     private int pagesChunk;
     private int downloadedDataSinceLastEvent;
     private int downloadedDataChunk;    //in KB
+    private int bytes;
 
     Counter(MonitorPubSub monitorPubSub, int pagesChunk) {
         this.monitorPubSub = monitorPubSub;

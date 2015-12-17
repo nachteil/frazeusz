@@ -53,12 +53,13 @@ public class DownloadTask implements Runnable {
         StringBuilder stringBuilder;
         byte[] buf;
         InputStream inputStream;
-        int size, contentLength, downloadedSize;
+        int size, downloadedSize;
+        //int contentLength
 
         // check HTTP response code first
         if (responseCode == HttpURLConnection.HTTP_OK) {
             contentType = httpConn.getContentType();
-            contentLength = httpConn.getContentLength();
+           //contentLength = httpConn.getContentLength();
             downloadedSize = 0;
 
             // opens input stream from the HTTP connection
