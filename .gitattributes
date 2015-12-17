@@ -1,0 +1,6 @@
+
+
+*.adj text eol=lf
+*.noun text eol=lf
+*.verb text eol=lf
+*.sense text eol=lf
