@@ -12,7 +12,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class Crawler {
 
-    TaskQueue taskQueue;
+    protected TaskQueue taskQueue;
     BlockingQueue<ParserFile> fileQueue;
     private HashSet downloadedURLS;
     ExecutorService executor;

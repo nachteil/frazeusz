@@ -22,47 +22,54 @@ import static org.mockito.Mockito.when;
  */
 public class CrawlTest {
 
-    static Crawler crawler;
-    static DownloadTask downloadTaskMock;
-    static TaskQueue taskQueueMock;
-    static BlockingQueue queue  = new LinkedBlockingQueue<>();
-    static int counter;
-    static int tasksNum;
-    static int workersPool;
-    static int maxPages;
-    static int maxDepth;
+    Crawler crawler;
+    DownloadTask downloadTaskMock;
+    TaskQueue taskQueueMock;
+    BlockingQueue queue  = new LinkedBlockingQueue<>();
+    int counter;
+    int tasksNum;
+    int workersPool;
+    int maxPages;
+    int maxDepth;
 
     @Before
-    public static void setUpBeforeClass() throws InterruptedException {
+    public void setUpBefore() throws InterruptedException {
+//        System.out.println("Start1");
         counter = 0;
-        tasksNum = 1000;
-        workersPool = 100;
+        tasksNum = 10;
+        workersPool = 1;
         maxPages = 2000;
         maxDepth = 10;
         crawler = new TaskQueueTakingTestCrawler(workersPool, maxPages, maxDepth);
         downloadTaskMock = mock(DownloadTask.class);
+//        System.out.println("Start2");
         doAnswer(new Answer<Void>() {
             public Void answer(InvocationOnMock invocation) {
                 synchronized (this) {
+//                    System.out.println("IN thread");
                     counter++;
                 }
                 return null;
             }
         }).when(downloadTaskMock);
 
-        for(int i = 0; i<workersPool; i++)
+        for(int i = 0; i<tasksNum; i++)
             queue.put(downloadTaskMock);
 
+        taskQueueMock = crawler.getTaskQueue();
+//        System.out.println("Start3");
         when(taskQueueMock.get()).thenReturn((DownloadTask) queue.take());
+//        System.out.println("Start4");
     }
 
     @Test
     public void queueTakingTest() throws InterruptedException {
+//        System.out.println("Start5");
         crawler.startCrawling();
         assert(counter == tasksNum);
     }
 
-    private static class TaskQueueTakingTestCrawler extends Crawler{
+    private class TaskQueueTakingTestCrawler extends Crawler{
 
         public TaskQueueTakingTestCrawler(int workersPool, int maxSites, int maxDepth) {
             super(workersPool, maxSites, maxDepth);
@@ -71,6 +78,10 @@ public class CrawlTest {
         private TaskQueue makeTaskQueue(BlockingQueue<ParserFile> fileQueue, int maxDepth,
                                         Counter counter, int maxStreamSize){
             return mock(TaskQueue.class);
+        }
+
+        public TaskQueue getTaskQueue(){
+            return this.taskQueue;
         }
     }
 
