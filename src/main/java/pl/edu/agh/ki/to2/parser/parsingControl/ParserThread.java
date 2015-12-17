@@ -21,7 +21,7 @@ public class ParserThread implements Runnable {
     private IPatternMatcher iPatternMatcher;
     private FileParserFactory factory;
 
-    protected ParserThread(BlockingQueue<ParserFile> fileQueue, IPutter iPutter, IPatternMatcher iPatternMatcher, FileParserFactory factory){
+    public ParserThread(BlockingQueue<ParserFile> fileQueue, IPutter iPutter, IPatternMatcher iPatternMatcher, FileParserFactory factory){
         this.isWorking = true;
         this.fileQueue = fileQueue;
         this.iPutter = iPutter;
@@ -48,7 +48,7 @@ public class ParserThread implements Runnable {
                 for (URL url : urls) {
                     iPutter.put(url, file.getDepth() + 1);
                 }
-                iPatternMatcher.match(sentences, file.getUrl());
+                iPatternMatcher.match(sentences, file.getUrl().toString()); //url or string in IPatternMatcher?????
             }
             else{
                 try {
@@ -61,11 +61,11 @@ public class ParserThread implements Runnable {
         }
     }
 
-    protected void stop(){
+    public void stop(){
         this.isWorking = false;
     }
 
-    protected boolean inProgress(){
+    public boolean inProgress(){
         /* TODO - when thread stops?*/
         return isWorking;
     }
