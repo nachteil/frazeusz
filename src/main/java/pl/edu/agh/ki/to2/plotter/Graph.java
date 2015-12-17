@@ -89,12 +89,12 @@ public class Graph extends JPanel{
 	
 	public void update(Map<ISearchPattern,Occurrences> searches){
 		dataset.clear();
-		SearchPattern key;
+		ISearchPattern key;
 		Map<String, List<String>> map;
 		//String url;
 		List<String> list;
 		int counter;
-		for (Map.Entry<SearchPattern, Occurrences> entry : searches.entrySet()) {
+		for (Map.Entry<ISearchPattern, Occurrences> entry : searches.entrySet()) {
 			key = entry.getKey();
 			map = entry.getValue().getUrlSentenceMap();
 			counter = 0;
