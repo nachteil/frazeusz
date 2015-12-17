@@ -1,14 +1,13 @@
 package pl.edu.agh.ki.to2.parser.parsers;
 
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 import pl.edu.agh.ki.to2.parser.parsingControl.ParserFile;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
-import com.itextpdf.text.pdf.PdfReader;
-import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 
 /**
  * Created by Adam on 29.11.2015.
