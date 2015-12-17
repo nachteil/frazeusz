@@ -1,6 +1,6 @@
 * text eol=lf
-.adj eol=lf
-.verb eol=lf
-.noun eol=lf
-.sense eol=lf
+*.adj eol=lf
+*.verb eol=lf
+*.noun eol=lf
+*.sense eol=lf
 lexnames eol=lf
