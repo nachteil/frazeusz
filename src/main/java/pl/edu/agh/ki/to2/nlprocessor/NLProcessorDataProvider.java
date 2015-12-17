@@ -1,5 +1,7 @@
 package pl.edu.agh.ki.to2.nlprocessor;
 
+import com.nexagis.jawbone.Dictionary;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +13,7 @@ import static org.jgroups.util.Util.sleep;
 public class NLProcessorDataProvider {
     private static NLProcessorDataProvider instance = null;
     public Map<String, String[]> map = new HashMap<String, String[]>();
+    private Dictionary dictionary_instance;
     NLPThread nlpthread = new NLPThread();
 
     protected NLProcessorDataProvider(){
@@ -32,5 +35,14 @@ public class NLProcessorDataProvider {
             sleep(1000);
         }
         return map;
+    }
+
+    public Dictionary getDictionary(){
+        dictionary_instance = nlpthread.getDictionary();
+        while(dictionary_instance==null){
+            dictionary_instance = nlpthread.getDictionary();
+            sleep(1000);
+        }
+        return dictionary_instance;
     }
 }
