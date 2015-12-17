@@ -55,8 +55,8 @@ public class HTMLParser implements IFileParser {
 		{
 			if (element.ownText().trim().length() > 1)
 			{
-				for (String sentence : element.ownText().split("[^.?!]*?[.?!]+")){
-					sentences.add(sentence);
+				for (String sentence : element.ownText().split("\\.")){
+					sentences.add(sentence.trim());
 				}
 			}
 		}
