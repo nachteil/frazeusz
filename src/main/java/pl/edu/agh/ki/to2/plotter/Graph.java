@@ -1,6 +1,6 @@
 package pl.edu.agh.ki.to2.plotter;
 
-import pl.edu.agh.ki.to2.patternmatcher.models.ISearchPattern;
+import pl.edu.agh.ki.to2.patternmatcher.models.SearchPattern;
 import pl.edu.agh.ki.to2.plotter.model.Occurrences;
 
 import java.awt.Color;
@@ -87,14 +87,14 @@ public class Graph extends JPanel{
 	}
 	
 	
-	public void update(Map<ISearchPattern,Occurrences> searches){
+	public void update(Map<SearchPattern,Occurrences> searches){
 		dataset.clear();
-		ISearchPattern key;
+		SearchPattern key;
 		Map<String, List<String>> map;
 		//String url;
 		List<String> list;
 		int counter;
-		for (Map.Entry<ISearchPattern, Occurrences> entry : searches.entrySet()) {
+		for (Map.Entry<SearchPattern, Occurrences> entry : searches.entrySet()) {
 			key = entry.getKey();
 			map = entry.getValue().getUrlSentenceMap();
 			counter = 0;
