@@ -4,6 +4,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import pl.edu.agh.ki.to2.parser.parsers.IFileParser;
 import pl.edu.agh.ki.to2.parser.parsingControl.ParserFile;
 
 import java.io.IOException;
@@ -25,16 +27,8 @@ public class HTMLParser implements IFileParser {
 
     @Override
     public Set<URL> getUrls(ParserFile parserFile) {
-    	
-    	//TODO Implement getting String from file
-		String content = null;
-		try {
-			content = new String(Files.readAllBytes(parserFile.getFile().toPath()), Charset.defaultCharset());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 
-		Document doc = Jsoup.parse(content); ///not working
+		Document doc = Jsoup.parse(parserFile.getContent());
     	doc.setBaseUri(parserFile.getUrl().toString());
     	Elements links = doc.select("a");
     	Set<URL> urls = new HashSet<URL>();
@@ -53,14 +47,8 @@ public class HTMLParser implements IFileParser {
 
     @Override
     public List<String> getSentences(ParserFile parserFile) {
-		String content = null;
-		try {
-			content = new String(Files.readAllBytes(parserFile.getFile().toPath()), Charset.defaultCharset());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 
-		Document doc = Jsoup.parse(content); ///not working
+		Document doc = Jsoup.parse(parserFile.getContent());
     	Elements elements = doc.body().select("*");
     	List<String> sentences = new ArrayList<String>();
     	for (Element element : elements) 
