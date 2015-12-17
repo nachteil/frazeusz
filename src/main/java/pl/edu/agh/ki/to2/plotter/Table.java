@@ -29,15 +29,22 @@ public class Table extends JPanel{
 
     public Table(){
         setLayout(new GridLayout(1,1));
-        empty = BorderFactory.createEmptyBorder(10,10,10,10);
-        setBorder(empty);
-        setBackground(Color.white);
-
-        dataModel = new DefaultTableModel(colNames, 20);
-        tab = new JTable(dataModel);
-
-        JScrollPane scrollPane = new JScrollPane(tab);
-        add(scrollPane);
+        //empty = BorderFactory.createEmptyBorder(10,10,10,10);
+      	//setBorder(empty); 	
+      	setBackground(Color.white);
+      		
+      	//dataModel = new DefaultTableModel(colNames, 20);
+      	dataModel = new DefaultTableModel(colNames, 20) {
+      		@Override
+      		public boolean isCellEditable(int row, int column) {
+      			return false;
+      		    }
+      		};
+      	tab = new JTable(dataModel);
+      	tab.setAutoCreateRowSorter(true);
+      		
+      	JScrollPane scrollPane = new JScrollPane(tab);
+      	add(scrollPane);
     }
     public void update(Map<SearchPattern,Occurrences> searches){
         while (dataModel.getRowCount() > 0) {
