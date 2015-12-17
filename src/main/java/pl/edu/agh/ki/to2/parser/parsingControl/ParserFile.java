@@ -2,14 +2,12 @@ package pl.edu.agh.ki.to2.parser.parsingControl;
 
 import pl.edu.agh.ki.to2.parser.exceptions.UnsupportedFileException;
 
-import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
-import static org.apache.commons.io.FilenameUtils.getExtension;
 
 public class ParserFile{
 
-    private File file;
+    private String content;
     private URL url;
     private int depth;
     private String fileExtension;
@@ -19,10 +17,10 @@ public class ParserFile{
         add("html");
     }};
 
-    public ParserFile(File file, URL url, int depth)  throws UnsupportedFileException {
-    	this.fileExtension = getExtension(file.getName());
-        if(supportedFiles.contains(this.fileExtension)) {
-            this.file = file;
+    public ParserFile(String content, String fileExtention, URL url, int depth)  throws UnsupportedFileException {
+        if(supportedFiles.contains(fileExtention)) {
+            this.content = content;
+            this.fileExtension = fileExtention;
             this.url = url;
             this.depth = depth;
         }
@@ -30,19 +28,7 @@ public class ParserFile{
             throw new UnsupportedFileException();
         }
     }
-
-    //public String getFileExtension() {
-    //    String name = this.file.getName();
-    //    try {
-    //        return name.substring(name.lastIndexOf(".") + 1);
-    //    } catch (Exception e) {
-    //        return "";
-    //    }
-    //}
     
-    public File getFile() {
-        return file;
-    }
     
     public String getFileExtension(){
     	return fileExtension;
@@ -56,4 +42,7 @@ public class ParserFile{
         return depth;
     }
 
+	public String getContent() {
+		return content;
+	}
 }
