@@ -1,4 +1,7 @@
-package Pane;
+package pl.edu.agh.ki.to2.plotter;
+
+import pl.edu.agh.ki.to2.patternmatcher.models.ISearchPattern;
+import pl.edu.agh.ki.to2.plotter.model.Occurrences;
 
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -84,7 +87,7 @@ public class Graph extends JPanel{
 	}
 	
 	
-	public void update(Map<SearchPattern,Occurrences> searches){
+	public void update(Map<ISearchPattern,Occurrences> searches){
 		dataset.clear();
 		SearchPattern key;
 		Map<String, List<String>> map;
@@ -93,7 +96,7 @@ public class Graph extends JPanel{
 		int counter;
 		for (Map.Entry<SearchPattern, Occurrences> entry : searches.entrySet()) {
 			key = entry.getKey();
-			map = entry.getValue().getMap();
+			map = entry.getValue().getUrlSentenceMap();
 			counter = 0;
 			for (Map.Entry<String, List<String>> lowerEntry : map.entrySet()){
 				//url = lowerEntry.getKey();
