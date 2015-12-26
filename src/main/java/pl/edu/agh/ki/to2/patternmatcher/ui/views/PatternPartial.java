@@ -30,6 +30,11 @@ public class PatternPartial extends JPanel {
     }
 
     private void bindModel(SearchPattern model) {
+        caseSensitiveCheckBox.setSelected(model.getCaseSensitive());
+        synonymsCheckBox.setSelected(model.getSynonyms());
+        variantCheckBox.setSelected(model.getVariants());
+        diminutiveCheckBox.setSelected(model.getDiminutives());
+
         patternTextField.addPropertyChangeListener(e -> model.setPattern(patternTextField.getText()));
         caseSensitiveCheckBox.addPropertyChangeListener(e -> model.setCaseSensitive(caseSensitiveCheckBox.isSelected()));
         synonymsCheckBox.addPropertyChangeListener(e -> model.setSynonyms(synonymsCheckBox.isSelected()));
