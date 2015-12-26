@@ -5,16 +5,15 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import pl.edu.agh.ki.to2.nlprocessor.IWordProvider;
 import pl.edu.agh.ki.to2.patternmatcher.IMatchListener;
-import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.matching_strategy.CaseInsensitiveStrategy;
+import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.matching_strategy.flag.CaseInsensitiveStrategy;
 import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.matching_strategy.IMatchingStrategy;
 import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.matching_strategy.MultiStrategy;
-import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.matching_strategy.SynonymStrategy;
+import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.matching_strategy.altword.SynonymStrategy;
 import pl.edu.agh.ki.to2.patternmatcher.models.SearchPattern;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
