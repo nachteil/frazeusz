@@ -2,7 +2,7 @@ package pl.edu.agh.ki.to2.patternmatcher.models;
 
 public class SearchPattern {
     private String pattern = "";
-    private Boolean caseSensitive = false;
+    private Boolean caseSensitive = true;
     private Boolean synonyms = false;
     private Boolean variants = false;
     private Boolean diminutives = false;
