@@ -20,13 +20,13 @@ public class NLPThread extends Thread {
     boolean finished_map = false;
     boolean finished_dictionary = false;
     public void run() {
-        String dict_folder = System.getProperty("user.dir") + "\\src\\main\\java\\pl\\edu\\agh\\ki\\to2\\nlprocessor\\dictionary";
-        String zipped = System.getProperty("user.dir") + "\\src\\main\\java\\pl\\edu\\agh\\ki\\to2\\nlprocessor\\dictionary.zip";
-        try {
-            unzip(zipped, dict_folder);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // String dict_folder = System.getProperty("user.dir") + "\\src\\main\\java\\pl\\edu\\agh\\ki\\to2\\nlprocessor\\dictionary";
+        // String zipped = System.getProperty("user.dir") + "\\src\\main\\java\\pl\\edu\\agh\\ki\\to2\\nlprocessor\\dictionary.zip";
+        // try {
+            // unzip(zipped, dict_folder);
+        // } catch (IOException e) {
+            // e.printStackTrace();
+        // }
         Path dictionary_path = Paths.get(System.getProperty("user.dir") + "\\src\\main\\java\\pl\\edu\\agh\\ki\\to2\\nlprocessor\\dictionary");
         Dictionary.initialize(String.valueOf(dictionary_path));
         dictionary_instance = Dictionary.getInstance();
