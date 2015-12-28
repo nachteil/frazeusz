@@ -1,0 +1,6 @@
+* text=auto
+
+# Definitively text files 
+*.noun text eol=lf
+*.adj text eol=lf 
+*.verb text eol=lf
