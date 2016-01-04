@@ -2,9 +2,12 @@ package pl.edu.agh.ki.to2.monitor.gui;
 
 import org.jfree.data.xy.DefaultXYDataset;
 import org.jfree.data.xy.XYDataset;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.edu.agh.ki.to2.monitor.contract.Event;
 import pl.edu.agh.ki.to2.monitor.contract.EventType;
 import pl.edu.agh.ki.to2.monitor.model.PerformanceDataModel;
+import pl.edu.agh.ki.to2.monitor.util.SystemTimeProvider;
 
 import javax.inject.Inject;
 import javax.swing.*;
@@ -15,6 +18,8 @@ import java.util.List;
 import java.util.Random;
 
 public class MonitorTabPanel extends JPanel {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MonitorTabPanel.class);
 
     private final DataFetchStrategy bandwidthStrategy = m -> m.getBandwidthDataSet(this.startingFetchPoint);
     private final DataFetchStrategy matchStrategy = m -> m.getSentenceMatchDataSet(this.startingFetchPoint);
@@ -191,14 +196,15 @@ public class MonitorTabPanel extends JPanel {
 
     public static void main(String[] args) {
 
-        double[][] data = { {0.1, 0.2, 0.3}, {1, 2, 3} };
-        DefaultXYDataset ds = new DefaultXYDataset();
-        ds.addSeries("series1", data);
+        LOGGER.trace("Main started");
 
-        PerformanceDataModel model = new PerformanceDataModel();
+        PerformanceDataModel model = new PerformanceDataModel(new SystemTimeProvider());
         generateRandomEvent(EventType.KILOBYTES_DOWNLOADED, model);
+        LOGGER.info("Bandwidth data populated");
         generateRandomEvent(EventType.SENTENCES_MATCHED, model);
+        LOGGER.info("Match data populated");
         generateRandomEvent(EventType.PAGES_CRAWLED, model);
+        LOGGER.info("Crawl data populated");
 
         JFrame frame = new JFrame("Test");
         frame.getContentPane().add(new MonitorTabPanel(model, new Chart()));
