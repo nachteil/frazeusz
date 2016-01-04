@@ -27,8 +27,8 @@ public class DataFrame extends JFrame {
         dateFrameController.setDateFrame(this);
         initComponents();
         addListeners();
-        setResizable(false);
-        setSize(new Dimension( 500, 400 ));
+        setResizable(true);
+        setSize(new Dimension( 1000, 1000 ));
     }
 
     private void initComponents() {

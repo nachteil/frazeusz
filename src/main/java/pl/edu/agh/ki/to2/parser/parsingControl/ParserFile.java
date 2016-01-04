@@ -14,7 +14,7 @@ public class ParserFile{
     
     /*list of all supported files*/
 	private static final ArrayList<String> supportedFiles = new ArrayList<String>() {{
-        add("html");
+        add("text/html; charset=utf-8");
     }};
 
     public ParserFile(String content, String fileExtention, URL url, int depth)  throws UnsupportedFileException {

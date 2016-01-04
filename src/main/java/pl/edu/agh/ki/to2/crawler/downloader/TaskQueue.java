@@ -30,11 +30,13 @@ public class TaskQueue implements IPutter {
 
     @Override
     public void put(URL url, int depth) {
+        System.out.println(url.toString()+"asjdsahdssadjksakhdjksakjhdksajdjhsajhd2222222222");
         if (depth == maxDepth)
             return;
         try {
             this.tasks.put(
                     makeDownloadTask(counter, depth, fileQueue, maxStreamSize, url));
+            System.out.println(url.toString()+"asjdsahdssadjksakhdjksakjhdksajdjhsajhd");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

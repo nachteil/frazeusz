@@ -3,7 +3,6 @@ package pl.edu.agh.ki.to2.crawler.downloader;
 import pl.edu.agh.ki.to2.parser.exceptions.UnsupportedFileException;
 import pl.edu.agh.ki.to2.parser.parsingControl.ParserFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -36,10 +35,17 @@ public class DownloadTask implements Runnable {
     @Override
     public void run() {
         try {
+            System.out.println("ooooooooooooo1");
             ParserFile parserFile = getContent();
-            if (parserFile == null)
+            System.out.println(parserFile);
+            if (parserFile == null){
+            System.out.println("dupa");
                 return;
+            }
+            System.out.println("ooooooooooooo2");
+
             fileQueue.put(parserFile);
+            System.out.println("ooooooooooooo3");
         } catch (IOException | InterruptedException | UnsupportedFileException e) {
             e.printStackTrace();
         }
@@ -48,6 +54,7 @@ public class DownloadTask implements Runnable {
 
     private ParserFile getContent() throws IOException, UnsupportedFileException {
 
+        System.out.println("In get content");
         HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
         int responseCode = httpConn.getResponseCode();
         String contentType;
@@ -84,6 +91,8 @@ public class DownloadTask implements Runnable {
         }
 
         httpConn.disconnect();
+//        System.out.println("DUPA2" + stringBuilder.toString());
+        System.out.println("DUPA3" + contentType);
         return new ParserFile(stringBuilder.toString(), contentType, url, depth + 1);
     }
 }
