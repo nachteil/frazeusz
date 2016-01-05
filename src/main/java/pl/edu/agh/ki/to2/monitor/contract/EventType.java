@@ -4,7 +4,8 @@ public enum EventType {
 
     PAGES_CRAWLED,
     KILOBYTES_DOWNLOADED,
-    SENTENCES_MATCHED;
+    SENTENCES_MATCHED,
+    QUEUE_LENGTH;
 
     public String value() {
         return name();

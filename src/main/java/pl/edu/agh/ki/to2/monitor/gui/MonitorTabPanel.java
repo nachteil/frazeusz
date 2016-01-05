@@ -26,7 +26,10 @@ public class MonitorTabPanel extends JPanel {
     private final PerformanceDataModel dataModel;
     private final Chart chart;
     private JPanel currentChart;
+    private final JPanel statusPanel;
     private int retrospectivePeriod;
+    private JLabel queueLengthLabel;
+    private JLabel etaLabel;
     private EventType eventType = EventType.KILOBYTES_DOWNLOADED;
 
     @Inject
@@ -36,6 +39,7 @@ public class MonitorTabPanel extends JPanel {
         this.dataModel = dataModel;
         this.chart = chart;
         this.chartPanel = createChartPanel();
+        this.statusPanel = createStatusPanel();
         this.retrospectivePeriod = INITIAL_RETROSPECTIVE_PERIOD;
 
         JPanel chartArea = createScalableChartArea(chartPanel);
@@ -47,6 +51,16 @@ public class MonitorTabPanel extends JPanel {
         this.chartPanel.add(currentChart);
 
         this.startRefreshing();
+    }
+
+    private JPanel createStatusPanel() {
+
+        JPanel statusPanel = new JPanel();
+        statusPanel.setLayout(new BoxLayout(statusPanel, BoxLayout.X_AXIS));
+
+        etaLabel = new JLabel("eta");
+        queueLengthLabel = new JLabel("len");
+        return statusPanel;
     }
 
     private JPanel createChartPanel() {

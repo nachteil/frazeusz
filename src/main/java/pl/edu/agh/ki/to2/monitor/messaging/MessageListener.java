@@ -3,6 +3,7 @@ package pl.edu.agh.ki.to2.monitor.messaging;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.ki.to2.monitor.contract.Event;
+import pl.edu.agh.ki.to2.monitor.contract.EventType;
 import pl.edu.agh.ki.to2.monitor.model.PerformanceDataModel;
 
 import javax.inject.Inject;
@@ -34,7 +35,15 @@ public class MessageListener {
         LOGGER.info("Starting message processing thread...");
         while(true) {
             Event event = messageQueue.pop();
-            LOGGER.debug("Message received: {}, {}, {}, {}", event.getAmount(), event.getTimestamp(), System.currentTimeMillis(), event.getType().toString());
+            LOGGER.debug("Message received: {}", event.toString());
+            dispatch(event);
+        }
+    }
+
+    private void dispatch(Event event) {
+        if(event.getType() == EventType.QUEUE_LENGTH) {
+            dataModel.setQueueLength(event.getAmount());
+        } else {
             synchronized (awaitingEvents) {
                 awaitingEvents.add(event);
             }

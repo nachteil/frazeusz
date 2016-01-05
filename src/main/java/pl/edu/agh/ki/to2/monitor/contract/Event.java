@@ -10,4 +10,8 @@ public class Event {
     @Setter @Getter private int amount;
     @Setter @Getter private long timestamp;
 
+    @Override
+    public String toString() {
+        return "[(" + timestamp + ") " + type + ", " + amount + "]";
+    }
 }

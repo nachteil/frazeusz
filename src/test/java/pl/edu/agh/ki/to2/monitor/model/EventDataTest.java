@@ -43,7 +43,7 @@ public class EventDataTest {
         assertEquals(2, res.length);
         assertEquals(1, res[0].length);
         assertEquals(1, res[1].length);
-        assertEquals(10, res[0][0], 1e-6);
+        assertEquals(10000, res[0][0], 1e-6);
         assertEquals(10, res[1][0], 1e-6);
     }
 
@@ -63,7 +63,7 @@ public class EventDataTest {
         assertEquals(2, res.length);
         assertEquals(1, res[0].length);
         assertEquals(1, res[1].length);
-        assertEquals(10, res[0][0], 1e-6);
+        assertEquals(10000, res[0][0], 1e-6);
         assertEquals(55, res[1][0], 1e-6);
     }
 
@@ -88,9 +88,9 @@ public class EventDataTest {
         assertEquals(2,  firstResultFor3Seconds.length);
         assertEquals(3,  firstResultFor3Seconds[0].length);
         assertEquals(3,  firstResultFor3Seconds[1].length);
-        assertEquals(8,  firstResultFor3Seconds[0][0], 1e-6);
-        assertEquals(9,  firstResultFor3Seconds[0][1], 1e-6);
-        assertEquals(10, firstResultFor3Seconds[0][2], 1e-6);
+        assertEquals(8000,  firstResultFor3Seconds[0][0], 1e-6);
+        assertEquals(9000,  firstResultFor3Seconds[0][1], 1e-6);
+        assertEquals(10000, firstResultFor3Seconds[0][2], 1e-6);
         assertEquals(6,  firstResultFor3Seconds[1][0], 1e-6);
         assertEquals(15, firstResultFor3Seconds[1][1], 1e-6);
         assertEquals(34, firstResultFor3Seconds[1][2], 1e-6);
@@ -98,16 +98,16 @@ public class EventDataTest {
         assertEquals(2,  firstResultFor2Seconds.length);
         assertEquals(2,  firstResultFor2Seconds[0].length);
         assertEquals(2,  firstResultFor2Seconds[1].length);
-        assertEquals(9,  firstResultFor2Seconds[0][0], 1e-6);
-        assertEquals(10,  firstResultFor2Seconds[0][1], 1e-6);
+        assertEquals(9000,  firstResultFor2Seconds[0][0], 1e-6);
+        assertEquals(10000,  firstResultFor2Seconds[0][1], 1e-6);
         assertEquals(15,  firstResultFor2Seconds[1][0], 1e-6);
         assertEquals(34, firstResultFor2Seconds[1][1], 1e-6);
 
         assertEquals(2,  resultFor2SecondsAfterUpdate.length);
         assertEquals(2,  resultFor2SecondsAfterUpdate[0].length);
         assertEquals(2,  resultFor2SecondsAfterUpdate[1].length);
-        assertEquals(9,  resultFor2SecondsAfterUpdate[0][0], 1e-6);
-        assertEquals(10, resultFor2SecondsAfterUpdate[0][1], 1e-6);
+        assertEquals(9000,  resultFor2SecondsAfterUpdate[0][0], 1e-6);
+        assertEquals(10000, resultFor2SecondsAfterUpdate[0][1], 1e-6);
         assertEquals(20, resultFor2SecondsAfterUpdate[1][0], 1e-6);
         assertEquals(39, resultFor2SecondsAfterUpdate[1][1], 1e-6);
     }

@@ -14,6 +14,8 @@ import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -23,6 +25,8 @@ public class PerformanceDataModel {
     private static final Logger LOGGER = LoggerFactory.getLogger(PerformanceDataModel.class);
 
     private final Map<EventType, EventData> eventTypeDataMap;
+    private final AtomicInteger queueLength;
+    private final DurationEstimator estimator;
 
     @Inject
     public PerformanceDataModel(TimeProvider timer) {
@@ -30,6 +34,8 @@ public class PerformanceDataModel {
         for(EventType eventType : EventType.values()) {
             eventTypeDataMap.put(eventType, new EventData(timer));
         }
+        this.queueLength = new AtomicInteger(0);
+        this.estimator = new DurationEstimator(this);
     }
 
     public void update(List<Event> events) {
@@ -44,11 +50,28 @@ public class PerformanceDataModel {
     }
 
     public XYDataset getDataSet(int numberOfSeconds, EventType eventType) {
-        double [][] eventDataSet = eventTypeDataMap.get(eventType).getDataForPastSeconds(numberOfSeconds);
-        LOGGER.debug("Queried for {} dataset for {} seconds, returned {} entries", eventType.toString(), numberOfSeconds, eventDataSet[0].length);
+        double [][] eventDataSet = getData(numberOfSeconds, eventType);
         DefaultXYDataset resultDataSet = new DefaultXYDataset();
         resultDataSet.addSeries(eventType.toString(), eventDataSet);
         return resultDataSet;
+    }
+
+    public double [][] getData(int numberOfSeconds, EventType eventType) {
+        double [][] eventDataSet = eventTypeDataMap.get(eventType).getDataForPastSeconds(numberOfSeconds);
+        LOGGER.debug("Queried for {} dataset for {} seconds, returned {} entries", eventType.toString(), numberOfSeconds, eventDataSet[0].length);
+        return eventDataSet;
+    }
+
+    public int setQueueLength(int newLength) {
+        return queueLength.getAndUpdate(i -> newLength);
+    }
+
+    public int getQueueLength() {
+        return queueLength.get();
+    }
+
+    public int getRemainingSeconds() {
+        return estimator.getRemainingSeconds();
     }
 
     private static Predicate<Event> isOfType(EventType type) {
