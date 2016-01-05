@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.concurrent.BlockingQueue;
 
 public class DownloadTask implements Runnable {
@@ -41,7 +42,11 @@ public class DownloadTask implements Runnable {
             if (parserFile == null){
                 return;
             }
+            System.out.println("Download Task puts : " + parserFile);
+            System.out.println("size in download task: "+ fileQueue.size());
             fileQueue.put(parserFile);
+            System.out.println("size2 in download task: "+ fileQueue.size());
+            System.out.println("content in download task: "+ Arrays.toString(fileQueue.toArray()));
         } catch (IOException | InterruptedException | UnsupportedFileException e) {
             e.printStackTrace();
         }

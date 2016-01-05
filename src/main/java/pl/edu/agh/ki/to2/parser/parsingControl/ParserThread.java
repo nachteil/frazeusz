@@ -5,6 +5,7 @@ import pl.edu.agh.ki.to2.parser.parsers.FileParserFactory;
 import pl.edu.agh.ki.to2.patternmatcher.IPatternMatcher;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
@@ -35,7 +36,10 @@ public class ParserThread implements Runnable {
             Set<URL> urls; // no need to initialize this here
             List<String> sentences;
             try {
+                System.out.println("Size "+fileQueue.size());
                 file = fileQueue.poll(500, TimeUnit.MILLISECONDS);
+                System.out.println("Size2 "+fileQueue.size());
+                System.out.println("content in parser thread : "+ Arrays.toString(fileQueue.toArray()));
                 if(file!=null)
                     System.out.println(file.getUrl().toString());
             } catch (InterruptedException e) {

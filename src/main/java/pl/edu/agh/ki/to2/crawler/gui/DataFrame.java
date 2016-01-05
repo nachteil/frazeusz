@@ -21,7 +21,7 @@ public class DataFrame extends JFrame {
 
     public DataFrame(DateFrameController dateFrameController) {
         super("Frazeusz");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
         this.dateFrameController = dateFrameController;
         dateFrameController.setDateFrame(this);

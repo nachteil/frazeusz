@@ -25,7 +25,7 @@ public class Main {
         DateFrameController dateFrameController = new DateFrameController(patternMatcher);
         EventQueue.invokeLater(() -> new DataFrame(dateFrameController));
         while(true){
-            System.out.println("Infinite loop...");
+//            System.out.println("Infinite loop...");
         }
     }
 
