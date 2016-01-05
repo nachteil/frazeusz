@@ -42,6 +42,7 @@ public class DownloadTask implements Runnable {
             if (parserFile == null){
                 return;
             }
+            counter.increasePagesCounter();
             System.out.println("Download Task puts : " + parserFile);
             System.out.println("size in download task: "+ fileQueue.size());
             fileQueue.put(parserFile);
@@ -50,7 +51,6 @@ public class DownloadTask implements Runnable {
         } catch (IOException | InterruptedException | UnsupportedFileException e) {
             e.printStackTrace();
         }
-        counter.increasePagesCounter();
     }
 
     private ParserFile getContent() throws IOException, UnsupportedFileException {
