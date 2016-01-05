@@ -2,7 +2,6 @@ package pl.edu.agh.ki.to2.plotter;
 
 import org.junit.Assert;
 import org.junit.Test;
-import pl.edu.agh.ki.to2.patternmatcher.models.ISearchPattern;
 import pl.edu.agh.ki.to2.patternmatcher.models.SearchPattern;
 import pl.edu.agh.ki.to2.plotter.model.Occurrences;
 
@@ -17,7 +16,7 @@ import java.util.Map;
 public class PloterTest {
     @Test
     public void shouldAdd() {
-        Map<ISearchPattern, Occurrences> hashMapToCompare = new HashMap<ISearchPattern, Occurrences>();
+        Map<SearchPattern, Occurrences> hashMapToCompare = new HashMap<SearchPattern, Occurrences>();
         SearchPattern searchPattern = new SearchPattern("kot", true, true, true, true);
 
         String url = "http://www.wp.pl/";
@@ -36,9 +35,9 @@ public class PloterTest {
 
 //    @Test
 //    public void shouldAddOccurrenceWhenSearchPatternExists(){
-//        Map<ISearchPattern, Occurrences> hashMapToCompare = new HashMap<ISearchPattern, Occurrences>();
-//        ISearchPattern searchPattern = new SearchPattern("kot", true, true, true, true);
-//        ISearchPattern searchPattern2 = new SearchPattern("kot", true, true, true, true);
+//        Map<SearchPattern, Occurrences> hashMapToCompare = new HashMap<SearchPattern, Occurrences>();
+//        SearchPattern searchPattern = new SearchPattern("kot", true, true, true, true);
+//        SearchPattern searchPattern2 = new SearchPattern("kot", true, true, true, true);
 //        String url = "http://www.elo.pl/";
 //        String url2 = "http://www.czesc.pl/";
 //        List<String> sentencesList = new ArrayList<String>();

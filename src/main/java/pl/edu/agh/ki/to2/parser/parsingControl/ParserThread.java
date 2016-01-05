@@ -48,7 +48,7 @@ public class ParserThread implements Runnable {
                 for (URL url : urls) {
                     iPutter.put(url, file.getDepth() + 1);
                 }
-                iPatternMatcher.match(sentences, file.getUrl().getPath());
+                iPatternMatcher.match(sentences, file.getUrl().toString()); //url or string in IPatternMatcher?????
             }
             else{
                 try {

@@ -2,19 +2,87 @@ package pl.edu.agh.ki.to2.crawler.it;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+import pl.edu.agh.ki.to2.crawler.downloader.Counter;
+import pl.edu.agh.ki.to2.crawler.downloader.Crawler;
+import pl.edu.agh.ki.to2.crawler.downloader.DownloadTask;
+import pl.edu.agh.ki.to2.crawler.downloader.TaskQueue;
+import pl.edu.agh.ki.to2.parser.parsingControl.ParserFile;
+
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by Rav on 2015-12-16.
  */
 public class CrawlTest {
 
-    @Before
-    public void initialize(){
+    Crawler crawler;
+    DownloadTask downloadTaskMock;
+    TaskQueue taskQueueMock;
+    BlockingQueue queue  = new LinkedBlockingQueue<>();
+    int counter;
+    int tasksNum;
+    int workersPool;
+    int maxPages;
+    int maxDepth;
 
+    @Before
+    public void setUpBefore() throws InterruptedException {
+//        System.out.println("Start1");
+        counter = 0;
+        tasksNum = 10;
+        workersPool = 1;
+        maxPages = 2000;
+        maxDepth = 10;
+        crawler = new TaskQueueTakingTestCrawler(workersPool, maxPages, maxDepth);
+        downloadTaskMock = mock(DownloadTask.class);
+//        System.out.println("Start2");
+        doAnswer(new Answer<Void>() {
+            public Void answer(InvocationOnMock invocation) {
+                synchronized (this) {
+//                    System.out.println("IN thread");
+                    counter++;
+                }
+                return null;
+            }
+        }).when(downloadTaskMock);
+
+        for(int i = 0; i<tasksNum; i++)
+            queue.put(downloadTaskMock);
+
+        taskQueueMock = crawler.getTaskQueue();
+//        System.out.println("Start3");
+        when(taskQueueMock.get()).thenReturn((DownloadTask) queue.take());
+//        System.out.println("Start4");
     }
 
     @Test
-    public void simpleTest(){
+    public void queueTakingTest() throws InterruptedException {
+//        System.out.println("Start5");
+        crawler.startCrawling();
+        assert(counter == tasksNum);
+    }
+
+    private class TaskQueueTakingTestCrawler extends Crawler{
+
+        public TaskQueueTakingTestCrawler(int workersPool, int maxSites, int maxDepth) {
+            super(workersPool, maxSites, maxDepth);
+        }
+
+        private TaskQueue makeTaskQueue(BlockingQueue<ParserFile> fileQueue, int maxDepth,
+                                        Counter counter, int maxStreamSize){
+            return mock(TaskQueue.class);
+        }
+
+        public TaskQueue getTaskQueue(){
+            return this.taskQueue;
+        }
     }
 
 }

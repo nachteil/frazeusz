@@ -7,27 +7,46 @@ import pl.edu.agh.ki.to2.monitor.contract.MonitorPubSub;
 public class Counter {
 
     private MonitorPubSub monitorPubSub;
-    private int counter;
-    private int chunk;
-    private int pagesSinceLastMsg;
+    private int pagesCrawled;
+    private int pagesSinceLastEvent;
+    private int pagesChunk;
+    private int downloadedDataSinceLastEvent;
+    private int downloadedDataChunk;    //in KB
+    private int bytes;
 
-    Counter(MonitorPubSub monitorPubSub, int chunk){
+    Counter(MonitorPubSub monitorPubSub, int pagesChunk) {
         this.monitorPubSub = monitorPubSub;
-        this.counter = 0;
-        this.chunk = chunk;
-        this.pagesSinceLastMsg = 0;
+        this.pagesCrawled = 0;
+        this.pagesChunk = pagesChunk;
+        this.pagesSinceLastEvent = 0;
+        this.downloadedDataChunk = 0;
+        this.downloadedDataSinceLastEvent = 0;
     }
 
-    public synchronized int getCounter() {
-        return counter;
+    public synchronized int getPagesCrawled() {
+        return pagesCrawled;
     }
 
-    public synchronized void increase(){
-        this.counter++;
-        if(++pagesSinceLastMsg == chunk){
-            sendEvent(chunk, EventType.PAGES_CRAWLED);
-            pagesSinceLastMsg = 0;
+    public synchronized void updateDataCounter(int downloadedData) {
+        if (downloadedDataSinceLastEvent + kb(downloadedData) < downloadedDataChunk)
+            downloadedDataSinceLastEvent += kb(downloadedData);
+        else {
+            sendEvent(downloadedDataChunk, EventType.KILOBYTES_DOWNLOADED);
+            downloadedDataSinceLastEvent += kb(downloadedData) - downloadedDataChunk;
         }
+    }
+
+    public synchronized void increasePagesCounter() {
+        this.pagesCrawled++;
+        if (++pagesSinceLastEvent == pagesChunk) {
+            sendEvent(pagesChunk, EventType.PAGES_CRAWLED);
+            pagesSinceLastEvent = 0;
+        }
+    }
+
+    public void sendLastEvents() {
+        sendEvent(downloadedDataSinceLastEvent, EventType.KILOBYTES_DOWNLOADED);
+        sendEvent(pagesCrawled, EventType.PAGES_CRAWLED);
     }
 
     private void sendEvent(int amount, EventType eventType) {
@@ -36,6 +55,10 @@ public class Counter {
         event.setAmount(amount);
         event.setType(eventType);
         monitorPubSub.pushEvent(event);
+    }
+
+    private int kb(int bytes) {
+        return bytes / 1024;
     }
 
 }

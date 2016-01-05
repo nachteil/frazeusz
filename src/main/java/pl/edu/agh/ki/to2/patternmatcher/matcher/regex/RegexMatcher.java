@@ -1,15 +1,11 @@
 package pl.edu.agh.ki.to2.patternmatcher.matcher.regex;
 
 import pl.edu.agh.ki.to2.patternmatcher.AbstractMatchProvider;
-import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.matching_strategy.IMatchingStrategy;
-import pl.edu.agh.ki.to2.patternmatcher.models.ISearchPattern;
-import pl.edu.agh.ki.to2.patternmatcher.models.SearchPattern;
-import pl.edu.agh.ki.to2.patternmatcher.IMatchListener;
-import pl.edu.agh.ki.to2.patternmatcher.IMatchProvider;
 import pl.edu.agh.ki.to2.patternmatcher.matcher.IMatcher;
+import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.matching_strategy.IMatchingStrategy;
+import pl.edu.agh.ki.to2.patternmatcher.models.SearchPattern;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
