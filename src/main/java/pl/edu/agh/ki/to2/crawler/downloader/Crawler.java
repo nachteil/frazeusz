@@ -29,13 +29,7 @@ public class Crawler {
         for(String path: urls){
             try {
                 System.out.println(path);
-                System.out.println(new URL(path).getPath());
-                System.out.println("aa");
-                System.out.println(new URL(path));
-                System.out.println("aaaaa");
                 taskQueue.put(new URL(path), 0);
-//                System.out.println(taskQueue.get());
-                System.out.println("ahsd");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }

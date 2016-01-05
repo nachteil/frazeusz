@@ -30,44 +30,33 @@ public class ParserThread implements Runnable {
     }
 
     public void run(){
-        System.out.println("run1");
         ParserFile file = null;
-        System.out.println("run2");
         while(isWorking){
-            System.out.println("run3");
             Set<URL> urls; // no need to initialize this here
             List<String> sentences;
-            System.out.println("run5");
             try {
                 file = fileQueue.poll(500, TimeUnit.MILLISECONDS);
-                System.out.println("leo");
                 if(file!=null)
                     System.out.println(file.getUrl().toString());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println("run6");
             if(file != null) {
-                System.out.println("run7");
                 urls = factory.getFileParser(file).getUrls(file);
                 sentences = factory.getFileParser(file).getSentences(file);
-                System.out.println("run111");
                 //last steps:
                 for (URL url : urls) {
-                    System.out.println("run8");
                     iPutter.put(url, file.getDepth() + 1);
                 }
                 iPatternMatcher.match(sentences, file.getUrl().toString()); //url or string in IPatternMatcher?????
             }
             else{
                 try {
-                    System.out.println("run99");
                     sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
-            System.out.println("run12");
         }
     }
 

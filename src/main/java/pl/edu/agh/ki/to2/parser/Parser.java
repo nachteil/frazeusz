@@ -21,22 +21,10 @@ public class Parser {
 
     private void init(BlockingQueue<ParserFile> fileQueue, IPutter iPutter, IPatternMatcher iPatternMatcher, int threads) {
         FileParserFactory factory = new FileParserFactory();
-        System.out.println("1188");
-//        try {
-            System.out.println("118811111");
-//            System.out.println(fileQueue.take());
-            System.out.println("1188222");
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
         for (int i = 0; i < threads; i++) {
-            System.out.println("11881");
             ParserThread thread = new ParserThread(fileQueue, iPutter, iPatternMatcher, factory);
-            System.out.println("11882");
             new Thread(thread).start();
-            System.out.println("11883");
             threadsList.add(thread);
-            System.out.println("11884");
         }
     }
 

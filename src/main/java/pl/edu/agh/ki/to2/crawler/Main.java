@@ -24,34 +24,25 @@ public class Main {
         patternMatcher = new PatternMatcher(nlProcessor, monitor.getMonitorPubSub());
         DateFrameController dateFrameController = new DateFrameController(patternMatcher);
         EventQueue.invokeLater(() -> new DataFrame(dateFrameController));
+        while(true){
+            System.out.println("Infinite loop...");
+        }
     }
 
     public static void start(CrawlingData crawlingData) throws InterruptedException {
-        System.out.println("lololoo1");
-        System.out.println("lololoo1 "+crawlingData.getUrls());
+        System.out.println("START: " + crawlingData.getUrls());
         Crawler crawler = new Crawler(1, crawlingData.getMaxNumberOfFiles(), crawlingData.getMaxDepth(), crawlingData.getUrls());
-        System.out.println("lololoo1.5");
-        System.out.println(crawler.getFileQueue());
-        System.out.println("111");
-        System.out.println(crawlingData.getMaxDepth());
-        System.out.println(patternMatcher);
-        System.out.println("112");
-        System.out.println(crawler.getTaskQueue());
-        System.out.println("113");
-        Parser parser = new Parser(crawler.getFileQueue(),
-                crawler.getTaskQueue(), patternMatcher, 1);
-        System.out.println("lololoo2");
+        System.out.println("FILE QUEUE: " + crawler.getFileQueue());
+        System.out.println("MAX DEPTH: " + crawlingData.getMaxDepth());
+        System.out.println("TASK QUEUE: " + crawler.getTaskQueue());
+        Parser parser = new Parser(crawler.getFileQueue(), crawler.getTaskQueue(),
+                patternMatcher, 1);
         Ploter ploter = new Ploter();
-        System.out.println("lololoo3");
         ViewFrame viewFrame = new ViewFrame();
-        System.out.println("lololoo4");
         ploter.setViewFrame(viewFrame);
-        System.out.println("lololoo5");
         viewFrame.setPloter(ploter);
-        System.out.println("lololoo6");
         patternMatcher.addListener(ploter);
-        System.out.println("lololoo7");
         crawler.startCrawling();
-        System.out.println("lololoo8");
+        System.out.println("Finished crawling");
     }
 }

@@ -35,17 +35,13 @@ public class DownloadTask implements Runnable {
     @Override
     public void run() {
         try {
-            System.out.println("ooooooooooooo1");
+            System.out.println("downloadTask.run()");
             ParserFile parserFile = getContent();
-            System.out.println(parserFile);
+            System.out.println("PARSED : " + parserFile);
             if (parserFile == null){
-            System.out.println("dupa");
                 return;
             }
-            System.out.println("ooooooooooooo2");
-
             fileQueue.put(parserFile);
-            System.out.println("ooooooooooooo3");
         } catch (IOException | InterruptedException | UnsupportedFileException e) {
             e.printStackTrace();
         }
@@ -91,7 +87,6 @@ public class DownloadTask implements Runnable {
         }
 
         httpConn.disconnect();
-//        System.out.println("DUPA2" + stringBuilder.toString());
         System.out.println("DUPA3" + contentType);
         return new ParserFile(stringBuilder.toString(), contentType, url, depth + 1);
     }

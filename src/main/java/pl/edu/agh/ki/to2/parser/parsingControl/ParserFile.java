@@ -28,8 +28,7 @@ public class ParserFile{
             throw new UnsupportedFileException();
         }
     }
-    
-    
+
     public String getFileExtension(){
     	return fileExtension;
     }
