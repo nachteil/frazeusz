@@ -28,12 +28,12 @@ public class Main {
 
     public static void start(CrawlingData crawlingData) throws InterruptedException {
         System.out.println("START: " + crawlingData.getUrls());
-        Crawler crawler = new Crawler(200, crawlingData.getMaxNumberOfFiles(), crawlingData.getMaxDepth(), crawlingData.getUrls());
+        Crawler crawler = new Crawler(20, crawlingData.getMaxNumberOfFiles(), crawlingData.getMaxDepth(), crawlingData.getUrls());
         System.out.println("FILE QUEUE: " + crawler.getFileQueue());
         System.out.println("MAX DEPTH: " + crawlingData.getMaxDepth());
         System.out.println("TASK QUEUE: " + crawler.getTaskQueue());
         Parser parser = new Parser(crawler.getFileQueue(), crawler.getTaskQueue(),
-                patternMatcher, 200);
+                patternMatcher, 20);
         Ploter ploter = new Ploter();
         ViewFrame viewFrame = new ViewFrame();
         ploter.setViewFrame(viewFrame);
