@@ -1,10 +1,11 @@
 package pl.edu.agh.ki.to2.parser.parsingControl;
 
 import pl.edu.agh.ki.to2.crawler.IPutter;
-import pl.edu.agh.ki.to2.patternmatcher.IPatternMatcher;
 import pl.edu.agh.ki.to2.parser.parsers.FileParserFactory;
+import pl.edu.agh.ki.to2.patternmatcher.IPatternMatcher;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
@@ -21,7 +22,7 @@ public class ParserThread implements Runnable {
     private IPatternMatcher iPatternMatcher;
     private FileParserFactory factory;
 
-    public ParserThread(BlockingQueue<ParserFile> fileQueue, IPutter iPutter, IPatternMatcher iPatternMatcher, FileParserFactory factory){
+    public ParserThread(BlockingQueue<ParserFile> fileQueue, IPutter iPutter, IPatternMatcher iPatternMatcher, FileParserFactory factory) {
         this.isWorking = true;
         this.fileQueue = fileQueue;
         this.iPutter = iPutter;
@@ -29,19 +30,17 @@ public class ParserThread implements Runnable {
         this.factory = factory;
     }
 
-    public void run(){
+    public void run() {
         ParserFile file = null;
-        while(isWorking){
+        while (isWorking) {
             Set<URL> urls; // no need to initialize this here
             List<String> sentences;
-
             try {
                 file = fileQueue.poll(500, TimeUnit.MILLISECONDS);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-            if(file != null) {
+            if (file != null) {
                 urls = factory.getFileParser(file).getUrls(file);
                 sentences = factory.getFileParser(file).getSentences(file);
                 //last steps:
@@ -49,23 +48,21 @@ public class ParserThread implements Runnable {
                     iPutter.put(url, file.getDepth() + 1);
                 }
                 iPatternMatcher.match(sentences, file.getUrl().toString()); //url or string in IPatternMatcher?????
-            }
-            else{
+            } else {
                 try {
                     sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
-
         }
     }
 
-    public void stop(){
+    public void stop() {
         this.isWorking = false;
     }
 
-    public boolean inProgress(){
+    public boolean inProgress() {
         /* TODO - when thread stops?*/
         return isWorking;
     }

@@ -13,7 +13,7 @@ public class FileParserFactory {
     public FileParserFactory(){}
 
     public IFileParser getFileParser(ParserFile parserFile){
-        if(parserFile.getFileExtension().equals("html")){
+        if(parserFile.getFileExtension().equals("text/html; charset=utf-8")){
             if(htmlParser == null)
                 htmlParser = new HTMLParser();
             return htmlParser;

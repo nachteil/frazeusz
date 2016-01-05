@@ -10,6 +10,8 @@ import pl.edu.agh.ki.to2.crawler.downloader.DownloadTask;
 import pl.edu.agh.ki.to2.crawler.downloader.TaskQueue;
 import pl.edu.agh.ki.to2.parser.parsingControl.ParserFile;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -40,7 +42,8 @@ public class CrawlTest {
         workersPool = 1;
         maxPages = 2000;
         maxDepth = 10;
-        crawler = new TaskQueueTakingTestCrawler(workersPool, maxPages, maxDepth);
+        List<String> urls = Arrays.asList("http://www.onet.pl");
+        crawler = new TaskQueueTakingTestCrawler(workersPool, maxPages, maxDepth, urls);
         downloadTaskMock = mock(DownloadTask.class);
 //        System.out.println("Start2");
         doAnswer(new Answer<Void>() {
@@ -71,8 +74,8 @@ public class CrawlTest {
 
     private class TaskQueueTakingTestCrawler extends Crawler{
 
-        public TaskQueueTakingTestCrawler(int workersPool, int maxSites, int maxDepth) {
-            super(workersPool, maxSites, maxDepth);
+        public TaskQueueTakingTestCrawler(int workersPool, int maxSites, int maxDepth, List<String> urls) {
+            super(workersPool, maxSites, maxDepth, urls);
         }
 
         private TaskQueue makeTaskQueue(BlockingQueue<ParserFile> fileQueue, int maxDepth,
