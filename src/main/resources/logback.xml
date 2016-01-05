@@ -9,4 +9,9 @@
     <root level="info">
         <appender-ref ref="STDOUT" />
     </root>
+
+    <logger name="pl.edu.agh.ki.to2.monitor.gui" level="INFO"/>
+    <logger name="pl.edu.agh.ki.to2.monitor.messaging" level="INFO"/>
+    <logger name="pl.edu.agh.ki.to2.monitor.model" level="INFO"/>
+
 </configuration>
