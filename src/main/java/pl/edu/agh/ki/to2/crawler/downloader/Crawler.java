@@ -28,9 +28,8 @@ public class Crawler {
         this.fileQueue = new LinkedBlockingQueue<>();
         this.counter = new Counter(Monitor.getInstance().getMonitorPubSub(), 10);
         this.taskQueue = makeTaskQueue(fileQueue, maxDepth, counter, maxStreamSize);
-        for(String path: urls){
+        for (String path : urls) {
             try {
-                System.out.println(path);
                 taskQueue.put(new URL(path), 0);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -45,7 +44,6 @@ public class Crawler {
         DownloadTask task;
         URL url;
         while (notFinished()) {
-            System.out.println("New task");
             task = taskQueue.get();
             url = task.getURL();
             if (isDownloaded(url))
@@ -57,7 +55,6 @@ public class Crawler {
     }
 
     synchronized boolean notFinished() {
-        System.out.println("Crawler.notFinished " + counter.getPagesCrawled());
         return (counter.getPagesCrawled() < maxSites);
     }
 
@@ -66,7 +63,6 @@ public class Crawler {
     }
 
     private synchronized boolean isDownloaded(URL url) {
-        System.out.println("isDownloaded :" + url + " "+ downloadedURLS.contains(url));
         return downloadedURLS.contains(url);
     }
 
@@ -79,7 +75,7 @@ public class Crawler {
     }
 
     private TaskQueue makeTaskQueue(BlockingQueue<ParserFile> fileQueue, int maxDepth,
-                                    Counter counter, int maxStreamSize){
+                                    Counter counter, int maxStreamSize) {
         return new TaskQueue(fileQueue, maxDepth, counter, maxStreamSize);
     }
 

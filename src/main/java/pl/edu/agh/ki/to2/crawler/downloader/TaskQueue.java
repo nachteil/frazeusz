@@ -33,7 +33,6 @@ public class TaskQueue implements IPutter {
         if (depth == maxDepth)
             return;
         try {
-            System.out.println("Putting " + url.toString() + " to TaskQueue");
             this.tasks.put(
                     makeDownloadTask(counter, depth, fileQueue, maxStreamSize, url));
         } catch (InterruptedException e) {

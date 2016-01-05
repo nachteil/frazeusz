@@ -27,11 +27,7 @@ public class Main {
     }
 
     public static void start(CrawlingData crawlingData) throws InterruptedException {
-        System.out.println("START: " + crawlingData.getUrls());
         Crawler crawler = new Crawler(200, crawlingData.getMaxNumberOfFiles(), crawlingData.getMaxDepth(), crawlingData.getUrls());
-        System.out.println("FILE QUEUE: " + crawler.getFileQueue());
-        System.out.println("MAX DEPTH: " + crawlingData.getMaxDepth());
-        System.out.println("TASK QUEUE: " + crawler.getTaskQueue());
         Parser parser = new Parser(crawler.getFileQueue(), crawler.getTaskQueue(),
                 patternMatcher, 200);
         Ploter ploter = new Ploter();
@@ -40,6 +36,5 @@ public class Main {
         viewFrame.setPloter(ploter);
         patternMatcher.addListener(ploter);
         crawler.startCrawling();
-        System.out.println("Finished crawling");
     }
 }

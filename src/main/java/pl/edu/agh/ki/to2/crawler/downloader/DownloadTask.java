@@ -36,18 +36,12 @@ public class DownloadTask implements Runnable {
     @Override
     public void run() {
         try {
-            System.out.println("downloadTask.run()");
             ParserFile parserFile = getContent();
-            System.out.println("PARSED : " + parserFile);
-            if (parserFile == null){
+            if (parserFile == null) {
                 return;
             }
             counter.increasePagesCounter();
-            System.out.println("Download Task puts : " + parserFile);
-            System.out.println("size in download task: "+ fileQueue.size());
             fileQueue.put(parserFile);
-            System.out.println("size2 in download task: "+ fileQueue.size());
-            System.out.println("content in download task: "+ Arrays.toString(fileQueue.toArray()));
         } catch (IOException | InterruptedException | UnsupportedFileException e) {
             e.printStackTrace();
         }
@@ -55,7 +49,6 @@ public class DownloadTask implements Runnable {
 
     private ParserFile getContent() throws IOException, UnsupportedFileException {
 
-        System.out.println("In get content");
         HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
         int responseCode = httpConn.getResponseCode();
         String contentType;
@@ -68,7 +61,7 @@ public class DownloadTask implements Runnable {
         // check HTTP response code first
         if (responseCode == HttpURLConnection.HTTP_OK) {
             contentType = httpConn.getContentType();
-           //contentLength = httpConn.getContentLength();
+            //contentLength = httpConn.getContentLength();
             downloadedSize = 0;
 
             // opens input stream from the HTTP connection
@@ -92,7 +85,6 @@ public class DownloadTask implements Runnable {
         }
 
         httpConn.disconnect();
-        System.out.println("DUPA3" + contentType);
         return new ParserFile(stringBuilder.toString(), contentType, url, depth + 1);
     }
 }
