@@ -1,6 +1,6 @@
 package pl.edu.agh.ki.to2.plotter;
 
-import pl.edu.agh.ki.to2.patternmatcher.models.ISearchPattern;
+import pl.edu.agh.ki.to2.patternmatcher.models.SearchPattern;
 import pl.edu.agh.ki.to2.plotter.model.Occurrences;
 
 import javax.swing.*;
@@ -32,15 +32,15 @@ public class Table extends JPanel{
         JScrollPane scrollPane = new JScrollPane(tab);
         add(scrollPane);
     }
-    public void update(Map<ISearchPattern,Occurrences> searches){
+    public void update(Map<SearchPattern,Occurrences> searches){
         while (dataModel.getRowCount() > 0) {
     	       dataModel.removeRow(0);
     	}
-        ISearchPattern key;
+        SearchPattern key;
         Map<String, List<String>> map;
         String url;
         List<String> list;
-        for (Map.Entry<ISearchPattern, Occurrences> entry : searches.entrySet()) {
+        for (Map.Entry<SearchPattern, Occurrences> entry : searches.entrySet()) {
             key = entry.getKey();
             map = entry.getValue().getUrlSentenceMap();
             for (Map.Entry<String, List<String>> lowerEntry : map.entrySet()){

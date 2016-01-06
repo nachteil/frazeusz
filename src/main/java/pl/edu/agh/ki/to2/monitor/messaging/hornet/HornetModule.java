@@ -8,11 +8,15 @@ import org.hornetq.api.core.client.*;
 import org.hornetq.core.remoting.impl.invm.InVMConnectorFactory;
 import org.hornetq.core.server.HornetQServer;
 import org.hornetq.core.server.HornetQServers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Singleton;
 
 @Module(library = true)
 public class HornetModule {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(HornetModule.class);
 
     private static final String QUEUE_NAME = "queue.monitorQueue";
 
@@ -37,8 +41,7 @@ public class HornetModule {
              server.start();
              sessionFactory = serverLocator.createSessionFactory();
         } catch (Exception e) {
-            System.out.println("Factory failed");
-            e.printStackTrace();
+            LOGGER.error("ClientSessionFactory creation failed", e);
         }
         return sessionFactory;
     }
@@ -55,8 +58,7 @@ public class HornetModule {
             session = sessionFactory.createSession();
             session.start();
         } catch (HornetQException exception) {
-            System.out.println("Client session failed");
-            exception.printStackTrace();
+            LOGGER.error("Client session creation failed", exception);
         }
         return session;
     }
@@ -81,8 +83,7 @@ public class HornetModule {
         try {
             consumer = session.createConsumer(QUEUE_NAME);
         } catch (HornetQException exception) {
-            System.out.println("consumer failed");
-            exception.printStackTrace();
+            LOGGER.error("consumer creation failed", exception);
         }
         return consumer;
     }

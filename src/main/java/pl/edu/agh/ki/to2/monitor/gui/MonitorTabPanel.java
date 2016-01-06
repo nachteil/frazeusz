@@ -1,10 +1,11 @@
 package pl.edu.agh.ki.to2.monitor.gui;
 
-import org.jfree.data.xy.DefaultXYDataset;
-import org.jfree.data.xy.XYDataset;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.edu.agh.ki.to2.monitor.contract.Event;
 import pl.edu.agh.ki.to2.monitor.contract.EventType;
 import pl.edu.agh.ki.to2.monitor.model.PerformanceDataModel;
+import pl.edu.agh.ki.to2.monitor.util.SystemTimeProvider;
 
 import javax.inject.Inject;
 import javax.swing.*;
@@ -16,18 +17,19 @@ import java.util.Random;
 
 public class MonitorTabPanel extends JPanel {
 
-    private final DataFetchStrategy bandwidthStrategy = m -> m.getBandwidthDataSet(this.startingFetchPoint);
-    private final DataFetchStrategy matchStrategy = m -> m.getSentenceMatchDataSet(this.startingFetchPoint);
-    private final DataFetchStrategy crawlStrategy = m -> m.getCrawledPagesDataSet(this.startingFetchPoint);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MonitorTabPanel.class);
+
+    private static final int REFRESH_INTERVAL_MILLIS = 300;
+    private static final int INITIAL_RETROSPECTIVE_PERIOD = 20;
 
     private final JPanel chartPanel;
-
     private final PerformanceDataModel dataModel;
     private final Chart chart;
-    private DataFetchStrategy fetchStrategy = bandwidthStrategy;
-    private long startingFetchPoint;
     private JPanel currentChart;
+    private final JPanel statusPanel;
     private int retrospectivePeriod;
+    private JLabel queueLengthLabel;
+    private JLabel etaLabel;
     private EventType eventType = EventType.KILOBYTES_DOWNLOADED;
 
     @Inject
@@ -37,18 +39,28 @@ public class MonitorTabPanel extends JPanel {
         this.dataModel = dataModel;
         this.chart = chart;
         this.chartPanel = createChartPanel();
-        this.retrospectivePeriod = 22;
-        this.startingFetchPoint = System.currentTimeMillis() - retrospectivePeriod * 1000L;
+        this.statusPanel = createStatusPanel();
+        this.retrospectivePeriod = INITIAL_RETROSPECTIVE_PERIOD;
 
         JPanel chartArea = createScalableChartArea(chartPanel);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(chartArea);
         this.add(createControlArea());
 
-        currentChart = chart.createFromDataSet(fetchStrategy.fetch(dataModel), eventType);
+        currentChart = createChart();
         this.chartPanel.add(currentChart);
 
         this.startRefreshing();
+    }
+
+    private JPanel createStatusPanel() {
+
+        JPanel statusPanel = new JPanel();
+        statusPanel.setLayout(new BoxLayout(statusPanel, BoxLayout.X_AXIS));
+
+        etaLabel = new JLabel("eta");
+        queueLengthLabel = new JLabel("len");
+        return statusPanel;
     }
 
     private JPanel createChartPanel() {
@@ -104,9 +116,9 @@ public class MonitorTabPanel extends JPanel {
         JRadioButton matches = new JRadioButton("Dopasowania");
         JRadioButton pages = new JRadioButton("Strony");
 
-        bytes.addActionListener(event -> {fetchStrategy = bandwidthStrategy; eventType = EventType.KILOBYTES_DOWNLOADED; paintChart();});
-        matches.addActionListener(event -> {fetchStrategy = matchStrategy; eventType = EventType.SENTENCES_MATCHED; paintChart();});
-        pages.addActionListener(event -> {fetchStrategy = crawlStrategy; eventType = EventType.PAGES_CRAWLED; paintChart();});
+        bytes.addActionListener(event -> {eventType = EventType.KILOBYTES_DOWNLOADED; paintChart();});
+        matches.addActionListener(event -> {eventType = EventType.SENTENCES_MATCHED; paintChart();});
+        pages.addActionListener(event -> {eventType = EventType.PAGES_CRAWLED; paintChart();});
 
         ButtonGroup dataChoiceGroup = new ButtonGroup();
         dataChoiceGroup.add(bytes);
@@ -130,15 +142,14 @@ public class MonitorTabPanel extends JPanel {
         slider.setMajorTickSpacing(60);
         slider.setPaintLabels(true);
         slider.setPaintTicks(true);
-        slider.setValue(1);
+        slider.setValue(INITIAL_RETROSPECTIVE_PERIOD);
 
         slider.addChangeListener(event -> {
             JSlider source = (JSlider) event.getSource();
             if(!source.getValueIsAdjusting()) {
                 this.retrospectivePeriod = source.getValue();
-                this.startingFetchPoint = System.currentTimeMillis() - (this.retrospectivePeriod * 1000L);
                 this.chartPanel.remove(currentChart);
-                this.currentChart = chart.createFromDataSet(fetchStrategy.fetch(dataModel), eventType);
+                this.currentChart = createChart();
                 this.chartPanel.add(currentChart);
                 chartPanel.revalidate();
             }
@@ -153,52 +164,55 @@ public class MonitorTabPanel extends JPanel {
 
     private void paintChart() {
         this.chartPanel.remove(currentChart);
-        this.currentChart = chart.createFromDataSet(fetchStrategy.fetch(dataModel), eventType);
+        this.currentChart = createChart();
         this.chartPanel.add(currentChart);
         chartPanel.revalidate();
+    }
+
+    private JPanel createChart() {
+        return chart.createFromDataSet(dataModel.getDataSet(retrospectivePeriod, eventType), eventType);
     }
 
     private void startRefreshing() {
         new Thread(() -> {
             while(true) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(REFRESH_INTERVAL_MILLIS);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                this.startingFetchPoint = System.currentTimeMillis() - retrospectivePeriod * 1000L;
                 paintChart();
             }
-        }).start();
-    }
-
-    private static interface DataFetchStrategy {
-        XYDataset fetch(PerformanceDataModel model);
+        }, "tab-panel-refreshing-thread").start();
     }
 
     private static void generateRandomEvent(EventType type, PerformanceDataModel model) {
         Random random = new Random();
-        long start = System.currentTimeMillis() - 180000;
-        for(int i = 0; i < 1800; ++i) {
+        int numSeconds = 180;
+        final int millisPerSecond = 1000;
+        long nowMillis = System.currentTimeMillis() - numSeconds * millisPerSecond;
+        for(int i = 0; i < 360; ++i) {
             List<Event> events = new ArrayList<>();
-            for(int j = 0; j < random.nextInt(30); ++j) {
-                events.add(new Event(type, random.nextInt(100), start + random.nextInt(1000)));
+            int i1 = random.nextInt(30);
+            for(int j = 0; j < i1; ++j) {
+                events.add(new Event(type, random.nextInt(100), nowMillis + random.nextInt(1000)));
             }
-            start += 1000;
+            nowMillis += millisPerSecond;
             model.update(events);
         }
     }
 
     public static void main(String[] args) {
 
-        double[][] data = { {0.1, 0.2, 0.3}, {1, 2, 3} };
-        DefaultXYDataset ds = new DefaultXYDataset();
-        ds.addSeries("series1", data);
+        LOGGER.trace("Main started");
 
-        PerformanceDataModel model = new PerformanceDataModel();
+        PerformanceDataModel model = new PerformanceDataModel(new SystemTimeProvider());
         generateRandomEvent(EventType.KILOBYTES_DOWNLOADED, model);
+        LOGGER.info("Bandwidth data populated");
         generateRandomEvent(EventType.SENTENCES_MATCHED, model);
+        LOGGER.info("Match data populated");
         generateRandomEvent(EventType.PAGES_CRAWLED, model);
+        LOGGER.info("Crawl data populated");
 
         JFrame frame = new JFrame("Test");
         frame.getContentPane().add(new MonitorTabPanel(model, new Chart()));
