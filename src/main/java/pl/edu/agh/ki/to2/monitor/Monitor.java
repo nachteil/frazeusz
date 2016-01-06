@@ -80,45 +80,5 @@ public class Monitor {
         messageListener.startService();
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Test");
-        Monitor monitor = Monitor.getInstance();
-        frame.getContentPane().add(monitor.getMonitorTabPanel());
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setSize(800, 600);
 
-        startProducer();
-
-        frame.setVisible(true);
-    }
-
-    private static void startProducer() {
-        new Thread(() -> {
-
-            MonitorPubSub ps = Monitor.getInstance().getMonitorPubSub();
-            Random random = new Random();
-
-            long nextWakeUp = System.currentTimeMillis() + 1000;
-            EventType[] values = EventType.values();
-            int numOfTypes = values.length;
-
-            while(true) {
-
-                int iterations = random.nextInt(40);
-                for(int i = 0; i < iterations; ++i) {
-                    EventType randomType = values[random.nextInt(numOfTypes)];
-                    ps.pushEvent(new Event(randomType, random.nextInt(100), nextWakeUp + random.nextInt(1000)));
-                }
-                long toSleep = nextWakeUp - System.currentTimeMillis();
-                try {
-                    Thread.sleep(toSleep);
-                } catch (InterruptedException e) {
-                    LOGGER.warn("Interrupted", e);
-                }
-                nextWakeUp = System.currentTimeMillis() + 1000;
-            }
-
-        }, "monitor-mock-producer-thread").start();
-    }
 }

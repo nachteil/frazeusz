@@ -1,5 +1,6 @@
 package pl.edu.agh.ki.to2.monitor.gui;
 
+import net.time4j.PrettyTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.edu.agh.ki.to2.monitor.contract.Event;
@@ -11,8 +12,10 @@ import javax.inject.Inject;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 public class MonitorTabPanel extends JPanel {
@@ -44,6 +47,7 @@ public class MonitorTabPanel extends JPanel {
 
         JPanel chartArea = createScalableChartArea(chartPanel);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.add(statusPanel);
         this.add(chartArea);
         this.add(createControlArea());
 
@@ -60,7 +64,24 @@ public class MonitorTabPanel extends JPanel {
 
         etaLabel = new JLabel("eta");
         queueLengthLabel = new JLabel("len");
+
+        statusPanel.add(etaLabel);
+        statusPanel.add(Box.createRigidArea(new Dimension(100, 10)));
+        statusPanel.add(queueLengthLabel);
+
         return statusPanel;
+    }
+
+    private void updateLabels() {
+        String etaFormat = "Remaining time: %s";
+        String queueLengthFormat = "Pages queue length: %s";
+
+        String qLenText = String.valueOf(dataModel.getQueueLength());
+        Duration remainingDuration = Duration.ofSeconds(dataModel.getRemainingSeconds());
+        String etaText = PrettyTime.of(Locale.ENGLISH).print(remainingDuration);
+
+        etaLabel.setText(String.format(etaFormat, etaText));
+        queueLengthLabel.setText(String.format(queueLengthFormat, qLenText));
     }
 
     private JPanel createChartPanel() {
@@ -182,6 +203,7 @@ public class MonitorTabPanel extends JPanel {
                     e.printStackTrace();
                 }
                 paintChart();
+                updateLabels();
             }
         }, "tab-panel-refreshing-thread").start();
     }

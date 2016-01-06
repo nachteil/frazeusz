@@ -30,7 +30,7 @@ public class DurationEstimator {
         double sum = 0;
         double weightSum = 0;
         for(int i = 0; i < data.length; ++i) {
-            double weight = Math.exp((data.length - (i+1))/20.0);
+            double weight = Math.exp(((i+1) - data.length)/20.0);
             weightSum += weight;
             sum += data[i] * weight;
         }
