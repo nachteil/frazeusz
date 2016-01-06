@@ -16,7 +16,7 @@ import java.util.Map;
 public class Table extends JPanel{
 
     JTable tab;
-    String[] colNames = {"Szukana fraza", "Wystąpienie", "URL"};
+    String[] colNames = {"Szukana fraza", "URL", "Wystąpienie"};
     Border empty;
     DefaultTableModel dataModel;
 
