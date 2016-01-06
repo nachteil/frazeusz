@@ -11,7 +11,9 @@ import pl.edu.agh.ki.to2.monitor.contract.Event;
 import pl.edu.agh.ki.to2.monitor.contract.EventType;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
+@Singleton
 public class InMemoryMessageQueue implements MessageQueue {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(InMemoryMessageQueue.class);

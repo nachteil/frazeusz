@@ -7,7 +7,7 @@ public class LazyHolderTest {
 
     @AfterClass
     public static void shutDown() {
-        Monitor.getInstance().cleanUp();
+//        Monitor.getInstance().cleanUp();
     }
 
     @Test
