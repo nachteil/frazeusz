@@ -5,6 +5,7 @@ import java.util.Set;
 public class Main {
     public static void main(String[] args) {
         NLProcessor nlp = new NLProcessor();
+        System.out.println("mysli");
         Set<String> dim = nlp.getSynonyms("nuda");
         System.out.println(dim);
         Set<String> var = nlp.getVariants("aberracja");
