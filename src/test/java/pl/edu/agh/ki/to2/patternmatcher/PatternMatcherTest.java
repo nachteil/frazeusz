@@ -59,24 +59,24 @@ public class PatternMatcherTest {
 		assertTrue(results.contains("test test1"));
 	}
 	
-//	@Test
-//	public void testFreeWordMatch(){
-//		List<String> sentences = new ArrayList<>();
-//		sentences.add("test");
-//		sentences.add("test1");
-//		sentences.add("test test1");
-//		sentences.add("test abc test1");
-//		sentences.add("def test ghi test1");
-//		searchPatterns.add(new SearchPattern("test * test1"));
-//		patternMatcher.setPatterns(searchPatterns);
-//
-//		List<String> results = patternMatcher.match(sentences, "url");
-////		System.out.print(results.toString());
-//		assertThat(results, hasSize(2));
-//		assertTrue(results.contains("test abc test1"));
-//		assertTrue(results.contains("def test ghi test1"));
-//	}
-	
+	@Test
+	public void testFreeWordMatch(){
+		List<String> sentences = new ArrayList<>();
+		sentences.add("test");
+		sentences.add("test1");
+		sentences.add("test test1");
+		sentences.add("test abc test1");
+		sentences.add("def test ghi test1");
+		searchPatterns.add(new SearchPattern("test * test1"));
+		patternMatcher.setPatterns(searchPatterns);
+		
+		List<String> results = patternMatcher.match(sentences, "url");
+//		System.out.print(results.toString());
+		assertThat(results, hasSize(3));
+		assertTrue(results.contains("test abc test1"));
+		assertTrue(results.contains("def test ghi test1"));
+	}
+
 	@Test 
 	public void testSynonymMatch(){
 		List<String> sentences = new ArrayList<>();
