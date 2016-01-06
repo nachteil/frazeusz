@@ -1,32 +1,29 @@
 package pl.edu.agh.ki.to2.nlprocessor;
 
 
+import com.nexagis.jawbone.Dictionary;
 import com.nexagis.jawbone.*;
 import com.nexagis.jawbone.filter.WildcardFilter;
-import com.nexagis.jawbone.Dictionary;
 
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-
-import static org.jgroups.util.Util.sleep;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 public class NLProcessor  implements IWordProvider {
     private Dictionary dictionary_instance;
     public Map<String, String[]> map = new HashMap<String, String[]>();
-    NLPThread t = new NLPThread();
+    NLProcessorDataProvider data_instance;
 
-    public NLProcessor() {
-        Thread t2 = new Thread(t);
-        t2.start();
+    public NLProcessor()  {
+        data_instance = NLProcessorDataProvider.getInstance();
 
-        Path dictionary_path = Paths.get(System.getProperty("user.dir") + "\\src\\main\\java\\pl\\edu\\agh\\ki\\to2\\nlprocessor\\dictionary");
-        Dictionary.initialize(String.valueOf(dictionary_path));
-        dictionary_instance = Dictionary.getInstance();
         return;
     }
     public Set<String> getVariants(String word) {
-        checkThreadEnd();
+        checkMap();
         Set<String> variants =new HashSet<String>();
         String[] result = map.get(word);
         if(result==null)
@@ -38,6 +35,7 @@ public class NLProcessor  implements IWordProvider {
     }
 
     public Set<String> getDiminutives(String word) {
+        checkDictionary();
         WildcardFilter var2 = new WildcardFilter(word, true);
         Iterator var3 = dictionary_instance.getIndexTermIterator( 1, var2);
         Set<String> diminutives =new HashSet<String>();
@@ -61,6 +59,7 @@ public class NLProcessor  implements IWordProvider {
     }
 
     public Set<String> getSynonyms(String word) {
+        checkDictionary();
         WildcardFilter var2 = new WildcardFilter(word, true);
         Iterator var3 = dictionary_instance.getIndexTermIterator( 1, var2);
         Set<String> synonyms =new HashSet<String>();
@@ -79,13 +78,15 @@ public class NLProcessor  implements IWordProvider {
         return synonyms;
     }
 
-    public void checkThreadEnd(){
+    public void checkMap(){
         if(map.isEmpty()){
-            map = t.getMap();
+            map = data_instance.getMap();
         }
-        while(map.isEmpty()){
-            map = t.getMap();
-            sleep(1);
+    }
+
+    public void checkDictionary(){
+        if(map.isEmpty()){
+            dictionary_instance = data_instance.getDictionary();
         }
     }
 }
