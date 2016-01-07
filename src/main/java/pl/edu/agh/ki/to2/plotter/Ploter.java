@@ -12,26 +12,19 @@ import java.util.Map;
  * Created by Sara on 2015-12-09.
  */
 public class Ploter implements IMatchListener {
-    private Map<SearchPattern, Occurrences> patternOccurrencesHashMap = new HashMap<>();
+    private Map<SearchPattern, Occurrences> patternOccurrencesHashMap = new HashMap<SearchPattern, Occurrences>();
     ViewFrame viewFrame;
 
     @Override
     public void addMatches(SearchPattern pattern, List<String> sentences, String url) {
-
-        if(!patternOccurrencesHashMap.containsKey(pattern)){
-            patternOccurrencesHashMap.put(pattern, new Occurrences(url, sentences));
-        }else if(patternOccurrencesHashMap.containsKey(pattern)){
-            Occurrences occurrence = patternOccurrencesHashMap.get(pattern);
-            occurrence.add(url, sentences);
+        synchronized (patternOccurrencesHashMap) {
+            if (!patternOccurrencesHashMap.containsKey(pattern)) {
+                patternOccurrencesHashMap.put(pattern, new Occurrences(url, sentences));
+            } else if (patternOccurrencesHashMap.containsKey(pattern)) {
+                Occurrences occurrence = patternOccurrencesHashMap.get(pattern);
+                occurrence.add(url, sentences);
+            }
         }
-    }
-
-    private void createAndShowGui(){
-
-
-    }
-    private void refreshGui(){
-
     }
 
     public Map<SearchPattern, Occurrences> getPatternOccurrencesHashMap() {
