@@ -24,17 +24,26 @@ public class PDFParser implements IFileParser{
 
     @Override
     public List<String> getSentences(ParserFile parserFile) {
-    	byte[] byteContent = parserFile.getContent().getBytes();
+    	//byte[] byteContent = parserFile.getContent().getBytes();
     	List<String> sentences = new ArrayList<String>();
-    	try {     
-            PdfReader reader = new PdfReader(byteContent);
-            int n = reader.getNumberOfPages(); 
-            String str=PdfTextExtractor.getTextFromPage(reader, 1); //Extracting the content from first page for now.
-            //System.out.println(str);
+    	try {
+            // ByteContent wont work :/ dk why
+            PdfReader reader = new PdfReader(parserFile.getUrl().openStream());
+            //PdfReader reader = new PdfReader(byteContent);
+            int n = reader.getNumberOfPages();
 
-    		for (String sentence : str.split("\\.")){
-    			sentences.add(sentence);
-    		}
+            for(int i=1;i<=n;i++) {
+
+                String str = PdfTextExtractor.getTextFromPage(reader, i);
+                //System.out.println(str);
+
+                for (String sentence : str.split("\\.")) {
+                    if(!sentence.trim().isEmpty()) {
+                        sentences.add(sentence);
+                        //System.out.println(sentence);
+                    }
+                }
+            }
             
             reader.close();
             }

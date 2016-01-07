@@ -15,6 +15,7 @@ public class ParserFile{
     /*list of all supported files*/
 	private static final ArrayList<String> supportedFiles = new ArrayList<String>() {{
         add("text/html");
+        add("application/pdf");
     }};
 
     public ParserFile(String content, String fileExtention, URL url, int depth)  throws UnsupportedFileException {
