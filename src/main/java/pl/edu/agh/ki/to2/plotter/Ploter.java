@@ -17,21 +17,14 @@ public class Ploter implements IMatchListener {
 
     @Override
     public void addMatches(SearchPattern pattern, List<String> sentences, String url) {
-
-        if(!patternOccurrencesHashMap.containsKey(pattern)){
-            patternOccurrencesHashMap.put(pattern, new Occurrences(url, sentences));
-        }else if(patternOccurrencesHashMap.containsKey(pattern)){
-            Occurrences occurrence = patternOccurrencesHashMap.get(pattern);
-            occurrence.add(url, sentences);
+        synchronized (patternOccurrencesHashMap) {
+            if (!patternOccurrencesHashMap.containsKey(pattern)) {
+                patternOccurrencesHashMap.put(pattern, new Occurrences(url, sentences));
+            } else if (patternOccurrencesHashMap.containsKey(pattern)) {
+                Occurrences occurrence = patternOccurrencesHashMap.get(pattern);
+                occurrence.add(url, sentences);
+            }
         }
-    }
-
-    private void createAndShowGui(){
-
-
-    }
-    private void refreshGui(){
-
     }
 
     public Map<SearchPattern, Occurrences> getPatternOccurrencesHashMap() {
