@@ -1,6 +1,6 @@
 package pl.edu.agh.ki.to2.plotter;
 
-import pl.edu.agh.ki.to2.patternmatcher.models.ISearchPattern;
+import pl.edu.agh.ki.to2.patternmatcher.models.SearchPattern;
 import pl.edu.agh.ki.to2.plotter.model.Occurrences;
 
 import java.awt.Color;
@@ -31,7 +31,7 @@ import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 public class Graph extends JPanel{
-	
+
 	DefaultCategoryDataset dataset;
 	ChartPanel pane;
 	Border empty;
@@ -39,62 +39,62 @@ public class Graph extends JPanel{
 	BarRenderer renderer;
 	CategoryPlot plot;
 	Paint color = new Color(0, 172, 178);
-	
-	
+
+
 	public Graph(){
 		setLayout(new GridLayout(1,1));
 		empty = BorderFactory.createEmptyBorder(10,10,10,10);
-		setBorder(empty); 
+		setBorder(empty);
 		setBackground(Color.white);
-		
+
 		dataset = new DefaultCategoryDataset();
-		
-		
+
+
 		JFreeChart chart = ChartFactory.createBarChart("","","",dataset,PlotOrientation.HORIZONTAL, false, true, false);
-		
-		
+
+
 		plot = chart.getCategoryPlot();
-		
-        plot.setNoDataMessage("Brak wyników");
+
+		plot.setNoDataMessage("Brak wyników");
 		plot.setBackgroundPaint(Color.WHITE);
 		plot.setOutlineVisible(false);
-		
+
 		NumberAxis numberAxis = (NumberAxis)plot.getRangeAxis();
 		numberAxis.setVisible(false);
 		//numberAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-		
-	
+
+
 		renderer = (BarRenderer) plot.getRenderer();
-		
-		renderer.setGradientPaintTransformer(null);   
+
+		renderer.setGradientPaintTransformer(null);
 		renderer.setBarPainter(new StandardBarPainter());
 		renderer.setMaximumBarWidth(.35);
-				
-		renderer.setSeriesItemLabelGenerator(0,new StandardCategoryItemLabelGenerator()); 
+
+		renderer.setSeriesItemLabelGenerator(0,new StandardCategoryItemLabelGenerator());
 		renderer.setSeriesItemLabelsVisible(0, true);
-		
-		
+
+
 		//plot.setRenderer(barRenderer);
-        //CategoryItemRenderer
-		
-		
-		
+		//CategoryItemRenderer
+
+
+
 		pane = new ChartPanel(chart);
-		
+
 		add(pane);
-		
-		
+
+
 	}
-	
-	
-	public void update(Map<ISearchPattern,Occurrences> searches){
+
+
+	public void update(Map<SearchPattern,Occurrences> searches){
 		dataset.clear();
-		ISearchPattern key;
+		SearchPattern key;
 		Map<String, List<String>> map;
 		//String url;
 		List<String> list;
 		int counter;
-		for (Map.Entry<ISearchPattern, Occurrences> entry : searches.entrySet()) {
+		for (Map.Entry<SearchPattern, Occurrences> entry : searches.entrySet()) {
 			key = entry.getKey();
 			map = entry.getValue().getUrlSentenceMap();
 			counter = 0;
@@ -106,9 +106,9 @@ public class Graph extends JPanel{
 			dataset.addValue(counter, "" , key.getDescription());
 		}
 		renderer.setSeriesPaint(0,color);
-		
-		
+
+
 	}
-	
-	
+
+
 }

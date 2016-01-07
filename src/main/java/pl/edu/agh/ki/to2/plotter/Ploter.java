@@ -4,7 +4,6 @@ import pl.edu.agh.ki.to2.patternmatcher.IMatchListener;
 import pl.edu.agh.ki.to2.patternmatcher.models.SearchPattern;
 import pl.edu.agh.ki.to2.plotter.model.Occurrences;
 
-import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

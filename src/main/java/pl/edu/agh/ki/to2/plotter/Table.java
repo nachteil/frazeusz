@@ -23,16 +23,16 @@ import javax.swing.table.TableModel;
 public class Table extends JPanel{
 
     JTable tab;
-    String[] colNames = {"Szukana fraza", "Wystąpienie", "URL"};
+    String[] colNames = {"Szukana fraza", "URL", "Wystąpienie"};
     Border empty;
     DefaultTableModel dataModel;
 
     public Table(){
         setLayout(new GridLayout(1,1));
         //empty = BorderFactory.createEmptyBorder(10,10,10,10);
-      	//setBorder(empty); 	
+      	//setBorder(empty);
       	setBackground(Color.white);
-      		
+
       	//dataModel = new DefaultTableModel(colNames, 20);
       	dataModel = new DefaultTableModel(colNames, 20) {
       		@Override
@@ -42,7 +42,7 @@ public class Table extends JPanel{
       		};
       	tab = new JTable(dataModel);
       	tab.setAutoCreateRowSorter(true);
-      		
+
       	JScrollPane scrollPane = new JScrollPane(tab);
       	add(scrollPane);
     }
