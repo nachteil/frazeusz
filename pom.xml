@@ -25,7 +25,9 @@
         <dependency>
             <groupId>com.nexagis.jawbone</groupId>
             <artifactId>jawbone</artifactId>
+			<scope>system</scope>
             <version>1.0</version>
+			<systemPath>${basedir}/lib/jawbone.jar</systemPath>
         </dependency>
 
         <dependency>
