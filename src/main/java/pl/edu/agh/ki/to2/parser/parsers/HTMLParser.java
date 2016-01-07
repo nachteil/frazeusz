@@ -38,7 +38,7 @@ public class HTMLParser implements IFileParser {
 				urls.add(new URL(link.attr("abs:href")));
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("Caught malformed url: " + link.attr("abs:href"));
 			}
     	}
     	
