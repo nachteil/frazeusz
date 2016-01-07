@@ -23,6 +23,11 @@ public class FileParserFactory {
                 docParser = new DOCParser();
             return docParser;
         }
+        else if(parserFile.getFileExtension().contains("application/vnd")){
+            if(docParser == null)
+                docParser = new DOCXParser();
+            return docParser;
+        }
         else if(parserFile.getFileExtension().contains("application/pdf")){
             if(pdfParser == null)
                 pdfParser = new PDFParser();
