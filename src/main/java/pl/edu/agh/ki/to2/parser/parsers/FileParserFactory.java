@@ -13,17 +13,17 @@ public class FileParserFactory {
     public FileParserFactory(){}
 
     public IFileParser getFileParser(ParserFile parserFile){
-        if(parserFile.getFileExtension().equals("text/html; charset=utf-8")){
+        if(parserFile.getFileExtension().contains("text/html")){
             if(htmlParser == null)
                 htmlParser = new HTMLParser();
             return htmlParser;
         }
-        else if(parserFile.getFileExtension().equals("doc")){
+        else if(parserFile.getFileExtension().contains("application/msword")){
             if(docParser == null)
                 docParser = new DOCParser();
             return docParser;
         }
-        else if(parserFile.getFileExtension().equals("pdf")){
+        else if(parserFile.getFileExtension().contains("application/pdf")){
             if(pdfParser == null)
                 pdfParser = new PDFParser();
             return pdfParser;
