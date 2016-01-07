@@ -14,11 +14,11 @@ public class ParserFile{
     
     /*list of all supported files*/
 	private static final ArrayList<String> supportedFiles = new ArrayList<String>() {{
-        add("text/html; charset=utf-8");
+        add("text/html");
     }};
 
     public ParserFile(String content, String fileExtention, URL url, int depth)  throws UnsupportedFileException {
-        if(supportedFiles.contains(fileExtention)) {
+        if(isFileExtentionSupported(fileExtention)) {
             this.content = content;
             this.fileExtension = fileExtention;
             this.url = url;
@@ -27,6 +27,15 @@ public class ParserFile{
         else {
             throw new UnsupportedFileException();
         }
+    }
+
+    public Boolean isFileExtentionSupported(String fileExtention) {
+        for (String ext : supportedFiles) {
+            if(fileExtention.contains(ext)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public String getFileExtension(){
