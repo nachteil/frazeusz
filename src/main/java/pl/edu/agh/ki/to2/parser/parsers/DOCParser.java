@@ -8,7 +8,6 @@ import pl.edu.agh.ki.to2.parser.parsingControl.ParserFile;
 
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -17,8 +16,12 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Created by Adam on 29.11.2015.
+ * Created by lis on 08.01.16.
+ * @author lis
  */
+
+// TODO test me
+
 public class DOCParser implements IFileParser {
     public DOCParser() {
     }
@@ -27,27 +30,28 @@ public class DOCParser implements IFileParser {
 
         Set<URL> urls = new HashSet<>();
 
-        InputStream in = null;
         try {
-            in = parserFile.getUrl().openStream();
-            HWPFDocument wordDoc = new HWPFDocument(in);
-            WordExtractor extractor = new WordExtractor(wordDoc);
-            String str = extractor.getText();
+
+            // Getting content
+            // TODO stream from content String ( need charset for that ) ?
+            WordExtractor extractor = new WordExtractor(new HWPFDocument(parserFile.getUrl().openStream()));
+            String content = extractor.getText();
+
+            // Extracting links
             LinkExtractor linkExtractor = LinkExtractor.builder().build();
-            Iterable<LinkSpan> links = linkExtractor.extractLinks(str);
+            Iterable<LinkSpan> links = linkExtractor.extractLinks(content);
 
             for (LinkSpan link : links) {
-                System.out.println("FOUND URL: " + str.substring(link.getBeginIndex(), link.getEndIndex()));
                 try {
-                    urls.add(new URL(str.substring(link.getBeginIndex(), link.getEndIndex())));
+                    urls.add(new URL(content.substring(link.getBeginIndex(), link.getEndIndex())));
+                    System.out.println("DOC FOUND URL: " + content.substring(link.getBeginIndex(), link.getEndIndex()));
                 } catch (MalformedURLException e) {
-                    // TODO Auto-generated catch block
-                    System.out.println("Caught malformed url!");
+                    // e.printStackTrace();
                 }
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
         }
 
         return urls;
@@ -56,26 +60,26 @@ public class DOCParser implements IFileParser {
 
     public List<String> getSentences(ParserFile parserFile) {
 
-        List<String> sentences = new ArrayList<String>();
+        List<String> sentences = new ArrayList<>();
 
-        InputStream in = null;
         try {
-            in = parserFile.getUrl().openStream();
-            HWPFDocument wordDoc = new HWPFDocument(in);
-            WordExtractor extractor = new WordExtractor(wordDoc);
-            String str = extractor.getText();
-            //System.out.println("DOC FILE TEXT: " + str);
-            for (String sentence : str.split("\\.")) {
-                if(!sentence.trim().isEmpty()) {
+
+            // Getting content
+            // TODO stream from content String ( need charset for that ) ?
+            WordExtractor extractor = new WordExtractor(new HWPFDocument(parserFile.getUrl().openStream()));
+            String content = extractor.getText();
+
+            // Extracting sentences
+            // TODO smarter way to extract sentences
+            for (String sentence : content.split("\\.")) {
+                if(!(sentence = sentence.trim()).isEmpty()) {
                     sentences.add(sentence);
-                    //System.out.println("SENTENCE TEXT: " + sentence);
+                    System.out.println("DOC FOUND SENTENCE: " + sentence);
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
         }
-
-
 
         return sentences;
     }

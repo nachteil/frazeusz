@@ -5,7 +5,6 @@ import pl.edu.agh.ki.to2.parser.parsers.FileParserFactory;
 import pl.edu.agh.ki.to2.patternmatcher.IPatternMatcher;
 
 import java.net.URL;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
@@ -13,6 +12,12 @@ import java.util.concurrent.TimeUnit;
 
 import static java.lang.Thread.sleep;
 
+/**
+ * Created by Adam on 29.11.2015.
+ * @author Adam
+ */
+
+// TODO test me
 
 public class ParserThread implements Runnable {
 
@@ -33,26 +38,25 @@ public class ParserThread implements Runnable {
     public void run(){
         ParserFile file = null;
         while(isWorking){
-            Set<URL> urls; // no need to initialize this here
-            List<String> sentences;
             try {
-                System.out.println("Size "+fileQueue.size());
+                // Getting parserFile from fileQueue
                 file = fileQueue.poll(500, TimeUnit.MILLISECONDS);
-                System.out.println("Size2 "+fileQueue.size());
-                System.out.println("content in parser thread : "+ Arrays.toString(fileQueue.toArray()));
-                if(file!=null)
-                    System.out.println(file.getUrl().toString());
+                if(file!=null) {
+                    System.out.println("POPPED FILE: " + file.getUrl().toString());
+                    System.out.println("======================================================");
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             if(file != null) {
-                urls = factory.getFileParser(file).getUrls(file);
-                sentences = factory.getFileParser(file).getSentences(file);
-                //last steps:
+                // Extracting urls and sentences from parserFile
+                Set<URL> urls = factory.getFileParser(file).getUrls(file);
+                List<String> sentences = factory.getFileParser(file).getSentences(file);
+                // Sending urls and sentences further
                 for (URL url : urls) {
                     iPutter.put(url, file.getDepth() + 1);
                 }
-                iPatternMatcher.match(sentences, file.getUrl().toString()); //url or string in IPatternMatcher?????
+                iPatternMatcher.match(sentences, file.getUrl().toString());
             }
             else{
                 try {

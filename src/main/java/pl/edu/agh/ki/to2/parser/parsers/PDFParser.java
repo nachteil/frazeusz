@@ -4,14 +4,18 @@ import com.itextpdf.text.pdf.*;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 import pl.edu.agh.ki.to2.parser.parsingControl.ParserFile;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 
 /**
- * Created by Adam on 29.11.2015.
+ * Created by lis on 08.01.16.
+ * @author lis
  */
+
+// TODO test me
+// TODO mabye a different library for PDF parsing ( not page by page extraction )
+
 public class PDFParser implements IFileParser{
 
     public PDFParser() {
@@ -23,49 +27,42 @@ public class PDFParser implements IFileParser{
         Set<URL> urls = new HashSet<>();
 
         try {
-            // ByteContent wont work :/ dk why
-            PdfReader reader = new PdfReader(parserFile.getUrl().openStream());
-            //PdfReader reader = new PdfReader(byteContent);
-            int n = reader.getNumberOfPages();
 
+            // Going through pages
+            // TODO stream from content String ( need charset for that ) ?
+            PdfReader reader = new PdfReader(parserFile.getUrl().openStream());
+            int n = reader.getNumberOfPages();
             for(int i=1;i<=n;i++) {
 
-                //Get the current page
-                PdfDictionary pageDictionary = reader.getPageN(i);
-                //Get all of the annotations for the current page
-                PdfArray annots = pageDictionary.getAsArray(PdfName.ANNOTS);
-                //Make sure we have something
+                // Getting all nonempty annotations for page
+                PdfArray annots = reader.getPageN(i).getAsArray(PdfName.ANNOTS);
                 if ((annots == null) || (annots.size() == 0)) {
-                    //System.out.println("ANNOTS EMPTY");
+                    System.out.println("PDF ANNOTS EMPTY");
                 }
 
                 //Loop through each annotation
                 if (annots != null) {
-                    for (PdfObject annot : annots.getArrayList()) {
-                        //Convert the itext-specific object as a generic PDF object
-                        PdfDictionary annotationDictionary =
-                                (PdfDictionary) PdfReader.getPdfObject(annot);
-                        //Make sure this annotation has a link
+                    ListIterator<PdfObject> annotIterator = annots.listIterator();
+                    while( annotIterator.hasNext() ) {
+
+                        // Checking IF external link with action
+                        PdfObject annot = annotIterator.next();
+                        PdfDictionary annotationDictionary = (PdfDictionary) PdfReader.getPdfObject(annot);
                         if (!annotationDictionary.get(PdfName.SUBTYPE).equals(PdfName.LINK))
                             continue;
-                        //Make sure this annotation has an ACTION
                         if (annotationDictionary.get(PdfName.A) == null)
                             continue;
-                        //Get the ACTION for the current annotation
-                        PdfDictionary AnnotationAction =
-                                annotationDictionary.getAsDict(PdfName.A);
-                        // Test if it is a URI action (There are tons of other types of actions,
-                        // some of which might mimic URI, such as JavaScript,
-                        // but those need to be handled seperately)
+
+                        // Extracting links
+                        PdfDictionary AnnotationAction = annotationDictionary.getAsDict(PdfName.A);
                         if (AnnotationAction.get(PdfName.S).equals(PdfName.URI)) {
                             PdfString Destination = AnnotationAction.getAsString(PdfName.URI);
-                            String url1 = Destination.toString();
-                            //System.out.println("FOUND URL: " + url1);
+                            String url = Destination.toString();
                             try {
-                                urls.add(new URL(url1));
+                                urls.add(new URL(url));
+                                System.out.println("PDF FOUND URL: " + url);
                             } catch (MalformedURLException e) {
-                                // TODO Auto-generated catch block
-                                System.out.println("Caught malformed url!");
+                                // e.printStackTrace();
                             }
                         }
                     }
@@ -75,7 +72,7 @@ public class PDFParser implements IFileParser{
         reader.close();
         }
         catch (Exception e) {
-            System.out.println(e);
+            // e.printStackTrace();
         }
 
         return urls;
@@ -83,31 +80,32 @@ public class PDFParser implements IFileParser{
 
     @Override
     public List<String> getSentences(ParserFile parserFile) {
-    	//byte[] byteContent = parserFile.getContent().getBytes();
-    	List<String> sentences = new ArrayList<String>();
-    	try {
-            // ByteContent wont work :/ dk why
-            PdfReader reader = new PdfReader(parserFile.getUrl().openStream());
-            //PdfReader reader = new PdfReader(byteContent);
-            int n = reader.getNumberOfPages();
 
+    	List<String> sentences = new ArrayList<>();
+
+        try {
+
+            // Get through pages
+            // TODO stream from content String ( need charset for that ) ?
+            PdfReader reader = new PdfReader(parserFile.getUrl().openStream());
+            int n = reader.getNumberOfPages();
             for(int i=1;i<=n;i++) {
 
+                // Extract sentences from page
+                // TODO smarter way to extract sentences
                 String str = PdfTextExtractor.getTextFromPage(reader, i);
-                //System.out.println(str);
-
                 for (String sentence : str.split("\\.")) {
-                    if(!sentence.trim().isEmpty()) {
+                    if(!(sentence = sentence.trim()).isEmpty()) {
                         sentences.add(sentence);
-                        //System.out.println(sentence);
+                        System.out.println("PDF FOUND SENTENCE: " + sentence);
                     }
                 }
             }
-            
+
             reader.close();
-            }
-            catch (Exception e) {
-                System.out.println(e);
+        }
+        catch (Exception e) {
+            // e.printStackTrace();
         }
     	
         return sentences;
