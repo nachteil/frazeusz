@@ -5,6 +5,13 @@ import pl.edu.agh.ki.to2.parser.exceptions.UnsupportedFileException;
 import java.net.URL;
 import java.util.ArrayList;
 
+/**
+ * Created by Adam on 29.11.2015.
+ * @author Adam
+ */
+
+// TODO test me
+
 public class ParserFile{
 
     private String content;
@@ -18,6 +25,7 @@ public class ParserFile{
         add("application/pdf");
         add("application/msword");
         add("application/vnd");
+        add("text/plain");
     }};
 
     public ParserFile(String content, String fileExtention, URL url, int depth)  throws UnsupportedFileException {

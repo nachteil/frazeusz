@@ -1,9 +1,15 @@
 package pl.edu.agh.ki.to2.parser.parsers;
 
 import pl.edu.agh.ki.to2.parser.parsingControl.ParserFile;
+
 /**
- * Created by Adam on 29.11.2015.
+ * Created by lis on 08.01.16.
+ * @author lis
  */
+
+// TODO test me
+// TODO mabye some switch ???
+
 public class FileParserFactory {
 
     IFileParser htmlParser;
@@ -16,6 +22,11 @@ public class FileParserFactory {
         if(parserFile.getFileExtension().contains("text/html")){
             if(htmlParser == null)
                 htmlParser = new HTMLParser();
+            return htmlParser;
+        }
+        if(parserFile.getFileExtension().contains("text/plain")){
+            if(htmlParser == null)
+                htmlParser = new TXTParser();
             return htmlParser;
         }
         else if(parserFile.getFileExtension().contains("application/msword")){
