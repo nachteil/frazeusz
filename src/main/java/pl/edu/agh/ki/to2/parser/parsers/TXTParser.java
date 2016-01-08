@@ -37,7 +37,7 @@ public class TXTParser implements IFileParser {
         for (LinkSpan link : links) {
             try {
                 urls.add(new URL(content.substring(link.getBeginIndex(), link.getEndIndex())));
-                System.out.println("TXT FOUND URL: " + content.substring(link.getBeginIndex(), link.getEndIndex()));
+                // System.out.println("TXT FOUND URL: " + content.substring(link.getBeginIndex(), link.getEndIndex()));
             } catch (MalformedURLException e) {
 
             }
@@ -56,7 +56,7 @@ public class TXTParser implements IFileParser {
         for (String sentence : parserFile.getContent().split("\\.")) {
             if(!(sentence = sentence.trim()).isEmpty()) {
                 sentences.add(sentence);
-                System.out.println("TXT FOUND SENTENCE: " + sentence);
+                // System.out.println("TXT FOUND SENTENCE: " + sentence);
             }
         }
         return sentences;

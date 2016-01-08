@@ -37,7 +37,7 @@ public class PDFParser implements IFileParser{
                 // Getting all nonempty annotations for page
                 PdfArray annots = reader.getPageN(i).getAsArray(PdfName.ANNOTS);
                 if ((annots == null) || (annots.size() == 0)) {
-                    System.out.println("PDF ANNOTS EMPTY");
+                    // System.out.println("PDF ANNOTS EMPTY");
                 }
 
                 //Loop through each annotation
@@ -60,7 +60,7 @@ public class PDFParser implements IFileParser{
                             String url = Destination.toString();
                             try {
                                 urls.add(new URL(url));
-                                System.out.println("PDF FOUND URL: " + url);
+                                // System.out.println("PDF FOUND URL: " + url);
                             } catch (MalformedURLException e) {
                                 // e.printStackTrace();
                             }
@@ -97,7 +97,7 @@ public class PDFParser implements IFileParser{
                 for (String sentence : str.split("\\.")) {
                     if(!(sentence = sentence.trim()).isEmpty()) {
                         sentences.add(sentence);
-                        System.out.println("PDF FOUND SENTENCE: " + sentence);
+                        // System.out.println("PDF FOUND SENTENCE: " + sentence);
                     }
                 }
             }

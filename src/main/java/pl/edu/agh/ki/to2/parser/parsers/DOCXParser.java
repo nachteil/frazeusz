@@ -45,7 +45,7 @@ public class DOCXParser implements IFileParser {
             for (LinkSpan link : links) {
                 try {
                     urls.add(new URL(str.substring(link.getBeginIndex(), link.getEndIndex())));
-                    System.out.println("DOCX FOUND URL: " + str.substring(link.getBeginIndex(), link.getEndIndex()));
+                    // System.out.println("DOCX FOUND URL: " + str.substring(link.getBeginIndex(), link.getEndIndex()));
                 } catch (MalformedURLException e) {
                     // e.printStackTrace();
                 }
@@ -75,7 +75,7 @@ public class DOCXParser implements IFileParser {
             for (String sentence : str.split("\\.")) {
                 if(!(sentence = sentence.trim()).isEmpty()) {
                     sentences.add(sentence);
-                    System.out.println("DOCX FOUND SENTENCE: " + sentence);
+                    // System.out.println("DOCX FOUND SENTENCE: " + sentence);
                 }
             }
         } catch (IOException e) {

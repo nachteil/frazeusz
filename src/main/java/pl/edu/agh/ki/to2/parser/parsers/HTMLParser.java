@@ -39,7 +39,7 @@ public class HTMLParser implements IFileParser {
 		for(Element link: links){
 			try {
 				urls.add(new URL(link.attr("abs:href")));
-				System.out.println("HTML FOUND URL: " + link.attr("abs:href"));
+				// System.out.println("HTML FOUND URL: " + link.attr("abs:href"));
 			} catch (MalformedURLException e) {
 				// e.printStackTrace();
 			}
@@ -66,7 +66,7 @@ public class HTMLParser implements IFileParser {
 				for (String sentence : element.ownText().split("\\.")){
 					if(!(sentence = sentence.trim()).isEmpty()) {
 						sentences.add(sentence);
-						System.out.println("HTML FOUND SENTENCE: " + sentence);
+						// System.out.println("HTML FOUND SENTENCE: " + sentence);
 					}
 				}
 			}

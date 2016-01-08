@@ -5,7 +5,6 @@ import pl.edu.agh.ki.to2.parser.parsers.FileParserFactory;
 import pl.edu.agh.ki.to2.patternmatcher.IPatternMatcher;
 
 import java.net.URL;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
@@ -13,6 +12,12 @@ import java.util.concurrent.TimeUnit;
 
 import static java.lang.Thread.sleep;
 
+/**
+ * Created by Adam on 29.11.2015.
+ * @author Adam
+ */
+
+// TODO test me
 
 public class ParserThread implements Runnable {
 
@@ -22,7 +27,7 @@ public class ParserThread implements Runnable {
     private IPatternMatcher iPatternMatcher;
     private FileParserFactory factory;
 
-    public ParserThread(BlockingQueue<ParserFile> fileQueue, IPutter iPutter, IPatternMatcher iPatternMatcher, FileParserFactory factory) {
+    public ParserThread(BlockingQueue<ParserFile> fileQueue, IPutter iPutter, IPatternMatcher iPatternMatcher, FileParserFactory factory){
         this.isWorking = true;
         this.fileQueue = fileQueue;
         this.iPutter = iPutter;
@@ -30,25 +35,30 @@ public class ParserThread implements Runnable {
         this.factory = factory;
     }
 
-    public void run() {
+    public void run(){
         ParserFile file = null;
-        while (isWorking) {
-            Set<URL> urls; // no need to initialize this here
-            List<String> sentences;
+        while(isWorking){
             try {
+                // Getting parserFile from fileQueue
                 file = fileQueue.poll(500, TimeUnit.MILLISECONDS);
+//                if(file!=null) {
+//                    System.out.println("POPPED FILE: " + file.getUrl().toString());
+//                    System.out.println("======================================================");
+//                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if (file != null) {
-                urls = factory.getFileParser(file).getUrls(file);
-                sentences = factory.getFileParser(file).getSentences(file);
-                //last steps:
+            if(file != null) {
+                // Extracting urls and sentences from parserFile
+                Set<URL> urls = factory.getFileParser(file).getUrls(file);
+                List<String> sentences = factory.getFileParser(file).getSentences(file);
+                // Sending urls and sentences further
                 for (URL url : urls) {
                     iPutter.put(url, file.getDepth() + 1);
                 }
-                iPatternMatcher.match(sentences, file.getUrl().toString()); //url or string in IPatternMatcher?????
-            } else {
+                iPatternMatcher.match(sentences, file.getUrl().toString());
+            }
+            else{
                 try {
                     sleep(500);
                 } catch (InterruptedException e) {
@@ -58,11 +68,11 @@ public class ParserThread implements Runnable {
         }
     }
 
-    public void stop() {
+    public void stop(){
         this.isWorking = false;
     }
 
-    public boolean inProgress() {
+    public boolean inProgress(){
         /* TODO - when thread stops?*/
         return isWorking;
     }
