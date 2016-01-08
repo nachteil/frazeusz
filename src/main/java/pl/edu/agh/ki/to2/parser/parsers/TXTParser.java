@@ -20,7 +20,7 @@ import java.util.Set;
 
 public class TXTParser implements IFileParser {
 
-    public TXTParser(){};
+    public TXTParser(){}
 
     @Override
     public Set<URL> getUrls(ParserFile parserFile) {

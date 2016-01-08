@@ -41,6 +41,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.odftoolkit</groupId>
+            <artifactId>odfdom-java</artifactId>
+            <version>0.8.7</version>
+        </dependency>
+
+        <dependency>
             <groupId>jawbone</groupId>
             <artifactId>com.nexagis.jawbone</artifactId>
             <scope>system</scope>
