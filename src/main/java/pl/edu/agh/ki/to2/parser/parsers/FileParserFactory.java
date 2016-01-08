@@ -13,8 +13,11 @@ import pl.edu.agh.ki.to2.parser.parsingControl.ParserFile;
 public class FileParserFactory {
 
     IFileParser htmlParser;
-    IFileParser pdfParser;
+    IFileParser txtParser;
     IFileParser docParser;
+    IFileParser docxParser;
+    IFileParser pdfParser;
+    IFileParser odtParser;
 
     public FileParserFactory(){}
 
@@ -25,24 +28,29 @@ public class FileParserFactory {
             return htmlParser;
         }
         if(parserFile.getFileExtension().contains("text/plain")){
-            if(htmlParser == null)
-                htmlParser = new TXTParser();
-            return htmlParser;
+            if(txtParser == null)
+                txtParser = new TXTParser();
+            return txtParser;
         }
         else if(parserFile.getFileExtension().contains("application/msword")){
             if(docParser == null)
                 docParser = new DOCParser();
             return docParser;
         }
-        else if(parserFile.getFileExtension().contains("application/vnd")){
-            if(docParser == null)
-                docParser = new DOCXParser();
-            return docParser;
+        else if(parserFile.getFileExtension().contains("application/vnd.openxmlformats-officedocument.wordprocessingml.document")){
+            if(docxParser == null)
+                docxParser = new DOCXParser();
+            return docxParser;
         }
         else if(parserFile.getFileExtension().contains("application/pdf")){
             if(pdfParser == null)
                 pdfParser = new PDFParser();
             return pdfParser;
+        }
+        if(parserFile.getFileExtension().contains("application/vnd.oasis.opendocument.text")){
+            if(odtParser == null)
+                odtParser = new ODTParser();
+            return odtParser;
         }
         return null;
     }

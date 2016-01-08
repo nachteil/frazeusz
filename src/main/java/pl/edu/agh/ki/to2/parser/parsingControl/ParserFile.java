@@ -24,8 +24,9 @@ public class ParserFile{
         add("text/html");
         add("application/pdf");
         add("application/msword");
-        add("application/vnd");
+        add("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
         add("text/plain");
+        add("application/vnd.oasis.opendocument.text");
     }};
 
     public ParserFile(String content, String fileExtention, URL url, int depth)  throws UnsupportedFileException {
