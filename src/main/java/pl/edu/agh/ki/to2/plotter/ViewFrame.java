@@ -1,21 +1,17 @@
 package pl.edu.agh.ki.to2.plotter;
 
-import org.apache.commons.io.FilenameUtils;
-
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.filechooser.FileFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 
 /**
  * Created by Sara on 2015-12-09.
  */
-public class ViewFrame extends JFrame{
+public class ViewFrame extends JFrame {
     public final static int INTERVAL = 1000;
     Timer timer;
     Ploter ploter;
@@ -25,12 +21,11 @@ public class ViewFrame extends JFrame{
     private JFileChooser fileChooser;
     private FileFactory fileFactory;
 
-    
+
     Table tab;
     Graph graph;
 
     public ViewFrame(){
-        fileFactory = new FileFactory();
         setLayout(new GridLayout(1,2));
     	leftPane = new JPanel();
     	export = new JButton("Export to file");
@@ -77,7 +72,7 @@ public class ViewFrame extends JFrame{
     	tab = new Table();
     	graph = new Graph();
     	
-    	Border empty = BorderFactory.createEmptyBorder(10,10,10,10);
+    	Border empty =BorderFactory.createEmptyBorder(10,10,10,10);
     	leftPane.setBorder(empty);
     	leftPane.setLayout(new BorderLayout());
     	leftPane.add(tab, BorderLayout.CENTER);
