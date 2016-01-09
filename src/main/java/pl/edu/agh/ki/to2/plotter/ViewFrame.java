@@ -29,6 +29,7 @@ public class ViewFrame extends JFrame {
 
     public ViewFrame(){
         setLayout(new GridLayout(1,2));
+        fileFactory = new FileFactory();
     	leftPane = new JPanel();
     	export = new JButton("Export to file");
         fileChooser = new JFileChooser();
