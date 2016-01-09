@@ -54,6 +54,7 @@ public class ViewFrame extends JFrame {
                 return ".xml files";
             }
         });
+        fileChooser.setAcceptAllFileFilterUsed(false);
     	export.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
