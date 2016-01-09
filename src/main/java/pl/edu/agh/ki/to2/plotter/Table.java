@@ -23,7 +23,7 @@ import javax.swing.table.TableModel;
 public class Table extends JPanel{
 
     JTable tab;
-    String[] colNames = {"Szukana fraza", "Wystąpienie", "URL"};
+    String[] colNames = {"Pattern", "Matches", "URL"};
     Border empty;
     DefaultTableModel dataModel;
 
