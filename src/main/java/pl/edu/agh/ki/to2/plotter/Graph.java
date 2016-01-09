@@ -1,6 +1,6 @@
 package pl.edu.agh.ki.to2.plotter;
 
-import pl.edu.agh.ki.to2.patternmatcher.models.ISearchPattern;
+import pl.edu.agh.ki.to2.patternmatcher.models.SearchPattern;
 import pl.edu.agh.ki.to2.plotter.model.Occurrences;
 
 import java.awt.Color;
@@ -87,25 +87,26 @@ public class Graph extends JPanel{
 	
 	
 	public void update(Map<SearchPattern,Occurrences> searches){
-		dataset.clear();
-		SearchPattern key;
-		Map<String, List<String>> map;
-		//String url;
-		List<String> list;
-		int counter;
-		for (Map.Entry<SearchPattern, Occurrences> entry : searches.entrySet()) {
-			key = entry.getKey();
-			map = entry.getValue().getUrlSentenceMap();
-			counter = 0;
-			for (Map.Entry<String, List<String>> lowerEntry : map.entrySet()){
-				//url = lowerEntry.getKey();
-				list = lowerEntry.getValue();
-				counter+=list.size();
+		synchronized (searches) {
+			dataset.clear();
+			SearchPattern key;
+			Map<String, List<String>> map;
+			//String url;
+			List<String> list;
+			int counter;
+			for (Map.Entry<SearchPattern, Occurrences> entry : searches.entrySet()) {
+				key = entry.getKey();
+				map = entry.getValue().getUrlSentenceMap();
+				counter = 0;
+				for (Map.Entry<String, List<String>> lowerEntry : map.entrySet()) {
+					//url = lowerEntry.getKey();
+					list = lowerEntry.getValue();
+					counter += list.size();
+				}
+				dataset.addValue(counter, "", key.getPattern());
 			}
-			dataset.addValue(counter, "" , key.getPattern());
+			renderer.setSeriesPaint(0, color);
 		}
-		renderer.setSeriesPaint(0,color);
-
 
 	}
 	
