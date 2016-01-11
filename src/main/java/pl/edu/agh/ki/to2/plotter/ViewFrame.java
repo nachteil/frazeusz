@@ -17,23 +17,22 @@ public class ViewFrame extends JFrame {
     public final static int INTERVAL = 1000;
     Timer timer;
     Ploter ploter;
-    
+
     private JPanel leftPane;
     private JButton export;
     private JFileChooser fileChooser;
     private FileFactory fileFactory;
 
-
     Table tab;
     Graph graph;
 
-    public ViewFrame(){
-        setLayout(new GridLayout(1,2));
+    public ViewFrame() {
+        setLayout(new GridLayout(1, 2));
         fileFactory = new FileFactory();
-    	leftPane = new JPanel();
-    	export = new JButton("Export to file");
+        leftPane = new JPanel();
+        export = new JButton("Export to file");
         fileChooser = new JFileChooser();
-        fileChooser.addChoosableFileFilter(new FileFilter(){
+        fileChooser.addChoosableFileFilter(new FileFilter() {
             @Override
             public boolean accept(File file) {
                 return file.getName().toUpperCase().equals(".TXT");
@@ -44,7 +43,7 @@ public class ViewFrame extends JFrame {
                 return ".txt files";
             }
         });
-        fileChooser.addChoosableFileFilter(new FileFilter(){
+        fileChooser.addChoosableFileFilter(new FileFilter() {
             @Override
             public boolean accept(File file) {
                 return file.getName().toUpperCase().equals(".XML");
@@ -56,11 +55,11 @@ public class ViewFrame extends JFrame {
             }
         });
         fileChooser.setAcceptAllFileFilterUsed(false);
-    	export.addActionListener(new ActionListener() {
+        export.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Export");
-                if(fileChooser.showSaveDialog(ViewFrame.this) == JFileChooser.APPROVE_OPTION){
+                if (fileChooser.showSaveDialog(ViewFrame.this) == JFileChooser.APPROVE_OPTION) {
                     //System.out.println(fileChooser.getSelectedFile().getName(););
                     //System.out.println(fileChooser.getFileFilter().getDescription());
 
@@ -73,22 +72,22 @@ public class ViewFrame extends JFrame {
                 }
             }
         });
-    	tab = new Table();
-    	graph = new Graph();
-    	
-    	Border empty =BorderFactory.createEmptyBorder(10,10,10,10);
-    	leftPane.setBorder(empty);
-    	leftPane.setLayout(new BorderLayout());
-    	leftPane.add(tab, BorderLayout.CENTER);
-    	leftPane.add(export, BorderLayout.PAGE_END);
-    	
-    	add(leftPane);
-    	add(graph);
-    	
-        setSize(1000,500);
+        tab = new Table();
+        graph = new Graph();
+
+        Border empty = BorderFactory.createEmptyBorder(10, 10, 10, 10);
+        leftPane.setBorder(empty);
+        leftPane.setLayout(new BorderLayout());
+        leftPane.add(tab, BorderLayout.CENTER);
+        leftPane.add(export, BorderLayout.PAGE_END);
+
+        add(leftPane);
+        add(graph);
+
+        setSize(1000, 500);
 
         addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent windowEvent){
+            public void windowClosing(WindowEvent windowEvent) {
                 System.exit(0);
             }
         });
@@ -97,7 +96,7 @@ public class ViewFrame extends JFrame {
 
     }
 
-    private void refreshPanels(){
+    private void refreshPanels() {
         timer = new Timer(INTERVAL, new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
 
@@ -124,7 +123,4 @@ public class ViewFrame extends JFrame {
     public void setPloter(Ploter ploter) {
         this.ploter = ploter;
     }
-    
-
-
 }

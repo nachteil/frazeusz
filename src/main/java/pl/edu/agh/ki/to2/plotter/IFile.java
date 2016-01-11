@@ -1,5 +1,8 @@
 package pl.edu.agh.ki.to2.plotter;
 
+import pl.edu.agh.ki.to2.patternmatcher.models.SearchPattern;
+import pl.edu.agh.ki.to2.plotter.model.Occurrences;
+
 import java.util.Map;
 
 /**
@@ -7,6 +10,6 @@ import java.util.Map;
  */
 public interface IFile {
 
-    void save(Map data);
+    void save(Map<SearchPattern,Occurrences> data);
 
 }
