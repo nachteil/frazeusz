@@ -29,7 +29,6 @@ public class Graph extends JPanel{
 	DefaultCategoryDataset dataset;
 	ChartPanel pane;
 	Border empty;
-	ChartFactory chartFactory;
 	BarRenderer renderer;
 	CategoryPlot plot;
 	Paint color = new Color(0, 172, 178);
@@ -49,7 +48,7 @@ public class Graph extends JPanel{
 
 		plot = chart.getCategoryPlot();
 
-		plot.setNoDataMessage("Brak wyników");
+		plot.setNoDataMessage("No matches found");
 		plot.setBackgroundPaint(Color.WHITE);
 		plot.setOutlineVisible(false);
 
@@ -82,26 +81,26 @@ public class Graph extends JPanel{
 
 
 	public void update(Map<SearchPattern,Occurrences> searches){
-		synchronized (searches) {
-			dataset.clear();
-			SearchPattern key;
-			Map<String, List<String>> map;
-			//String url;
-			List<String> list;
-			int counter;
-			for (Map.Entry<SearchPattern, Occurrences> entry : searches.entrySet()) {
-				key = entry.getKey();
-				map = entry.getValue().getUrlSentenceMap();
-				counter = 0;
-				for (Map.Entry<String, List<String>> lowerEntry : map.entrySet()) {
-					//url = lowerEntry.getKey();
-					list = lowerEntry.getValue();
-					counter += list.size();
-				}
-				dataset.addValue(counter, "", key.getDescription());
+
+		dataset.clear();
+		SearchPattern key;
+		Map<String, List<String>> map;
+		//String url;
+		List<String> list;
+		int counter;
+		for (Map.Entry<SearchPattern, Occurrences> entry : searches.entrySet()) {
+			key = entry.getKey();
+			map = entry.getValue().getUrlSentenceMap();
+			counter = 0;
+			for (Map.Entry<String, List<String>> lowerEntry : map.entrySet()) {
+				//url = lowerEntry.getKey();
+				list = lowerEntry.getValue();
+				counter += list.size();
 			}
-			renderer.setSeriesPaint(0, color);
+			dataset.addValue(counter, "", key.getPattern());
 		}
+		renderer.setSeriesPaint(0, color);
+
 
 	}
 
