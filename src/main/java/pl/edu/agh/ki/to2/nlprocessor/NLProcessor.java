@@ -5,12 +5,7 @@ import com.nexagis.jawbone.Dictionary;
 import com.nexagis.jawbone.*;
 import com.nexagis.jawbone.filter.WildcardFilter;
 
-import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 public class NLProcessor  implements IWordProvider {
     private Dictionary dictionary_instance;
@@ -35,7 +30,7 @@ public class NLProcessor  implements IWordProvider {
     }
 
     public Set<String> getDiminutives(String word) {
-        checkDictionary();
+        getDictionary(Language.POL);
         WildcardFilter var2 = new WildcardFilter(word, true);
         Iterator var3 = dictionary_instance.getIndexTermIterator( 1, var2);
         Set<String> diminutives =new HashSet<String>();
@@ -59,20 +54,22 @@ public class NLProcessor  implements IWordProvider {
     }
 
     public Set<String> getSynonyms(String word) {
-        checkDictionary();
-        WildcardFilter var2 = new WildcardFilter(word, true);
-        Iterator var3 = dictionary_instance.getIndexTermIterator( 1, var2);
-        Set<String> synonyms =new HashSet<String>();
-        while (var3.hasNext()) {
-            IndexTerm var4 = (IndexTerm) var3.next();
-            Synset[] d = var4.getSynsets();
-            for(Synset i : d){
-                List<WordData> words = i.getWord();
-                for (WordData word_data : words) {
-                    String synonym = word_data.getWord();
-                    synonyms.add(synonym);
-                }
+        Set<String> synonyms = new HashSet<String>();
+        for(Language l : Language.values()) {
+            getDictionary(l);
+            WildcardFilter var2 = new WildcardFilter(word, true);
+            Iterator var3 = dictionary_instance.getIndexTermIterator(1, var2);
+            while (var3.hasNext()) {
+                IndexTerm var4 = (IndexTerm) var3.next();
+                Synset[] d = var4.getSynsets();
+                for (Synset i : d) {
+                    List<WordData> words = i.getWord();
+                    for (WordData word_data : words) {
+                        String synonym = word_data.getWord();
+                        synonyms.add(synonym);
+                    }
 
+                }
             }
         }
         return synonyms;
@@ -84,10 +81,8 @@ public class NLProcessor  implements IWordProvider {
         }
     }
 
-    public void checkDictionary(){
-        if(map.isEmpty()){
-            dictionary_instance = data_instance.getDictionary();
-        }
+    public void getDictionary(Language l){
+            dictionary_instance = data_instance.getDictionary(l);
     }
 }
 
