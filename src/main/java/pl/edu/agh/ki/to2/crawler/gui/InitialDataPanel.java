@@ -16,11 +16,11 @@ public class InitialDataPanel extends JPanel{
     private JLabel maxDepthLabel;
     private JLabel maxNumberOfFilesLabel;
     private JLabel addUrlLabel;
-    private JLabel speedLabel;
+    private JLabel filesPerSecondLabel;
     private JTextField maxDepthField;
     private JTextField addUrlField;
     private JTextField maxNumberOfFilesField;
-    private JTextField speedField;
+    private JTextField filesPerSecondField;
     private JList listOfUrlsPane;
     private DefaultListModel model;
 
@@ -40,11 +40,11 @@ public class InitialDataPanel extends JPanel{
         this.maxDepthLabel = new JLabel("Max Depth:");
         this.maxNumberOfFilesLabel = new JLabel("Max number of files:");
         this.addUrlLabel = new JLabel("Add URL:");
-        this.speedLabel = new JLabel("Max files per second:");
+        this.filesPerSecondLabel = new JLabel("Max files per second:");
         this.maxDepthField = new JTextField();
         this.maxNumberOfFilesField = new JTextField();
         this.addUrlField = new JTextField();
-        this.speedField = new JTextField();
+        this.filesPerSecondField = new JTextField();
         this.model = new DefaultListModel();
         this.listOfUrlsPane = new JList(model);
     }
@@ -55,8 +55,8 @@ public class InitialDataPanel extends JPanel{
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
         upInitialDatePanel.setLayout(gridbag);
-        addLabelTextRows(new JLabel[]{maxDepthLabel, maxNumberOfFilesLabel, addUrlLabel, speedLabel},
-                new JTextField[]{maxDepthField, maxNumberOfFilesField, addUrlField, speedField},
+        addLabelTextRows(new JLabel[]{maxDepthLabel, maxNumberOfFilesLabel, addUrlLabel, filesPerSecondLabel},
+                new JTextField[]{maxDepthField, maxNumberOfFilesField, addUrlField, filesPerSecondField},
                 gridbag, upInitialDatePanel);
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.anchor = GridBagConstraints.WEST;
@@ -195,20 +195,20 @@ public class InitialDataPanel extends JPanel{
         this.model = model;
     }
 
-    public JLabel getSpeedLabel() {
-        return speedLabel;
+    public JLabel getFilesPerSecondLabel() {
+        return filesPerSecondLabel;
     }
 
-    public void setSpeedLabel(JLabel speedLabel) {
-        this.speedLabel = speedLabel;
+    public void setFilesPerSecondLabel(JLabel filesPerSecondLabel) {
+        this.filesPerSecondLabel = filesPerSecondLabel;
     }
 
-    public JTextField getSpeedField() {
-        return speedField;
+    public JTextField getFilesPerSecondField() {
+        return filesPerSecondField;
     }
 
-    public void setSpeedField(JTextField speedField) {
-        this.speedField = speedField;
+    public void setFilesPerSecondField(JTextField filesPerSecondField) {
+        this.filesPerSecondField = filesPerSecondField;
     }
 
 }

@@ -27,7 +27,7 @@ public class Main {
     }
 
     public static void start(CrawlingData crawlingData) throws InterruptedException {
-        Crawler crawler = new Crawler(200, crawlingData.getMaxNumberOfFiles(), crawlingData.getMaxDepth(), crawlingData.getUrls(), crawlingData.getSpeed());
+        Crawler crawler = new Crawler(200, crawlingData.getMaxNumberOfFiles(), crawlingData.getMaxDepth(), crawlingData.getUrls(), crawlingData.getFilesPerSecond());
         Parser parser = new Parser(crawler.getFileQueue(), crawler.getTaskQueue(),
                 patternMatcher, 200);
         Ploter ploter = new Ploter();

@@ -22,11 +22,11 @@ public class Crawler {
     ExecutorService executor;
     private Counter counter;
     private int maxSites;
-    private int speed;
+    private int filesPerSecond;
     private int crawledInASecond = 0;
     private int maxStreamSize = 10485760; //10 MB
 
-    public Crawler(int workersPool, int maxSites, int maxDepth, List<String> urls, int speed) {
+    public Crawler(int workersPool, int maxSites, int maxDepth, List<String> urls, int filesPerSecond) {
         this.fileQueue = new LinkedBlockingQueue<>();
         this.counter = new Counter(Monitor.getInstance().getMonitorPubSub(), 10);
         this.taskQueue = makeTaskQueue(fileQueue, maxDepth, counter, maxStreamSize);
@@ -39,13 +39,12 @@ public class Crawler {
         }
         this.executor = Executors.newFixedThreadPool(workersPool);
         this.maxSites = maxSites;
-        this.speed = speed;
+        this.filesPerSecond = filesPerSecond;
         this.downloadedURLS = new HashSet();
     }
 
     class CrawlingRestarter extends TimerTask {
         public void run() {
-            System.out.println("Hello World!");
             crawledInASecond=0;
         }
     }
@@ -59,7 +58,7 @@ public class Crawler {
         timer.schedule(new CrawlingRestarter(), 0, 1000);
 
         while (notFinished()) {
-            if(crawledInASecond<speed) {
+            if(crawledInASecond<filesPerSecond) {
                 if (counter.getSitesUnderExecution() < 200) {
                     task = taskQueue.get();
                     url = task.getURL();
