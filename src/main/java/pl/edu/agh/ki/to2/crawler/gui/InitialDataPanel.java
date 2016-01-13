@@ -16,9 +16,11 @@ public class InitialDataPanel extends JPanel{
     private JLabel maxDepthLabel;
     private JLabel maxNumberOfFilesLabel;
     private JLabel addUrlLabel;
+    private JLabel speedLabel;
     private JTextField maxDepthField;
     private JTextField addUrlField;
     private JTextField maxNumberOfFilesField;
+    private JTextField speedField;
     private JList listOfUrlsPane;
     private DefaultListModel model;
 
@@ -38,9 +40,11 @@ public class InitialDataPanel extends JPanel{
         this.maxDepthLabel = new JLabel("Max Depth:");
         this.maxNumberOfFilesLabel = new JLabel("Max number of files:");
         this.addUrlLabel = new JLabel("Add URL:");
+        this.speedLabel = new JLabel("Max files per second:");
         this.maxDepthField = new JTextField();
         this.maxNumberOfFilesField = new JTextField();
         this.addUrlField = new JTextField();
+        this.speedField = new JTextField();
         this.model = new DefaultListModel();
         this.listOfUrlsPane = new JList(model);
     }
@@ -51,8 +55,8 @@ public class InitialDataPanel extends JPanel{
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
         upInitialDatePanel.setLayout(gridbag);
-        addLabelTextRows(new JLabel[]{maxDepthLabel, maxNumberOfFilesLabel, addUrlLabel},
-                new JTextField[]{maxDepthField, maxNumberOfFilesField, addUrlField},
+        addLabelTextRows(new JLabel[]{maxDepthLabel, maxNumberOfFilesLabel, addUrlLabel, speedLabel},
+                new JTextField[]{maxDepthField, maxNumberOfFilesField, addUrlField, speedField},
                 gridbag, upInitialDatePanel);
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.anchor = GridBagConstraints.WEST;
@@ -189,6 +193,22 @@ public class InitialDataPanel extends JPanel{
 
     public void setModel(DefaultListModel model) {
         this.model = model;
+    }
+
+    public JLabel getSpeedLabel() {
+        return speedLabel;
+    }
+
+    public void setSpeedLabel(JLabel speedLabel) {
+        this.speedLabel = speedLabel;
+    }
+
+    public JTextField getSpeedField() {
+        return speedField;
+    }
+
+    public void setSpeedField(JTextField speedField) {
+        this.speedField = speedField;
     }
 
 }

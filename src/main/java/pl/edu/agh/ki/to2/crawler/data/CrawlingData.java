@@ -10,6 +10,7 @@ public class CrawlingData {
     private List<String> urls;
     private int maxDepth;
     private int maxNumberOfFiles;
+    private int speed;
 
     public CrawlingData(){
         this.urls = new ArrayList<>();
@@ -37,5 +38,14 @@ public class CrawlingData {
 
     public void setMaxNumberOfFiles(int maxNumberOfFiles) {
         this.maxNumberOfFiles = maxNumberOfFiles;
+    }
+
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 }

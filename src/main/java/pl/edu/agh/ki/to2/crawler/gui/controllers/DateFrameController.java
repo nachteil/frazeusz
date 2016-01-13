@@ -36,6 +36,7 @@ public class DateFrameController {
     public void start() {
         crawlingData.setMaxDepth(Integer.parseInt(dataFrame.getInitialDataPanel().getMaxDepthField().getText()));
         crawlingData.setMaxNumberOfFiles(Integer.parseInt(dataFrame.getInitialDataPanel().getMaxNumberOfFilesField().getText()));
+        crawlingData.setSpeed(Integer.parseInt(dataFrame.getInitialDataPanel().getSpeedField().getText()));
         try {
             Main.start(crawlingData);
         } catch (InterruptedException e) {
