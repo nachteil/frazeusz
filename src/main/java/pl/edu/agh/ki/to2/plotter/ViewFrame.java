@@ -60,14 +60,17 @@ public class ViewFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Export");
                 if (fileChooser.showSaveDialog(ViewFrame.this) == JFileChooser.APPROVE_OPTION) {
-                    //System.out.println(fileChooser.getSelectedFile().getName(););
+
+                    String fileName = fileChooser.getSelectedFile().getName();
+                    //System.out.println(fileChooser.getSelectedFile().getName());
                     //System.out.println(fileChooser.getFileFilter().getDescription());
 
                     IFile file = fileFactory.getFile(fileChooser.getFileFilter().getDescription());
                     if (file != null) {
                         //tu w metodzie getPatternOccurencesHashMap coś jest do zmiany, bo jak
                         // uruchamiałam bez wstawienia czegokolwiek do hashmapy, to rzuca nullpointerami
-                        file.save(ploter.getPatternOccurrencesHashMap());
+                        //
+                        file.save(ploter.getPatternOccurrencesHashMap(),fileName);
                     }
                 }
             }

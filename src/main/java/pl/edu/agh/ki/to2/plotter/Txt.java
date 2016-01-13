@@ -10,7 +10,9 @@ import java.util.Map;
 public class Txt implements IFile {
 
     @Override
-    public void save(Map data) {
-        System.out.println("Save txt");
+    public void save(Map data, String fileName) {
+        String name = fileName + ".txt";
+
+        System.out.println(name);
     }
 }
