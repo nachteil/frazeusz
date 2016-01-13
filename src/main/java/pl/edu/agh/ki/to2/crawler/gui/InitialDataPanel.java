@@ -12,7 +12,6 @@ import java.awt.*;
  */
 public class InitialDataPanel extends JPanel{
     private JButton deleteButton;
-    private JButton submitButton;
     private JButton addButton;
     private JLabel maxDepthLabel;
     private JLabel maxNumberOfFilesLabel;
@@ -35,7 +34,6 @@ public class InitialDataPanel extends JPanel{
 
     private void initComponents(){
         this.deleteButton = new JButton("Delete");
-        this.submitButton = new JButton("Submit");
         this.addButton = new JButton("Add");
         this.maxDepthLabel = new JLabel("Max Depth:");
         this.maxNumberOfFilesLabel = new JLabel("Max number of files:");
@@ -80,7 +78,6 @@ public class InitialDataPanel extends JPanel{
         delPanel.setLayout(gridbag);
         delPanel.add(deleteButton,c);
         downInitialDatePanel.add(delPanel, BorderLayout.CENTER);
-        downInitialDatePanel.add(submitButton, BorderLayout.SOUTH);
 
         add(upInitialDatePanel, BorderLayout.NORTH);
         add(downInitialDatePanel, BorderLayout.CENTER);
@@ -119,14 +116,6 @@ public class InitialDataPanel extends JPanel{
 
     public void setDeleteButton(JButton deleteButton) {
         this.deleteButton = deleteButton;
-    }
-
-    public JButton getSubmitButton() {
-        return submitButton;
-    }
-
-    public void setSubmitButton(JButton submitButton) {
-        this.submitButton = submitButton;
     }
 
     public JLabel getMaxDepthLabel() {
