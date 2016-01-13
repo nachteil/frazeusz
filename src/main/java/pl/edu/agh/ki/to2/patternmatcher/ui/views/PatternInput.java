@@ -5,7 +5,7 @@ import pl.edu.agh.ki.to2.patternmatcher.models.SearchPattern;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
-public class PatternPartial extends JPanel {
+public class PatternInput extends JPanel {
 
     private SearchPattern model;
 
@@ -15,7 +15,7 @@ public class PatternPartial extends JPanel {
     private JCheckBox variantCheckBox;
     private JCheckBox diminutiveCheckBox;
 
-    public PatternPartial() {
+    public PatternInput() {
         model = new SearchPattern();
         createUIComponents();
     }
