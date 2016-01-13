@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.concurrent.BlockingQueue;
 
 public class DownloadTask implements Runnable {
@@ -38,9 +37,10 @@ public class DownloadTask implements Runnable {
         try {
             ParserFile parserFile = getContent();
             if (parserFile == null) {
+                counter.decreaseSitesUnderExecution();
                 return;
             }
-            counter.increasePagesCounter();
+            counter.decreaseSitesUnderExecution();
             fileQueue.put(parserFile);
         } catch (IOException | InterruptedException | UnsupportedFileException e) {
             e.printStackTrace();

@@ -1,10 +1,8 @@
 package pl.edu.agh.ki.to2.crawler.downloader;
 
-import com.sun.media.sound.SoftMixingMixerProvider;
 import pl.edu.agh.ki.to2.monitor.Monitor;
 import pl.edu.agh.ki.to2.parser.parsingControl.ParserFile;
 
-import javax.xml.bind.SchemaOutputResolver;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashSet;
@@ -44,12 +42,16 @@ public class Crawler {
         DownloadTask task;
         URL url;
         while (notFinished()) {
-            task = taskQueue.get();
-            url = task.getURL();
-            if (isDownloaded(url))
-                continue;
-            executor.execute(task);
-            markDownloaded(url);
+            if(counter.getSitesUnderExecution()<200) {
+                task = taskQueue.get();
+                url = task.getURL();
+                if (isDownloaded(url))
+                    continue;
+                executor.execute(task);
+                markDownloaded(url);
+                counter.increasePagesCounter();
+                counter.increaseSitesUnderExecution();
+            }
         }
         counter.sendLastEvents();
     }

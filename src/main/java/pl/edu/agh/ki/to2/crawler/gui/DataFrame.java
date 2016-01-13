@@ -68,7 +68,7 @@ public class DataFrame extends JFrame {
                         JOptionPane.ERROR_MESSAGE);
             } else {
                 dateFrameController.start();
-                dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+//                dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
             }
         });
     }

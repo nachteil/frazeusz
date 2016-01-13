@@ -13,6 +13,7 @@ public class Counter {
     private int downloadedDataSinceLastEvent;
     private int downloadedDataChunk;    //in KB
     private int bytes;
+    private int sitesUnderExecution;
 
     Counter(MonitorPubSub monitorPubSub, int pagesChunk) {
         this.monitorPubSub = monitorPubSub;
@@ -21,6 +22,7 @@ public class Counter {
         this.pagesSinceLastEvent = 0;
         this.downloadedDataChunk = 0;
         this.downloadedDataSinceLastEvent = 0;
+        this.sitesUnderExecution = 0;
     }
 
     public synchronized int getPagesCrawled() {
@@ -34,6 +36,14 @@ public class Counter {
             sendEvent(downloadedDataChunk, EventType.KILOBYTES_DOWNLOADED);
             downloadedDataSinceLastEvent += kb(downloadedData) - downloadedDataChunk;
         }
+    }
+
+    public void increaseSitesUnderExecution() {
+        this.sitesUnderExecution++;
+    }
+
+    public void decreaseSitesUnderExecution() {
+        this.sitesUnderExecution--;
     }
 
     public synchronized void increasePagesCounter() {
@@ -59,6 +69,10 @@ public class Counter {
 
     private int kb(int bytes) {
         return bytes / 1024;
+    }
+
+    public int getSitesUnderExecution() {
+        return sitesUnderExecution;
     }
 
 }
