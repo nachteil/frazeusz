@@ -15,8 +15,8 @@ public class PatternPartial extends JPanel {
     private JCheckBox variantCheckBox;
     private JCheckBox diminutiveCheckBox;
 
-    public PatternPartial(SearchPattern model) {
-        this.model = model;
+    public PatternPartial() {
+        model = new SearchPattern();
         createUIComponents();
     }
 
