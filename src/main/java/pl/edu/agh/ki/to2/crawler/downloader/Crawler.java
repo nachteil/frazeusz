@@ -24,7 +24,7 @@ public class Crawler {
 
     public Crawler(int workersPool, int maxSites, int maxDepth, List<String> urls) {
         this.fileQueue = new LinkedBlockingQueue<>();
-        this.counter = new Counter(Monitor.getInstance().getMonitorPubSub(), 10);
+        this.counter = new Counter(Monitor.getInstance().getMonitorPubSub(), 10, 1024);
         this.taskQueue = makeTaskQueue(fileQueue, maxDepth, counter, maxStreamSize);
         for (String path : urls) {
             try {

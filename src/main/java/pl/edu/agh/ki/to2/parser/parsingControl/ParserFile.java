@@ -41,7 +41,7 @@ public class ParserFile{
         }
     }
 
-    public Boolean isFileExtentionSupported(String fileExtention) {
+    static public Boolean isFileExtentionSupported(String fileExtention) {
         for (String ext : supportedFiles) {
             if(fileExtention.contains(ext)){
                 return true;

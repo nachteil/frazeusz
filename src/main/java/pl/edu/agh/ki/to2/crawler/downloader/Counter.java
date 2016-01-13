@@ -15,12 +15,12 @@ public class Counter {
     private int bytes;
     private int sitesUnderExecution;
 
-    Counter(MonitorPubSub monitorPubSub, int pagesChunk) {
+    Counter(MonitorPubSub monitorPubSub, int pagesChunk, int downloadedDataChunk) {
         this.monitorPubSub = monitorPubSub;
         this.pagesCrawled = 0;
         this.pagesChunk = pagesChunk;
         this.pagesSinceLastEvent = 0;
-        this.downloadedDataChunk = 0;
+        this.downloadedDataChunk = downloadedDataChunk;
         this.downloadedDataSinceLastEvent = 0;
         this.sitesUnderExecution = 0;
     }
@@ -59,7 +59,7 @@ public class Counter {
         sendEvent(pagesCrawled, EventType.PAGES_CRAWLED);
     }
 
-    private void sendEvent(int amount, EventType eventType) {
+    private synchronized  void sendEvent(int amount, EventType eventType) {
         Event event = new Event();
         event.setTimestamp(System.currentTimeMillis());
         event.setAmount(amount);
