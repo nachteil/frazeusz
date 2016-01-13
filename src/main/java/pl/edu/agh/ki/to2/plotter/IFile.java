@@ -10,6 +10,6 @@ import java.util.Map;
  */
 public interface IFile {
 
-    void save(Map<SearchPattern,Occurrences> data, String fileName);
+    void save(Map<SearchPattern,Occurrences> data, String path);
 
 }

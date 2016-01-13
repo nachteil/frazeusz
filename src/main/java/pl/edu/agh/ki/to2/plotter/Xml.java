@@ -10,7 +10,7 @@ import java.util.Map;
 public class Xml implements IFile {
 
     @Override
-    public void save(Map data, String fileName) {
-        String name = fileName + ".xml";
+    public void save(Map data,String path) {
+        String name = path + ".xml";
     }
 }
