@@ -5,19 +5,18 @@ import pl.edu.agh.ki.to2.patternmatcher.models.SearchPattern;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
-public class PatternPartial extends JPanel {
+public class PatternInput extends JPanel {
 
     private SearchPattern model;
 
     private JTextField patternTextField;
-    private JButton deleteButton;
     private JCheckBox caseSensitiveCheckBox;
     private JCheckBox synonymsCheckBox;
     private JCheckBox variantCheckBox;
     private JCheckBox diminutiveCheckBox;
 
-    public PatternPartial(SearchPattern model) {
-        this.model = model;
+    public PatternInput() {
+        model = new SearchPattern();
         createUIComponents();
     }
 
@@ -30,6 +29,7 @@ public class PatternPartial extends JPanel {
     }
 
     private void bindModel(SearchPattern model) {
+        patternTextField.setText(model.getPattern());
         caseSensitiveCheckBox.setSelected(model.getCaseSensitive());
         synonymsCheckBox.setSelected(model.getSynonyms());
         variantCheckBox.setSelected(model.getVariants());
@@ -42,20 +42,30 @@ public class PatternPartial extends JPanel {
         diminutiveCheckBox.addPropertyChangeListener(e -> model.setDiminutives(diminutiveCheckBox.isSelected()));
     }
 
-    public void addDeleteListener(ActionListener listener) {
-        deleteButton.addActionListener(listener);
+    public void commit() {
+        model.setPattern(patternTextField.getText());
+        model.setCaseSensitive(caseSensitiveCheckBox.isSelected());
+        model.setSynonyms(synonymsCheckBox.isSelected());
+        model.setVariants(variantCheckBox.isSelected());
+        model.setDiminutives(diminutiveCheckBox.isSelected());
+    }
+
+    public SearchPattern getPattern() {
+        return model;
+    }
+
+    public boolean isEmpty() {
+        return model.getPattern().isEmpty();
     }
 
     private void createUIComponents() {
         patternTextField = new JTextField(20);
-        deleteButton = new JButton("Usu\u0144");
         caseSensitiveCheckBox = new JCheckBox("wielkie litery");
         synonymsCheckBox = new JCheckBox("synonimy");
         variantCheckBox = new JCheckBox("odmiany");
         diminutiveCheckBox = new JCheckBox("zdrobnienia");
 
         this.add(patternTextField);
-        this.add(deleteButton);
         this.add(caseSensitiveCheckBox);
         this.add(synonymsCheckBox);
         this.add(variantCheckBox);

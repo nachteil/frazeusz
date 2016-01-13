@@ -1,10 +1,14 @@
 package pl.edu.agh.ki.to2.crawler.downloader;
 
+import com.sun.media.sound.SoftMixingMixerProvider;
 import pl.edu.agh.ki.to2.monitor.Monitor;
 import pl.edu.agh.ki.to2.parser.parsingControl.ParserFile;
 
+import javax.xml.bind.SchemaOutputResolver;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashSet;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -20,10 +24,17 @@ public class Crawler {
     private int maxSites;
     private int maxStreamSize = 10485760; //10 MB
 
-    public Crawler(int workersPool, int maxSites, int maxDepth) {
+    public Crawler(int workersPool, int maxSites, int maxDepth, List<String> urls) {
         this.fileQueue = new LinkedBlockingQueue<>();
         this.counter = new Counter(Monitor.getInstance().getMonitorPubSub(), 10);
         this.taskQueue = makeTaskQueue(fileQueue, maxDepth, counter, maxStreamSize);
+        for (String path : urls) {
+            try {
+                taskQueue.put(new URL(path), 0);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
         this.executor = Executors.newFixedThreadPool(workersPool);
         this.maxSites = maxSites;
         this.downloadedURLS = new HashSet();
@@ -64,7 +75,7 @@ public class Crawler {
     }
 
     private TaskQueue makeTaskQueue(BlockingQueue<ParserFile> fileQueue, int maxDepth,
-                                    Counter counter, int maxStreamSize){
+                                    Counter counter, int maxStreamSize) {
         return new TaskQueue(fileQueue, maxDepth, counter, maxStreamSize);
     }
 

@@ -1,11 +1,14 @@
 package pl.edu.agh.ki.to2.nlprocessor;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import com.nexagis.jawbone.Dictionary;
+
+import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 /**
  * Created by Matt on 2015-12-10.
@@ -13,13 +16,22 @@ import java.util.Map;
 public class NLPThread extends Thread {
 
     public Map<String, String[]> map = new HashMap<String, String[]>();
-
+    private Dictionary dictionary_instance;
+    boolean finished_map = false;
+    boolean finished_dictionary = false;
     public void run() {
-
+        String file_sep = File.separator;
+        String dict_path =System.getProperty("user.dir") + file_sep+"src"+file_sep+ "main"+file_sep+"java"+ file_sep+"pl"+file_sep+"edu"+file_sep+"agh"+file_sep+"ki"+file_sep+"to2"+file_sep+"nlprocessor"+file_sep+"dictionary";
+        Path dictionary_path = Paths.get( dict_path );
+        Dictionary.initialize(String.valueOf(dictionary_path));
+        dictionary_instance = Dictionary.getInstance();
+        finished_dictionary = true;
         BufferedReader in = null;
         try {
-            in = new BufferedReader(new FileReader(System.getProperty("user.dir") + "\\src\\main\\java\\pl\\edu\\agh\\ki\\to2\\nlprocessor\\dictionary\\kurnikOdmiana_CP1250.txt"));
+            in = new BufferedReader(new InputStreamReader(new FileInputStream(dict_path+ file_sep + "kurnikOdmiana_CP1250.txt"), "CP1250"));
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         String line = "";
@@ -31,9 +43,22 @@ public class NLPThread extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        finished_map = true;
+    }
+
+    public Dictionary getDictionary(){
+        if(finished_dictionary)
+            return dictionary_instance;
+        else
+            return null;
     }
 
     public Map<String, String[]> getMap(){
-        return map;
+        if(finished_map)
+            return map;
+        else
+            return null;
     }
+
+
 }

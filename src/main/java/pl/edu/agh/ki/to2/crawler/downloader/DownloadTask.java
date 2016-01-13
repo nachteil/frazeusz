@@ -3,11 +3,11 @@ package pl.edu.agh.ki.to2.crawler.downloader;
 import pl.edu.agh.ki.to2.parser.exceptions.UnsupportedFileException;
 import pl.edu.agh.ki.to2.parser.parsingControl.ParserFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.concurrent.BlockingQueue;
 
 public class DownloadTask implements Runnable {
@@ -37,13 +37,14 @@ public class DownloadTask implements Runnable {
     public void run() {
         try {
             ParserFile parserFile = getContent();
-            if (parserFile == null)
+            if (parserFile == null) {
                 return;
+            }
+            counter.increasePagesCounter();
             fileQueue.put(parserFile);
         } catch (IOException | InterruptedException | UnsupportedFileException e) {
             e.printStackTrace();
         }
-        counter.increasePagesCounter();
     }
 
     private ParserFile getContent() throws IOException, UnsupportedFileException {
@@ -60,7 +61,7 @@ public class DownloadTask implements Runnable {
         // check HTTP response code first
         if (responseCode == HttpURLConnection.HTTP_OK) {
             contentType = httpConn.getContentType();
-           //contentLength = httpConn.getContentLength();
+            //contentLength = httpConn.getContentLength();
             downloadedSize = 0;
 
             // opens input stream from the HTTP connection

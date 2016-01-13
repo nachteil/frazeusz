@@ -21,14 +21,14 @@ public class DataFrame extends JFrame {
 
     public DataFrame(DateFrameController dateFrameController) {
         super("Frazeusz");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
         this.dateFrameController = dateFrameController;
         dateFrameController.setDateFrame(this);
         initComponents();
         addListeners();
-        setResizable(false);
-        setSize(new Dimension( 500, 400 ));
+        setResizable(true);
+        setSize(new Dimension( 1000, 1000 ));
     }
 
     private void initComponents() {

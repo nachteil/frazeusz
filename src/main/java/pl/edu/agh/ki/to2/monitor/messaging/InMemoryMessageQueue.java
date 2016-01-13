@@ -5,12 +5,18 @@ import org.hornetq.api.core.client.ClientConsumer;
 import org.hornetq.api.core.client.ClientMessage;
 import org.hornetq.api.core.client.ClientProducer;
 import org.hornetq.api.core.client.ClientSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.edu.agh.ki.to2.monitor.contract.Event;
 import pl.edu.agh.ki.to2.monitor.contract.EventType;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
+@Singleton
 public class InMemoryMessageQueue implements MessageQueue {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(InMemoryMessageQueue.class);
 
     private static final boolean MESSAGE_DURABLE_PROP = false;
     private static final String AMOUNT_PROPERTY_KEY = "event.property.amount";
@@ -68,8 +74,7 @@ public class InMemoryMessageQueue implements MessageQueue {
         try {
             producer.send(message);
         } catch (HornetQException e) {
-            System.out.println("Message send failed");
-            e.printStackTrace();
+            LOGGER.error("Message send failed", e);
         }
     }
 
@@ -78,8 +83,7 @@ public class InMemoryMessageQueue implements MessageQueue {
         try {
             message = consumer.receive();
         } catch (HornetQException e) {
-            System.out.println("Exception while receiving message");
-            e.printStackTrace();
+            LOGGER.error("Exception while receiving message", e);
         }
         return message;
     }
