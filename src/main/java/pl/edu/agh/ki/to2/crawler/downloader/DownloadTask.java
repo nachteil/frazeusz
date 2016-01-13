@@ -37,10 +37,9 @@ public class DownloadTask implements Runnable {
         try {
             ParserFile parserFile = getContent();
             if (parserFile == null) {
-                counter.decreaseSitesUnderExecution();
                 return;
             }
-            counter.decreaseSitesUnderExecution();
+            counter.increasePagesCounter();
             fileQueue.put(parserFile);
         } catch (IOException | InterruptedException | UnsupportedFileException e) {
             e.printStackTrace();

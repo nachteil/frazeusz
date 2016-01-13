@@ -27,7 +27,7 @@ public class Main {
     }
 
     public static void start(CrawlingData crawlingData) throws InterruptedException {
-        int workersPool = 50;
+        int workersPool = 200;
         Crawler crawler = new Crawler(workersPool, crawlingData.getMaxNumberOfFiles(), crawlingData.getMaxDepth(), crawlingData.getUrls(),crawlingData.getFilesPerSecond());
         Parser parser = new Parser(crawler.getFileQueue(), crawler.getTaskQueue(),
                 patternMatcher, workersPool);

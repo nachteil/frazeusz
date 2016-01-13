@@ -37,6 +37,7 @@ public class Crawler {
                 e.printStackTrace();
             }
         }
+        this.counter.startQueueLengthNotifier(taskQueue);
         this.executor = Executors.newFixedThreadPool(workersPool);
         this.maxSites = maxSites;
         this.filesPerSecond = filesPerSecond;
@@ -59,18 +60,17 @@ public class Crawler {
 
         while (notFinished()) {
             if(crawledInASecond<filesPerSecond) {
-                if (counter.getSitesUnderExecution() < 200) {
                     task = taskQueue.get();
+                    if(task == null){
+                        break;
+                    }
                     url = task.getURL();
                     if (isDownloaded(url))
                         continue;
                     executor.execute(task);
                     markDownloaded(url);
-                    counter.increasePagesCounter();
-                    counter.increaseSitesUnderExecution();
                     crawledInASecond++;
                 }
-            }
         }
         counter.sendLastEvents();
     }
