@@ -18,7 +18,7 @@ public class Main {
 
     static PatternMatcher patternMatcher;
 
-    public static void main(String args[]) throws InterruptedException, MalformedURLException {
+    public static void main(String args[])  {
         NLProcessor nlProcessor = new NLProcessor();
         Monitor monitor = Monitor.getInstance();
         patternMatcher = new PatternMatcher(nlProcessor, monitor.getMonitorPubSub());
@@ -27,9 +27,10 @@ public class Main {
     }
 
     public static void start(CrawlingData crawlingData) throws InterruptedException {
-        Crawler crawler = new Crawler(200, crawlingData.getMaxNumberOfFiles(), crawlingData.getMaxDepth(), crawlingData.getUrls());
+        int workersPool = 50;
+        Crawler crawler = new Crawler(workersPool, crawlingData.getMaxNumberOfFiles(), crawlingData.getMaxDepth(), crawlingData.getUrls());
         Parser parser = new Parser(crawler.getFileQueue(), crawler.getTaskQueue(),
-                patternMatcher, 200);
+                patternMatcher, workersPool);
         Ploter ploter = new Ploter();
         ViewFrame viewFrame = new ViewFrame();
         ploter.setViewFrame(viewFrame);

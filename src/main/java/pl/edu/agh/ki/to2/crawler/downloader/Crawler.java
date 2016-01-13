@@ -16,7 +16,7 @@ public class Crawler {
 
     protected TaskQueue taskQueue;
     BlockingQueue<ParserFile> fileQueue;
-    private HashSet downloadedURLS;
+    private HashSet<String> downloadedURLS;
     ExecutorService executor;
     private Counter counter;
     private int maxSites;
@@ -35,7 +35,7 @@ public class Crawler {
         }
         this.executor = Executors.newFixedThreadPool(workersPool);
         this.maxSites = maxSites;
-        this.downloadedURLS = new HashSet();
+        this.downloadedURLS = new HashSet<>();
     }
 
     public void startCrawling() throws InterruptedException {
@@ -61,11 +61,11 @@ public class Crawler {
     }
 
     private synchronized void markDownloaded(URL url) {
-        downloadedURLS.add(url);
+        downloadedURLS.add(url.toString());
     }
 
     private synchronized boolean isDownloaded(URL url) {
-        return downloadedURLS.contains(url);
+        return downloadedURLS.contains(url.toString());
     }
 
     public TaskQueue getTaskQueue() {

@@ -48,7 +48,7 @@ public class DownloadTask implements Runnable {
     }
 
     private ParserFile getContent() throws IOException, UnsupportedFileException {
-
+        System.out.println("DownloadTask.getContent: Downloading from :" + url);
         HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
         int responseCode = httpConn.getResponseCode();
         String contentType;
@@ -61,6 +61,7 @@ public class DownloadTask implements Runnable {
         // check HTTP response code first
         if (responseCode == HttpURLConnection.HTTP_OK) {
             contentType = httpConn.getContentType();
+            System.out.println("contentType = " + contentType);
             //contentLength = httpConn.getContentLength();
             downloadedSize = 0;
 
