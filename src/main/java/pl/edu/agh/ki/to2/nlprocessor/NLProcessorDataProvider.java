@@ -51,7 +51,6 @@ public class NLProcessorDataProvider {
                     break;
             }
         }while(dictionary_instance==null);
-        System.out.println(dictionary_instance);
         return dictionary_instance;
     }
 }

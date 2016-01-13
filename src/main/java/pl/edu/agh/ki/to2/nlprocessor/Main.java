@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
         NLProcessor nlp = new NLProcessor();
         System.out.println("mysli");
-        Set<String> dim = nlp.getSynonyms("nuda");
+        Set<String> dim = nlp.getSynonyms("klucz");
         System.out.println(dim);
         Set<String> var = nlp.getVariants("aberracja");
         System.out.println(var);

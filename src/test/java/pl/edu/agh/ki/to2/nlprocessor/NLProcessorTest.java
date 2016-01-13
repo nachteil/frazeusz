@@ -14,8 +14,6 @@ import static org.junit.Assert.assertEquals;
  * Created by Zuch on 2015-12-10.
  */
 
-import java.nio.charset.Charset;
-
 
 public class NLProcessorTest {
     NLProcessor nlProcessor;
@@ -25,8 +23,8 @@ public class NLProcessorTest {
     }
     @Test
     public void returnsSetOfSynonyms(){
-        Set<String> result= nlProcessor.getSynonyms("nuda");
-        Set<String> expected_result = new HashSet<String>(Arrays.asList("nuda", "znudzenie"));
+        Set<String> result= nlProcessor.getSynonyms("klucz");
+        Set<String> expected_result = new HashSet<String>(Arrays.asList("system", "stroik", "filozofia", "mechanizm", "kluczyk", "zasada", "zwornik", "klucz", "maszynka"));
         assertEquals(result,expected_result);
     }
 
@@ -65,4 +63,24 @@ public class NLProcessorTest {
         assertEquals(expected_result,result);
     }
 
+    @Test
+    public void returnsSetOfSynonymsAng(){
+        Set<String> result= nlProcessor.getSynonyms("car");
+        Set<String> expected_result = new HashSet<String>(Arrays.asList("automobile", "railway car", "auto", "railcar", "railroad car", "car", "machine", "cable car", "motorcar", "elevator car", "gondola"));
+        assertEquals(result,expected_result);
+    }
+
+    @Test
+    public void returnsEmptySetOfSynonymsAng(){
+        Set<String> result= nlProcessor.getSynonyms("itIsNotAWord");
+        Set<String> expected_result = new HashSet<String>();
+        assertEquals(expected_result,result);
+    }
+
+    @Test
+    public void returnsSetOfSynonymsPolAng(){
+        Set<String> result= nlProcessor.getSynonyms("nuda");
+        Set<String> expected_result = new HashSet<String>(Arrays.asList("nuda", "znudzenie", "class Nuda", "Nuda"));
+        assertEquals(result,expected_result);
+    }
 }
