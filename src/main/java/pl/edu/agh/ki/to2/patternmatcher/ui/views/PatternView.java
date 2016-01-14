@@ -58,7 +58,7 @@ public class PatternView extends JPanel implements ActionListener {
                 message.setText("Wzorzec nie może być pusty!");
                 return;
             }
-            patternListing.addRow(patternInput.getPattern());
+            patternListing.addRow(new SearchPattern(patternInput.getPattern()));
             message.setText("");
         });
 

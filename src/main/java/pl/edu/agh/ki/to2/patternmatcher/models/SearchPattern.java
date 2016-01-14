@@ -10,6 +10,15 @@ public class SearchPattern {
     public SearchPattern() {
     }
 
+    public SearchPattern(SearchPattern searchPattern) {
+        pattern = searchPattern.pattern;
+        caseSensitive = searchPattern.caseSensitive;
+        synonyms = searchPattern.synonyms;
+        variants = searchPattern.variants;
+        diminutives = searchPattern.diminutives;
+
+    }
+
     public SearchPattern(String pattern) {
         this.pattern = pattern;
     }
