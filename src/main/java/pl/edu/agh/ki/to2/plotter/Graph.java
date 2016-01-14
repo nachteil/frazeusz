@@ -97,7 +97,7 @@ public class Graph extends JPanel{
 				list = lowerEntry.getValue();
 				counter += list.size();
 			}
-			dataset.addValue(counter, "", key.getPattern());
+			dataset.addValue(counter, "", key.getDescription());
 		}
 		renderer.setSeriesPaint(0, color);
 

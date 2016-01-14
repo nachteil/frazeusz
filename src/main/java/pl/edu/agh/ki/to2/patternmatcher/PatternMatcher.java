@@ -58,7 +58,8 @@ public class PatternMatcher extends AbstractMatchProvider implements IPatternMat
 
             List<String> matched = matcher.match(sentences);
             result.addAll(matched);
-            onMatchCompleted(pattern, matched, url);
+            if (matched.size() > 0)
+                onMatchCompleted(pattern, matched, url);
 
             pushEvent(sentences.size(), System.currentTimeMillis() - start);
         }

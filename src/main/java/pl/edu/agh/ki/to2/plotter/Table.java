@@ -29,7 +29,7 @@ public class Table extends JPanel {
         //empty = BorderFactory.createEmptyBorder(10,10,10,10);
         //setBorder(empty);
         setBackground(Color.white);
-
+        
         //dataModel = new DefaultTableModel(colNames, 20);
         dataModel = new DefaultTableModel(colNames, 0) {
             @Override
