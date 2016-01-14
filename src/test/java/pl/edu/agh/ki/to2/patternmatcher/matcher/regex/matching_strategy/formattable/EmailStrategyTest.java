@@ -5,9 +5,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import pl.edu.agh.ki.to2.nlprocessor.IWordProvider;
 
+import java.util.regex.Pattern;
+
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
+import static pl.edu.agh.ki.to2.patternmatcher.custom_matchers.IsRegexMatchingSequence.matchesSequence;
 
 public class EmailStrategyTest {
 
@@ -48,5 +52,13 @@ public class EmailStrategyTest {
 
         for (String format: invalidEmailFormats)
             assertThat(format + " should not match", strategy.containsFormattableText("pattern * " + format), is(false));
+    }
+
+    @Test
+    public void testFormat() {
+        Pattern p = strategy.compile(strategy.format("john.doe@gmail.com"));
+        assertThat(p, matchesSequence("john.doe[at]gmail.com"));
+        assertThat(p, matchesSequence("john.doe [at] gmail.com"));
+
     }
 }

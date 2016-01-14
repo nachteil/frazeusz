@@ -179,7 +179,7 @@ public class PatternMatcherTest {
 		patternMatcher.setPatterns(searchPatterns);
 		
 		List<String> results = patternMatcher.match(sentences, "url");
-		assertThat(results, hasSize(2));
+		assertThat(results, hasSize(3));
 	}
 	
 	@Test
