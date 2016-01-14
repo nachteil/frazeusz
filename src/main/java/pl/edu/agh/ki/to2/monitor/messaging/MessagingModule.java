@@ -27,7 +27,8 @@ public class MessagingModule {
     @Provides
     @Singleton
     MessageQueue createInMemoryMessageQueue(ClientConsumer consumer, ClientProducer producer, ClientSession session) {
-        return new InMemoryMessageQueue(consumer, producer, session);
+//        return new InMemoryMessageQueue(consumer, producer, session);
+        return new LinkedQueue();
     }
 
     @Provides
