@@ -19,56 +19,41 @@ import java.util.Set;
  * @author lis
  */
 
-//TODO test me
-
 public class HTMLParser implements IFileParser {
 
 	public HTMLParser(){}
 
 	@Override
 	public Set<URL> getUrls(ParserFile parserFile) {
-
 		Set<URL> urls = new HashSet<>();
-
 		// Getting document from string content
 		Document doc = Jsoup.parse(parserFile.getContent());
 		doc.setBaseUri(parserFile.getUrl().toString());
-
 		//Extracting links
 		Elements links = doc.select("a");
 		for(Element link: links){
 			try {
 				urls.add(new URL(link.attr("abs:href")));
-				// System.out.println("HTML FOUND URL: " + link.attr("abs:href"));
-			} catch (MalformedURLException e) {
+                // System.out.println("FOUND URL: " + link.attr("abs:href"));
+            } catch (MalformedURLException e) {
 				// e.printStackTrace();
 			}
 		}
-
 		return urls;
 	}
 
 	@Override
 	public List<String> getSentences(ParserFile parserFile) {
-
 		List<String> sentences = new ArrayList<>();
-
 		// Getting all html content
 		Document doc = Jsoup.parse(parserFile.getContent());
 		Elements elements = doc.body().select("*");
-
 		// Extracting sentences
-		// TODO smarter way to extract sentences
 		for (Element element : elements)
 		{
 			if (element.ownText().trim().length() > 1)
 			{
-				for (String sentence : element.ownText().split("\\.")){
-					if(!(sentence = sentence.trim()).isEmpty()) {
-						sentences.add(sentence);
-						// System.out.println("HTML FOUND SENTENCE: " + sentence);
-					}
-				}
+				sentences.addAll(Extractor.extractSentences(element.ownText()));
 			}
 		}
 		return sentences;
