@@ -7,9 +7,13 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Created by Adam on 29.11.2015.
+ * Created by lis on 08.01.16.
+ * @author lis
  */
+
+// TODO stream from getContent() not working
+
 public interface IFileParser {
-    public Set<URL> getUrls(ParserFile parserFile);
-    public List<String> getSentences(ParserFile parserFile);
+    Set<URL> getUrls(ParserFile parserFile);
+    List<String> getSentences(ParserFile parserFile);
 }

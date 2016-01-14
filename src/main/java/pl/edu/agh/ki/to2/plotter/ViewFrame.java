@@ -1,6 +1,7 @@
 package pl.edu.agh.ki.to2.plotter;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,21 +11,35 @@ import java.awt.event.WindowEvent;
 /**
  * Created by Sara on 2015-12-09.
  */
-public class ViewFrame extends JFrame{
+public class ViewFrame extends JFrame implements ActionListener{
     public final static int INTERVAL = 1000;
     Timer timer;
     Ploter ploter;
+
+    private JPanel leftPane;
+    private JButton export;
 
     Table tab;
     Graph graph;
 
     public ViewFrame(){
-        setSize(1000,1000);
         setLayout(new GridLayout(1,2));
+        leftPane = new JPanel();
+        export = new JButton("Export to file");
+        export.addActionListener(this);
         tab = new Table();
-        add(tab);
         graph = new Graph();
+
+        Border empty =BorderFactory.createEmptyBorder(10,10,10,10);
+        leftPane.setBorder(empty);
+        leftPane.setLayout(new BorderLayout());
+        leftPane.add(tab, BorderLayout.CENTER);
+        leftPane.add(export, BorderLayout.PAGE_END);
+
+        add(leftPane);
         add(graph);
+
+        setSize(1000,1000);
 
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent){
@@ -62,6 +77,12 @@ public class ViewFrame extends JFrame{
 
     public void setPloter(Ploter ploter) {
         this.ploter = ploter;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        System.out.println("Export");
+
     }
 
 }

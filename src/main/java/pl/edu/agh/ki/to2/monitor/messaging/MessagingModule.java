@@ -8,6 +8,8 @@ import org.hornetq.api.core.client.ClientSession;
 import pl.edu.agh.ki.to2.monitor.Monitor;
 import pl.edu.agh.ki.to2.monitor.contract.MonitorPubSub;
 import pl.edu.agh.ki.to2.monitor.messaging.hornet.HornetModule;
+import pl.edu.agh.ki.to2.monitor.util.SystemTimeProvider;
+import pl.edu.agh.ki.to2.monitor.util.TimeProvider;
 
 import javax.inject.Singleton;
 
@@ -26,5 +28,11 @@ public class MessagingModule {
     @Singleton
     MessageQueue createInMemoryMessageQueue(ClientConsumer consumer, ClientProducer producer, ClientSession session) {
         return new InMemoryMessageQueue(consumer, producer, session);
+    }
+
+    @Provides
+    @Singleton
+    TimeProvider timeProvider() {
+        return new SystemTimeProvider();
     }
 }

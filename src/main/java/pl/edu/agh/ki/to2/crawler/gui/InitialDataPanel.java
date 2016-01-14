@@ -12,14 +12,15 @@ import java.awt.*;
  */
 public class InitialDataPanel extends JPanel{
     private JButton deleteButton;
-    private JButton submitButton;
     private JButton addButton;
     private JLabel maxDepthLabel;
     private JLabel maxNumberOfFilesLabel;
     private JLabel addUrlLabel;
+    private JLabel filesPerSecondLabel;
     private JTextField maxDepthField;
     private JTextField addUrlField;
     private JTextField maxNumberOfFilesField;
+    private JTextField filesPerSecondField;
     private JList listOfUrlsPane;
     private DefaultListModel model;
 
@@ -35,14 +36,15 @@ public class InitialDataPanel extends JPanel{
 
     private void initComponents(){
         this.deleteButton = new JButton("Delete");
-        this.submitButton = new JButton("Submit");
         this.addButton = new JButton("Add");
         this.maxDepthLabel = new JLabel("Max Depth:");
         this.maxNumberOfFilesLabel = new JLabel("Max number of files:");
         this.addUrlLabel = new JLabel("Add URL:");
+        this.filesPerSecondLabel = new JLabel("Max files per second:");
         this.maxDepthField = new JTextField();
         this.maxNumberOfFilesField = new JTextField();
         this.addUrlField = new JTextField();
+        this.filesPerSecondField = new JTextField();
         this.model = new DefaultListModel();
         this.listOfUrlsPane = new JList(model);
     }
@@ -53,8 +55,8 @@ public class InitialDataPanel extends JPanel{
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
         upInitialDatePanel.setLayout(gridbag);
-        addLabelTextRows(new JLabel[]{maxDepthLabel, maxNumberOfFilesLabel, addUrlLabel},
-                new JTextField[]{maxDepthField, maxNumberOfFilesField, addUrlField},
+        addLabelTextRows(new JLabel[]{maxDepthLabel, maxNumberOfFilesLabel, addUrlLabel, filesPerSecondLabel},
+                new JTextField[]{maxDepthField, maxNumberOfFilesField, addUrlField, filesPerSecondField},
                 gridbag, upInitialDatePanel);
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.anchor = GridBagConstraints.WEST;
@@ -80,7 +82,6 @@ public class InitialDataPanel extends JPanel{
         delPanel.setLayout(gridbag);
         delPanel.add(deleteButton,c);
         downInitialDatePanel.add(delPanel, BorderLayout.CENTER);
-        downInitialDatePanel.add(submitButton, BorderLayout.SOUTH);
 
         add(upInitialDatePanel, BorderLayout.NORTH);
         add(downInitialDatePanel, BorderLayout.CENTER);
@@ -119,14 +120,6 @@ public class InitialDataPanel extends JPanel{
 
     public void setDeleteButton(JButton deleteButton) {
         this.deleteButton = deleteButton;
-    }
-
-    public JButton getSubmitButton() {
-        return submitButton;
-    }
-
-    public void setSubmitButton(JButton submitButton) {
-        this.submitButton = submitButton;
     }
 
     public JLabel getMaxDepthLabel() {
@@ -200,6 +193,22 @@ public class InitialDataPanel extends JPanel{
 
     public void setModel(DefaultListModel model) {
         this.model = model;
+    }
+
+    public JLabel getFilesPerSecondLabel() {
+        return filesPerSecondLabel;
+    }
+
+    public void setFilesPerSecondLabel(JLabel filesPerSecondLabel) {
+        this.filesPerSecondLabel = filesPerSecondLabel;
+    }
+
+    public JTextField getFilesPerSecondField() {
+        return filesPerSecondField;
+    }
+
+    public void setFilesPerSecondField(JTextField filesPerSecondField) {
+        this.filesPerSecondField = filesPerSecondField;
     }
 
 }

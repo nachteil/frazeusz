@@ -22,6 +22,14 @@ public class SearchPattern {
         this.diminutives = diminutives;
     }
 
+    public SearchPattern(SearchPattern pattern) {
+        this.pattern = pattern.getPattern();
+        this.caseSensitive = pattern.getCaseSensitive();
+        this.synonyms = pattern.getSynonyms();
+        this.variants = pattern.getVariants();
+        this.diminutives = pattern.getDiminutives();
+    }
+
     public String getPattern() {
         return pattern;
     }

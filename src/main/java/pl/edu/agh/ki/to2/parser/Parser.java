@@ -6,22 +6,32 @@ import pl.edu.agh.ki.to2.parser.parsingControl.ParserFile;
 import pl.edu.agh.ki.to2.parser.parsingControl.ParserThread;
 import pl.edu.agh.ki.to2.patternmatcher.IPatternMatcher;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
+
+/**
+ * Created by Adam on 29.11.2015.
+ * @author Adam
+ */
+
+// TODO fill docs in free time
 
 public class Parser {
 
     private List<ParserThread> threadsList;
 
     public Parser(BlockingQueue<ParserFile> fileQueue, IPutter iPutter, IPatternMatcher iPatternMatcher, int threads){
+        threadsList = new ArrayList<>();
         init(fileQueue, iPutter, iPatternMatcher, threads);
     }
 
     private void init(BlockingQueue<ParserFile> fileQueue, IPutter iPutter, IPatternMatcher iPatternMatcher, int threads) {
         FileParserFactory factory = new FileParserFactory();
         for (int i = 0; i < threads; i++) {
+            // start ParserThreads
             ParserThread thread = new ParserThread(fileQueue, iPutter, iPatternMatcher, factory);
-            thread.run();
+            new Thread(thread).start();
             threadsList.add(thread);
         }
     }
@@ -34,7 +44,7 @@ public class Parser {
 
     public boolean isWorking(){
         for(ParserThread p : threadsList){
-            if(p.inProgress() == true){
+            if(p.inProgress()){
                 return true;
             }
         }

@@ -13,29 +13,31 @@ import java.awt.event.WindowEvent;
  * Created by Rav on 2015-11-25.
  */
 public class DataFrame extends JFrame {
+    private JButton monitorButton;
     private JButton submitButton;
     private JButton closeButton;
     private InitialDataPanel initialDataPanel;
+    private JTabbedPane tabbedPane;
 
     private DateFrameController dateFrameController;
 
     public DataFrame(DateFrameController dateFrameController) {
         super("Frazeusz");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
         this.dateFrameController = dateFrameController;
         dateFrameController.setDateFrame(this);
         initComponents();
         addListeners();
-        setResizable(false);
-        setSize(new Dimension( 500, 400 ));
+        setResizable(true);
+        setSize(new Dimension( 1000, 1000 ));
     }
 
     private void initComponents() {
         submitButton = new JButton("Start");
         closeButton = new JButton("Close");
         initialDataPanel = new InitialDataPanel(dateFrameController);
-        JTabbedPane tabbedPane = new JTabbedPane();
+        tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Initial Data", initialDataPanel);
         tabbedPane.addTab("Patterns", dateFrameController.getPatternMatcher().getView());
         tabbedPane.addTab("Monitor", Monitor.getInstance().getMonitorTabPanel());
@@ -68,7 +70,9 @@ public class DataFrame extends JFrame {
                         JOptionPane.ERROR_MESSAGE);
             } else {
                 dateFrameController.start();
-                dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+                tabbedPane.setSelectedIndex(2);
+                tabbedPane.setEnabledAt(0,false);
+                tabbedPane.setEnabledAt(1,false);
             }
         });
     }

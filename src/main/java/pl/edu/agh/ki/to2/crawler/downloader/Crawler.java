@@ -3,8 +3,12 @@ package pl.edu.agh.ki.to2.crawler.downloader;
 import pl.edu.agh.ki.to2.monitor.Monitor;
 import pl.edu.agh.ki.to2.parser.parsingControl.ParserFile;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -14,31 +18,59 @@ public class Crawler {
 
     protected TaskQueue taskQueue;
     BlockingQueue<ParserFile> fileQueue;
-    private HashSet downloadedURLS;
+    private HashSet<String> downloadedURLS;
     ExecutorService executor;
     private Counter counter;
     private int maxSites;
+    private int filesPerSecond;
+    private int crawledInASecond = 0;
     private int maxStreamSize = 10485760; //10 MB
 
-    public Crawler(int workersPool, int maxSites, int maxDepth) {
+    public Crawler(int workersPool, int maxSites, int maxDepth, List<String> urls, int filesPerSecond) {
         this.fileQueue = new LinkedBlockingQueue<>();
-        this.counter = new Counter(Monitor.getInstance().getMonitorPubSub(), 10);
+        this.counter = new Counter(Monitor.getInstance().getMonitorPubSub(), 10, 1024);
         this.taskQueue = makeTaskQueue(fileQueue, maxDepth, counter, maxStreamSize);
+        for (String path : urls) {
+            try {
+                taskQueue.put(new URL(path), 0);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
+        this.counter.startQueueLengthNotifier(taskQueue);
         this.executor = Executors.newFixedThreadPool(workersPool);
         this.maxSites = maxSites;
-        this.downloadedURLS = new HashSet();
+        this.filesPerSecond = filesPerSecond;
+        this.downloadedURLS = new HashSet<>();
+    }
+
+    class CrawlingRestarter extends TimerTask {
+        public void run() {
+            crawledInASecond=0;
+        }
     }
 
     public void startCrawling() throws InterruptedException {
         DownloadTask task;
         URL url;
+
+        // And From your main() method or any other method
+        Timer timer = new Timer();
+        timer.schedule(new CrawlingRestarter(), 0, 1000);
+
         while (notFinished()) {
-            task = taskQueue.get();
-            url = task.getURL();
-            if (isDownloaded(url))
-                continue;
-            executor.execute(task);
-            markDownloaded(url);
+            if(crawledInASecond<filesPerSecond) {
+                    task = taskQueue.get();
+                    if(task == null){
+                        break;
+                    }
+                    url = task.getURL();
+                    if (isDownloaded(url))
+                        continue;
+                    executor.execute(task);
+                    markDownloaded(url);
+                    crawledInASecond++;
+                }
         }
         counter.sendLastEvents();
     }
@@ -48,11 +80,11 @@ public class Crawler {
     }
 
     private synchronized void markDownloaded(URL url) {
-        downloadedURLS.add(url);
+        downloadedURLS.add(url.toString());
     }
 
     private synchronized boolean isDownloaded(URL url) {
-        return downloadedURLS.contains(url);
+        return downloadedURLS.contains(url.toString());
     }
 
     public TaskQueue getTaskQueue() {
@@ -64,7 +96,7 @@ public class Crawler {
     }
 
     private TaskQueue makeTaskQueue(BlockingQueue<ParserFile> fileQueue, int maxDepth,
-                                    Counter counter, int maxStreamSize){
+                                    Counter counter, int maxStreamSize) {
         return new TaskQueue(fileQueue, maxDepth, counter, maxStreamSize);
     }
 
