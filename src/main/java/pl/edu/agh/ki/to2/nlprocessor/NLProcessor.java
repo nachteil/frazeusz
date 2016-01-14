@@ -31,23 +31,28 @@ public class NLProcessor  implements IWordProvider {
     public Set<String> getDiminutives(String word) {
         Set<String> diminutives =new HashSet<String>();
         for(Language language : Language.values()) {
-            Dictionary dictionary_instance = data_instance.getDictionary(language);
-            WildcardFilter wording = new WildcardFilter(word, true);
-            Iterator terms = dictionary_instance.getIndexTermIterator(1, wording);
-            while (terms.hasNext()) {
-                IndexTerm term = (IndexTerm) terms.next();
-                Synset[] synsets = term.getSynsets();
-                Synset key_synset = synsets[0];
-                List<Pointer> pointers = key_synset.getPointers();
-                for (Pointer pointer : pointers) {
-                    String pointer_symbol = pointer.getPointerSymbol();
-                    if (pointer_symbol.equals("nd") || pointer_symbol.equals("diminaa")) {
-                        List<WordData> words = pointer.getSynset().getWord();
-                        for (WordData w : words) {
-                            String diminutive = w.getWord();
-                            diminutives.add(diminutive);
+                Dictionary dictionary_instance = data_instance.getDictionary(language);
+                WildcardFilter wording = new WildcardFilter(word, true);
+                Iterator terms = dictionary_instance.getIndexTermIterator(1, wording);
+                while (terms.hasNext()) {
+                    IndexTerm term = (IndexTerm) terms.next();
+                    Synset[] synsets = term.getSynsets();
+                    Synset key_synset = synsets[0];
+                    List<Pointer> pointers = key_synset.getPointers();
+                    for (Pointer pointer : pointers) {
+                        try {
+                        String pointer_symbol = pointer.getPointerSymbol();
+                        if (pointer_symbol.equals("nd") || pointer_symbol.equals("diminaa")) {
+                            List<WordData> words = pointer.getSynset().getWord();
+                            for (WordData w : words) {
+                                String diminutive = w.getWord();
+                                diminutives.add(diminutive);
+                            }
                         }
                     }
+                        catch(Exception e){
+
+                        }
                 }
             }
         }
@@ -57,22 +62,26 @@ public class NLProcessor  implements IWordProvider {
     public Set<String> getSynonyms(String word) {
         Set<String> synonyms = new HashSet<String>();
         for(Language language : Language.values()) {
-            Dictionary dictionary_instance = data_instance.getDictionary(language);
-            WildcardFilter wording = new WildcardFilter(word, true);
-            Iterator terms = dictionary_instance.getIndexTermIterator(1, wording);
-            while (terms.hasNext()) {
-                IndexTerm term = (IndexTerm) terms.next();
-                Synset[] synsets = term.getSynsets();
-                for (Synset synset : synsets) {
-                    List<WordData> words = synset.getWord();
-                    for (WordData word_data : words) {
-                        String synonym = word_data.getWord();
-                        synonyms.add(synonym);
-                    }
+                Dictionary dictionary_instance = data_instance.getDictionary(language);
+                WildcardFilter wording = new WildcardFilter(word, true);
+                Iterator terms = dictionary_instance.getIndexTermIterator(1, wording);
+                while (terms.hasNext()) {
+                    IndexTerm term = (IndexTerm) terms.next();
+                    Synset[] synsets = term.getSynsets();
+                    for (Synset synset : synsets) {
+                        try{
+                        List<WordData> words = synset.getWord();
+                        for (WordData word_data : words) {
+                            String synonym = word_data.getWord();
+                            synonyms.add(synonym);
+                        }
 
+                    }
+                        catch(Exception e){}
+
+                    }
                 }
             }
-        }
         return synonyms;
     }
 
