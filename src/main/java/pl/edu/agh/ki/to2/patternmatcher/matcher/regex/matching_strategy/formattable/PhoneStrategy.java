@@ -53,7 +53,7 @@ public class PhoneStrategy extends AbstractFormattableStrategy {
         }
         else {
             return String.format(
-                    "(?:\\+|00)" +
+                    "(?:(?:\\+|00)" +
                     "%s" +
                     "\\u0020?)?" +
                     "%s" +
@@ -61,7 +61,7 @@ public class PhoneStrategy extends AbstractFormattableStrategy {
                     "%s" +
                     "\\k<sep1>" +
                     "%s",
-                    groupValues.get("country"),
+                    groupValues.get("country") != null ? groupValues.get("country") : "48",
                     groupValues.get("num1"),
                     groupValues.get("num2"),
                     groupValues.get("num3")

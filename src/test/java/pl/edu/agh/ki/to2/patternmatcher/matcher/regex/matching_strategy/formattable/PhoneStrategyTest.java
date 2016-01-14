@@ -60,5 +60,14 @@ public class PhoneStrategyTest {
         Pattern p = strategy.compile(strategy.format("32 623 98 20"));
         assertThat(p, matchesSequence("32 6239820"));
         assertThat(p, not(matchesSequence("32 623 12 32")));
+
+        p = strategy.compile(strategy.format("703 402 503"));
+        assertThat(p, matchesSequence("703 402 503"));
+        assertThat(p, matchesSequence("703402503"));
+        assertThat(p, matchesSequence("+48 703 402 503"));
+        assertThat(p, matchesSequence("0048703402503"));
+        assertThat(p, matchesSequence("703-402-503"));
+        assertThat(p, not(matchesSequence("703 402503")));
+        assertThat(p, not(matchesSequence("703 402 502")));
     }
 }
