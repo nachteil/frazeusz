@@ -10,8 +10,6 @@ import java.util.ArrayList;
  * @author Adam
  */
 
-// TODO test me
-
 public class ParserFile{
 
     private String content;
@@ -29,10 +27,10 @@ public class ParserFile{
         add("application/vnd.oasis.opendocument.text");
     }};
 
-    public ParserFile(String content, String fileExtention, URL url, int depth)  throws UnsupportedFileException {
-        if(isFileExtentionSupported(fileExtention)) {
+    public ParserFile(String content, String fileExtension, URL url, int depth)  throws UnsupportedFileException {
+        if(isFileExtensionSupported(fileExtension)) {
             this.content = content;
-            this.fileExtension = fileExtention;
+            this.fileExtension = fileExtension;
             this.url = url;
             this.depth = depth;
         }
@@ -41,9 +39,9 @@ public class ParserFile{
         }
     }
 
-    public Boolean isFileExtentionSupported(String fileExtention) {
+    public static Boolean isFileExtensionSupported(String fileExtension) {
         for (String ext : supportedFiles) {
-            if(fileExtention.contains(ext)){
+            if(fileExtension.contains(ext)){
                 return true;
             }
         }

@@ -7,9 +7,6 @@ import pl.edu.agh.ki.to2.parser.parsingControl.ParserFile;
  * @author lis
  */
 
-// TODO test me
-// TODO mabye some switch ???
-
 public class FileParserFactory {
 
     IFileParser htmlParser;

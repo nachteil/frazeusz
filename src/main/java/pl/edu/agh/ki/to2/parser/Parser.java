@@ -15,7 +15,7 @@ import java.util.concurrent.BlockingQueue;
  * @author Adam
  */
 
-// TODO test me
+// TODO fill docs in free time
 
 public class Parser {
 

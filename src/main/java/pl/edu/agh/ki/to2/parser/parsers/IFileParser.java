@@ -11,8 +11,7 @@ import java.util.Set;
  * @author lis
  */
 
-// TODO test me
-// TODO mebye add some defaults ?
+// TODO stream from getContent() not working
 
 public interface IFileParser {
     Set<URL> getUrls(ParserFile parserFile);

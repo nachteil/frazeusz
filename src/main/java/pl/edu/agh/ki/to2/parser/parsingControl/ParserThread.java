@@ -2,6 +2,7 @@ package pl.edu.agh.ki.to2.parser.parsingControl;
 
 import pl.edu.agh.ki.to2.crawler.IPutter;
 import pl.edu.agh.ki.to2.parser.parsers.FileParserFactory;
+import pl.edu.agh.ki.to2.parser.parsers.IFileParser;
 import pl.edu.agh.ki.to2.patternmatcher.IPatternMatcher;
 
 import java.net.URL;
@@ -16,8 +17,6 @@ import static java.lang.Thread.sleep;
  * Created by Adam on 29.11.2015.
  * @author Adam
  */
-
-// TODO test me
 
 public class ParserThread implements Runnable {
 
@@ -50,13 +49,15 @@ public class ParserThread implements Runnable {
             }
             if(file != null) {
                 // Extracting urls and sentences from parserFile
-                Set<URL> urls = factory.getFileParser(file).getUrls(file);
-                List<String> sentences = factory.getFileParser(file).getSentences(file);
+                IFileParser parser = factory.getFileParser(file);
+                Set<URL> urls = parser.getUrls(file);
+                List<String> sentences = parser.getSentences(file);
                 // Sending urls and sentences further
                 for (URL url : urls) {
                     iPutter.put(url, file.getDepth() + 1);
                 }
                 iPatternMatcher.match(sentences, file.getUrl().toString());
+                System.out.println(sentences);
             }
             else{
                 try {
