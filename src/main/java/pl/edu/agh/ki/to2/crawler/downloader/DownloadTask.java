@@ -37,10 +37,9 @@ public class DownloadTask implements Runnable {
         try {
             ParserFile parserFile = getContent();
             if (parserFile == null) {
-                counter.decreaseSitesUnderExecution();
                 return;
             }
-            counter.decreaseSitesUnderExecution();
+            counter.increasePagesCounter();
             fileQueue.put(parserFile);
         } catch (IOException | InterruptedException | UnsupportedFileException e) {
             e.printStackTrace();
@@ -48,7 +47,6 @@ public class DownloadTask implements Runnable {
     }
 
     private ParserFile getContent() throws IOException, UnsupportedFileException {
-
         HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
         int responseCode = httpConn.getResponseCode();
         String contentType;
@@ -61,6 +59,10 @@ public class DownloadTask implements Runnable {
         // check HTTP response code first
         if (responseCode == HttpURLConnection.HTTP_OK) {
             contentType = httpConn.getContentType();
+            if(! ParserFile.isFileExtentionSupported(contentType)){
+                httpConn.disconnect();
+                return null;
+            }
             //contentLength = httpConn.getContentLength();
             downloadedSize = 0;
 

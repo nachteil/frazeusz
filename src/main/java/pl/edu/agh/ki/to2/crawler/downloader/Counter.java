@@ -4,6 +4,10 @@ import pl.edu.agh.ki.to2.monitor.contract.Event;
 import pl.edu.agh.ki.to2.monitor.contract.EventType;
 import pl.edu.agh.ki.to2.monitor.contract.MonitorPubSub;
 
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.BlockingQueue;
+
 public class Counter {
 
     private MonitorPubSub monitorPubSub;
@@ -12,17 +16,14 @@ public class Counter {
     private int pagesChunk;
     private int downloadedDataSinceLastEvent;
     private int downloadedDataChunk;    //in KB
-    private int bytes;
-    private int sitesUnderExecution;
 
-    Counter(MonitorPubSub monitorPubSub, int pagesChunk) {
+    Counter(MonitorPubSub monitorPubSub, int pagesChunk, int downloadedDataChunk) {
         this.monitorPubSub = monitorPubSub;
         this.pagesCrawled = 0;
         this.pagesChunk = pagesChunk;
         this.pagesSinceLastEvent = 0;
-        this.downloadedDataChunk = 0;
+        this.downloadedDataChunk = downloadedDataChunk;
         this.downloadedDataSinceLastEvent = 0;
-        this.sitesUnderExecution = 0;
     }
 
     public synchronized int getPagesCrawled() {
@@ -38,13 +39,6 @@ public class Counter {
         }
     }
 
-    public void increaseSitesUnderExecution() {
-        this.sitesUnderExecution++;
-    }
-
-    public void decreaseSitesUnderExecution() {
-        this.sitesUnderExecution--;
-    }
 
     public synchronized void increasePagesCounter() {
         this.pagesCrawled++;
@@ -59,7 +53,7 @@ public class Counter {
         sendEvent(pagesCrawled, EventType.PAGES_CRAWLED);
     }
 
-    private void sendEvent(int amount, EventType eventType) {
+    private synchronized void sendEvent(int amount, EventType eventType) {
         Event event = new Event();
         event.setTimestamp(System.currentTimeMillis());
         event.setAmount(amount);
@@ -71,8 +65,21 @@ public class Counter {
         return bytes / 1024;
     }
 
-    public int getSitesUnderExecution() {
-        return sitesUnderExecution;
+    void startQueueLengthNotifier(TaskQueue taskQueue){
+        Timer timer = new Timer();
+        timer.schedule(new QueueLengthNotifier(taskQueue), 0, 60000);
+    }
+
+    class QueueLengthNotifier extends TimerTask {
+        private TaskQueue taskQueue;
+
+        public QueueLengthNotifier(TaskQueue taskQueue) {
+            this.taskQueue = taskQueue;
+        }
+
+        public void run(){
+            sendEvent(taskQueue.getLength(), EventType.QUEUE_LENGTH);
+        }
     }
 
 }

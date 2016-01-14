@@ -6,6 +6,7 @@ import pl.edu.agh.ki.to2.parser.parsingControl.ParserFile;
 import java.net.URL;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 public class TaskQueue implements IPutter {
 
@@ -25,7 +26,7 @@ public class TaskQueue implements IPutter {
     }
 
     public DownloadTask get() throws InterruptedException {
-        return this.tasks.take();
+        return this.tasks.poll(1, TimeUnit.MINUTES);
     }
 
     @Override
@@ -44,5 +45,9 @@ public class TaskQueue implements IPutter {
                                           BlockingQueue<ParserFile> fileQueue,
                                           int maxStreamSize, URL url) {
         return new DownloadTask(counter, depth, fileQueue, maxStreamSize, url);
+    }
+
+    public int getLength() {
+        return this.tasks.size();
     }
 }

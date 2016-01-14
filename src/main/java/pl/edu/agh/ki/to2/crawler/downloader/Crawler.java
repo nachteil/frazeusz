@@ -18,7 +18,7 @@ public class Crawler {
 
     protected TaskQueue taskQueue;
     BlockingQueue<ParserFile> fileQueue;
-    private HashSet downloadedURLS;
+    private HashSet<String> downloadedURLS;
     ExecutorService executor;
     private Counter counter;
     private int maxSites;
@@ -28,7 +28,7 @@ public class Crawler {
 
     public Crawler(int workersPool, int maxSites, int maxDepth, List<String> urls, int filesPerSecond) {
         this.fileQueue = new LinkedBlockingQueue<>();
-        this.counter = new Counter(Monitor.getInstance().getMonitorPubSub(), 10);
+        this.counter = new Counter(Monitor.getInstance().getMonitorPubSub(), 10, 1024);
         this.taskQueue = makeTaskQueue(fileQueue, maxDepth, counter, maxStreamSize);
         for (String path : urls) {
             try {
@@ -37,10 +37,11 @@ public class Crawler {
                 e.printStackTrace();
             }
         }
+        this.counter.startQueueLengthNotifier(taskQueue);
         this.executor = Executors.newFixedThreadPool(workersPool);
         this.maxSites = maxSites;
         this.filesPerSecond = filesPerSecond;
-        this.downloadedURLS = new HashSet();
+        this.downloadedURLS = new HashSet<>();
     }
 
     class CrawlingRestarter extends TimerTask {
@@ -59,18 +60,17 @@ public class Crawler {
 
         while (notFinished()) {
             if(crawledInASecond<filesPerSecond) {
-                if (counter.getSitesUnderExecution() < 200) {
                     task = taskQueue.get();
+                    if(task == null){
+                        break;
+                    }
                     url = task.getURL();
                     if (isDownloaded(url))
                         continue;
                     executor.execute(task);
                     markDownloaded(url);
-                    counter.increasePagesCounter();
-                    counter.increaseSitesUnderExecution();
                     crawledInASecond++;
                 }
-            }
         }
         counter.sendLastEvents();
     }
@@ -80,11 +80,11 @@ public class Crawler {
     }
 
     private synchronized void markDownloaded(URL url) {
-        downloadedURLS.add(url);
+        downloadedURLS.add(url.toString());
     }
 
     private synchronized boolean isDownloaded(URL url) {
-        return downloadedURLS.contains(url);
+        return downloadedURLS.contains(url.toString());
     }
 
     public TaskQueue getTaskQueue() {
