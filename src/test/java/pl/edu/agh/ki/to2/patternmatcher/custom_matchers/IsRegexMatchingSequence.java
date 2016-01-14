@@ -14,7 +14,7 @@ public class IsRegexMatchingSequence extends TypeSafeMatcher<Pattern> {
 
     @Override
     public void describeTo(Description description) {
-
+        description.appendText("to match " + sequence);
     }
 
     @Override
