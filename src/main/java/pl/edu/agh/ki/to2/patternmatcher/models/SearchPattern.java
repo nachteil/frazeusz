@@ -10,15 +10,6 @@ public class SearchPattern {
     public SearchPattern() {
     }
 
-    public SearchPattern(SearchPattern searchPattern) {
-        pattern = searchPattern.pattern;
-        caseSensitive = searchPattern.caseSensitive;
-        synonyms = searchPattern.synonyms;
-        variants = searchPattern.variants;
-        diminutives = searchPattern.diminutives;
-
-    }
-
     public SearchPattern(String pattern) {
         this.pattern = pattern;
     }
@@ -29,6 +20,14 @@ public class SearchPattern {
         this.synonyms = synonyms;
         this.variants = variants;
         this.diminutives = diminutives;
+    }
+
+    public SearchPattern(SearchPattern pattern) {
+        this.pattern = pattern.getPattern();
+        this.caseSensitive = pattern.getCaseSensitive();
+        this.synonyms = pattern.getSynonyms();
+        this.variants = pattern.getVariants();
+        this.diminutives = pattern.getDiminutives();
     }
 
     public String getPattern() {

@@ -44,7 +44,7 @@ public class PatternView extends JPanel implements ActionListener {
         patternPanel.setLayout(new BoxLayout(patternPanel, BoxLayout.PAGE_AXIS));
         patternPanel.add(msgPanel);
 
-        patternInput = new PatternInput();
+        patternInput = new PatternInput(new SearchPattern());
         patternPanel.add(patternInput);
 
         patternPanel.add(buttonPanel);
@@ -59,6 +59,7 @@ public class PatternView extends JPanel implements ActionListener {
                 return;
             }
             patternListing.addRow(new SearchPattern(patternInput.getPattern()));
+            patternInput.setModel(new SearchPattern());
             message.setText("");
         });
 

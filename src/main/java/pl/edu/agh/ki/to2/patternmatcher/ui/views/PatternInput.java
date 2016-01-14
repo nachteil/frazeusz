@@ -15,9 +15,9 @@ public class PatternInput extends JPanel {
     private JCheckBox variantCheckBox;
     private JCheckBox diminutiveCheckBox;
 
-    public PatternInput() {
-        model = new SearchPattern();
+    public PatternInput(SearchPattern pattern) {
         createUIComponents();
+        setModel(pattern);
     }
 
     public SearchPattern getModel() {
@@ -26,6 +26,7 @@ public class PatternInput extends JPanel {
 
     public void setModel(SearchPattern model) {
         this.model = model;
+        bindModel(model);
     }
 
     private void bindModel(SearchPattern model) {
@@ -70,7 +71,5 @@ public class PatternInput extends JPanel {
         this.add(synonymsCheckBox);
         this.add(variantCheckBox);
         this.add(diminutiveCheckBox);
-
-        bindModel(model);
     }
 }
