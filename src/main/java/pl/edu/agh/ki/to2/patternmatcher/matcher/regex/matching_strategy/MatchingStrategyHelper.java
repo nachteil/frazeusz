@@ -12,6 +12,9 @@ public class MatchingStrategyHelper {
 
     private static Pattern wordPattern = Pattern.compile("(?<=\\s|^)[^\\s*]+(?=\\s|$)");
 
+    public static String escapeOnce(String pattern) {
+        return pattern.replace("\\", "\\\\");
+    }
     public static String escape(String pattern) {
         return pattern.replace("\\", "\\\\\\\\");
     }
