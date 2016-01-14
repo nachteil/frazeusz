@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import static java.lang.Thread.sleep;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -21,12 +22,12 @@ public class NLProcessorTest {
     public void initialize(){
         nlProcessor = new NLProcessor();
     }
-//    @Test
-//    public void returnsSetOfSynonyms(){
-//        Set<String> result= nlProcessor.getSynonyms("nuda");
-//        Set<String> expected_result = new HashSet<String>(Arrays.asList("nuda", "znudzenie"));
-//        assertEquals(result,expected_result);
-//    }
+    @Test
+    public void returnsSetOfSynonyms(){
+        Set<String> result= nlProcessor.getSynonyms("klucz");
+        Set<String> expected_result = new HashSet<String>(Arrays.asList("system", "stroik", "filozofia", "mechanizm", "kluczyk", "zasada", "zwornik", "klucz", "maszynka"));
+        assertEquals(result,expected_result);
+    }
 
 
     @Test
@@ -36,11 +37,17 @@ public class NLProcessorTest {
         assertEquals(expected_result,result);
     }
 
-//    @Test
-//    public void returnsSetOfDiminutives(){
-//        Set<String> result= nlProcessor.getDiminutives("dom");
-//        Set<String> expected_result = new HashSet<String>(Arrays.asList("domina", "domek"));
-//        assertEquals(expected_result,result);}
+    @Test
+    public void returnsSetOfDiminutives(){
+        //protect from mixing dictionaryPol
+        try {
+            sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Set<String> result= nlProcessor.getDiminutives("dom");
+        Set<String> expected_result = new HashSet<String>(Arrays.asList("domina", "domek"));
+        assertEquals(expected_result,result);}
 
     @Test
     public void returnsEmptySetOfDiminutives(){
@@ -48,7 +55,6 @@ public class NLProcessorTest {
         Set<String> expected_result = new HashSet<String>();
         assertEquals(expected_result, result);
     }
-    //TODO brak polskich znakow powoduje assert
     @Test
     public void returnSetOfVariants(){
         Set<String> result= nlProcessor.getVariants("Atlantydy");
@@ -63,4 +69,24 @@ public class NLProcessorTest {
         assertEquals(expected_result,result);
     }
 
+    @Test
+    public void returnsSetOfSynonymsAng(){
+        Set<String> result= nlProcessor.getSynonyms("car");
+        Set<String> expected_result = new HashSet<String>(Arrays.asList("automobile", "railway car", "auto", "railcar", "railroad car", "car", "machine", "cable car", "motorcar", "elevator car", "gondola"));
+        assertEquals(result,expected_result);
+    }
+
+    @Test
+    public void returnsEmptySetOfSynonymsAng(){
+        Set<String> result= nlProcessor.getSynonyms("itIsNotAWord");
+        Set<String> expected_result = new HashSet<String>();
+        assertEquals(expected_result,result);
+    }
+
+    @Test
+    public void returnsSetOfSynonymsPolAng(){
+        Set<String> result= nlProcessor.getSynonyms("nuda");
+        Set<String> expected_result = new HashSet<String>(Arrays.asList("nuda", "znudzenie", "class Nuda", "Nuda"));
+        assertEquals(result,expected_result);
+    }
 }
