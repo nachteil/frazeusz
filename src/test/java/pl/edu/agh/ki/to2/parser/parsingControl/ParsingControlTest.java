@@ -58,8 +58,8 @@ public class ParsingControlTest {
 
     @Test
     public void testIsFileExtensionSupported(){
-        assertTrue(ParserFile.isFileExtensionSupported("text/html"));
-        assertFalse(ParserFile.isFileExtensionSupported("some_unsupported_extension"));
+        assertTrue(ParserFile.isFileExtentionSupported("text/html"));
+        assertFalse(ParserFile.isFileExtentionSupported("some_unsupported_extension"));
     }
 
     @Test
