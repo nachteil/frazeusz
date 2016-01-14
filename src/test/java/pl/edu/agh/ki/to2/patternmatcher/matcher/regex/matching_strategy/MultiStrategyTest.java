@@ -4,6 +4,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import pl.edu.agh.ki.to2.nlprocessor.IWordProvider;
+import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.matching_strategy.altword.DiminutiveStrategy;
+import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.matching_strategy.altword.SynonymStrategy;
+import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.matching_strategy.altword.VariantStrategy;
+import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.matching_strategy.flag.CaseInsensitiveStrategy;
 
 import java.util.*;
 import java.util.regex.Pattern;

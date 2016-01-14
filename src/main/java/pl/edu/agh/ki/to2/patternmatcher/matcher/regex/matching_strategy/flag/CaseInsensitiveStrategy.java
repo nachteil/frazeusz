@@ -1,6 +1,7 @@
-package pl.edu.agh.ki.to2.patternmatcher.matcher.regex.matching_strategy;
+package pl.edu.agh.ki.to2.patternmatcher.matcher.regex.matching_strategy.flag;
 
 import pl.edu.agh.ki.to2.nlprocessor.IWordProvider;
+import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.matching_strategy.AbstractMatchingStrategy;
 
 import java.util.regex.Pattern;
 

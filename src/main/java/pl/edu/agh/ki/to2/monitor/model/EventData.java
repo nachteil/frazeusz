@@ -51,7 +51,6 @@ public class EventData {
             xValues.add(toMillis(sec));
             double yValue = getWithZeroOnNull(processedData.get(sec));
             LOGGER.debug("Value in second {}: {}", sec, yValue);
-            LOGGER.debug(new PrettyPrintingMap<>(processedData).toString());
             yValues.add(yValue);
         }
         return to2DDoubleArray(xValues, yValues);

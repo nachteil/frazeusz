@@ -1,9 +1,11 @@
-package pl.edu.agh.ki.to2.patternmatcher.matcher.regex.matching_strategy;
+package pl.edu.agh.ki.to2.patternmatcher.matcher.regex.matching_strategy.altword;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import pl.edu.agh.ki.to2.nlprocessor.IWordProvider;
+import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.matching_strategy.altword.AltWordStrategy;
+import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.matching_strategy.altword.DiminutiveStrategy;
 
 import java.util.Arrays;
 import java.util.HashSet;

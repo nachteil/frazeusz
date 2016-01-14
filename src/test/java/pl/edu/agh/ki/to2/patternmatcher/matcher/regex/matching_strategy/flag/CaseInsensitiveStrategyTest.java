@@ -1,8 +1,9 @@
-package pl.edu.agh.ki.to2.patternmatcher.matcher.regex.matching_strategy;
+package pl.edu.agh.ki.to2.patternmatcher.matcher.regex.matching_strategy.flag;
 
 import org.junit.Before;
 import org.junit.Test;
 import pl.edu.agh.ki.to2.nlprocessor.IWordProvider;
+import pl.edu.agh.ki.to2.patternmatcher.matcher.regex.matching_strategy.flag.CaseInsensitiveStrategy;
 
 import java.util.Map;
 import java.util.Set;

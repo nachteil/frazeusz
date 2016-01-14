@@ -29,7 +29,7 @@ public class Table extends JPanel {
         //empty = BorderFactory.createEmptyBorder(10,10,10,10);
         //setBorder(empty);
         setBackground(Color.white);
-
+        
         //dataModel = new DefaultTableModel(colNames, 20);
         dataModel = new DefaultTableModel(colNames, 0) {
             @Override
@@ -59,7 +59,7 @@ public class Table extends JPanel {
                 url = lowerEntry.getKey();
                 list = lowerEntry.getValue();
                 for (String value : list) {
-                    dataModel.addRow(new Object[]{key.getPattern(), url, value});
+                    dataModel.addRow(new Object[]{key.getDescription(), url, value});
                 }
             }
         }

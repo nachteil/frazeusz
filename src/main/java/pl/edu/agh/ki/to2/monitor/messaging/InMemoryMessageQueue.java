@@ -61,8 +61,10 @@ public class InMemoryMessageQueue implements MessageQueue {
     }
 
     private ClientMessage createClientMessage(Event event) {
-
-        ClientMessage message = session.createMessage(MESSAGE_DURABLE_PROP);
+        ClientMessage message;
+        synchronized (session) {
+            message = session.createMessage(MESSAGE_DURABLE_PROP);
+        }
         message.putIntProperty(AMOUNT_PROPERTY_KEY, event.getAmount());
         message.putStringProperty(TYPE_PROPERTY_KEY, event.getType().toString());
         message.putLongProperty(TIMESTAMP_PROPERTY_KEY, event.getTimestamp());
@@ -72,7 +74,9 @@ public class InMemoryMessageQueue implements MessageQueue {
 
     private void trySend(ClientMessage message) {
         try {
-            producer.send(message);
+            synchronized (producer) {
+                producer.send(message);
+            }
         } catch (HornetQException e) {
             LOGGER.error("Message send failed", e);
         }
@@ -81,7 +85,9 @@ public class InMemoryMessageQueue implements MessageQueue {
     private ClientMessage tryPop() {
         ClientMessage message = null;
         try {
-            message = consumer.receive();
+            synchronized (consumer) {
+                message = consumer.receive();
+            }
         } catch (HornetQException e) {
             LOGGER.error("Exception while receiving message", e);
         }

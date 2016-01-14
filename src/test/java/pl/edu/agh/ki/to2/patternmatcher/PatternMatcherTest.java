@@ -59,24 +59,24 @@ public class PatternMatcherTest {
 		assertTrue(results.contains("test test1"));
 	}
 	
-//	@Test
-//	public void testFreeWordMatch(){
-//		List<String> sentences = new ArrayList<>();
-//		sentences.add("test");
-//		sentences.add("test1");
-//		sentences.add("test test1");
-//		sentences.add("test abc test1");
-//		sentences.add("def test ghi test1");
-//		searchPatterns.add(new SearchPattern("test * test1"));
-//		patternMatcher.setPatterns(searchPatterns);
-//
-//		List<String> results = patternMatcher.match(sentences, "url");
-////		System.out.print(results.toString());
-//		assertThat(results, hasSize(2));
-//		assertTrue(results.contains("test abc test1"));
-//		assertTrue(results.contains("def test ghi test1"));
-//	}
-	
+	@Test
+	public void testFreeWordMatch(){
+		List<String> sentences = new ArrayList<>();
+		sentences.add("test");
+		sentences.add("test1");
+		sentences.add("test test1");
+		sentences.add("test abc test1");
+		sentences.add("def test ghi test1");
+		searchPatterns.add(new SearchPattern("test * test1"));
+		patternMatcher.setPatterns(searchPatterns);
+		
+		List<String> results = patternMatcher.match(sentences, "url");
+//		System.out.print(results.toString());
+		assertThat(results, hasSize(3));
+		assertTrue(results.contains("test abc test1"));
+		assertTrue(results.contains("def test ghi test1"));
+	}
+
 	@Test 
 	public void testSynonymMatch(){
 		List<String> sentences = new ArrayList<>();
@@ -151,6 +151,35 @@ public class PatternMatcherTest {
 		List<String> results = patternMatcher.match(sentences, "url");
 		assertThat(results, hasSize(1));
 		assertTrue(results.contains("test"));
+	}
+	
+	@Test 
+	public void testPhoneNumberMatch(){
+		List<String> sentences = new ArrayList<>();
+		sentences.add("My number is +48 725 154 484");
+		sentences.add("725 154 484 number my is");
+		sentences.add("725-154-484");
+		sentences.add("725154484");
+		sentences.add("725 m 154 n 484");
+		searchPatterns.add(new SearchPattern("725154484", true, false, false , false));
+		patternMatcher.setPatterns(searchPatterns);
+		
+		List<String> results = patternMatcher.match(sentences, "url");
+		assertThat(results, hasSize(4));
+		assertFalse(results.contains("725 m 154 n 484"));
+	}
+	
+	@Test 
+	public void testEMailMatch(){
+		List<String> sentences = new ArrayList<>();
+		sentences.add("jakis@gmail.com");
+		sentences.add("jakis[at]gmail.com");
+		sentences.add("jakis [at] gmail.com");
+		searchPatterns.add(new SearchPattern("jakis@gmail.com", true, false, false , false));
+		patternMatcher.setPatterns(searchPatterns);
+		
+		List<String> results = patternMatcher.match(sentences, "url");
+		assertThat(results, hasSize(3));
 	}
 	
 	@Test
