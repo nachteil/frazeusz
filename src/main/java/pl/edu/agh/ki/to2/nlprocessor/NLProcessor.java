@@ -7,19 +7,18 @@ import com.nexagis.jawbone.filter.WildcardFilter;
 
 import java.util.*;
 
+import static java.lang.Thread.sleep;
+
 public class NLProcessor  implements IWordProvider {
-    private Dictionary dictionary_instance;
-    public Map<String, String[]> map = new HashMap<String, String[]>();
     NLProcessorDataProvider data_instance;
 
     public NLProcessor()  {
         data_instance = NLProcessorDataProvider.getInstance();
-
         return;
     }
     public Set<String> getVariants(String word) {
-        checkMap();
-        Set<String> variants =new HashSet<String>();
+        Map<String, String[]> map = data_instance.getMap();
+        Set<String> variants = new HashSet<String>();
         String[] result = map.get(word);
         if(result==null)
             return variants;
@@ -30,22 +29,24 @@ public class NLProcessor  implements IWordProvider {
     }
 
     public Set<String> getDiminutives(String word) {
-        getDictionary(Language.POL);
-        WildcardFilter var2 = new WildcardFilter(word, true);
-        Iterator var3 = dictionary_instance.getIndexTermIterator( 1, var2);
         Set<String> diminutives =new HashSet<String>();
-        while(var3.hasNext()) {
-            IndexTerm var4 = (IndexTerm) var3.next();
-            Synset[] o = var4.getSynsets();
-            Synset d =o[0];
-            List<Pointer> a = d.getPointers();
-            for (Pointer t : a) {
-                String pointer = t.getPointerSymbol();
-                if (pointer.equals("nd") || pointer.equals("diminaa") ) {
-                    List<WordData> words = t.getSynset().getWord();
-                    for (WordData w : words) {
-                        String diminutive = w.getWord();
-                        diminutives.add(diminutive);
+        for(Language language : Language.values()) {
+            Dictionary dictionary_instance = data_instance.getDictionary(language);
+            WildcardFilter wording = new WildcardFilter(word, true);
+            Iterator terms = dictionary_instance.getIndexTermIterator(1, wording);
+            while (terms.hasNext()) {
+                IndexTerm term = (IndexTerm) terms.next();
+                Synset[] synsets = term.getSynsets();
+                Synset key_synset = synsets[0];
+                List<Pointer> pointers = key_synset.getPointers();
+                for (Pointer pointer : pointers) {
+                    String pointer_symbol = pointer.getPointerSymbol();
+                    if (pointer_symbol.equals("nd") || pointer_symbol.equals("diminaa")) {
+                        List<WordData> words = pointer.getSynset().getWord();
+                        for (WordData w : words) {
+                            String diminutive = w.getWord();
+                            diminutives.add(diminutive);
+                        }
                     }
                 }
             }
@@ -55,15 +56,15 @@ public class NLProcessor  implements IWordProvider {
 
     public Set<String> getSynonyms(String word) {
         Set<String> synonyms = new HashSet<String>();
-        for(Language l : Language.values()) {
-            getDictionary(l);
-            WildcardFilter var2 = new WildcardFilter(word, true);
-            Iterator var3 = dictionary_instance.getIndexTermIterator(1, var2);
-            while (var3.hasNext()) {
-                IndexTerm var4 = (IndexTerm) var3.next();
-                Synset[] d = var4.getSynsets();
-                for (Synset i : d) {
-                    List<WordData> words = i.getWord();
+        for(Language language : Language.values()) {
+            Dictionary dictionary_instance = data_instance.getDictionary(language);
+            WildcardFilter wording = new WildcardFilter(word, true);
+            Iterator terms = dictionary_instance.getIndexTermIterator(1, wording);
+            while (terms.hasNext()) {
+                IndexTerm term = (IndexTerm) terms.next();
+                Synset[] synsets = term.getSynsets();
+                for (Synset synset : synsets) {
+                    List<WordData> words = synset.getWord();
                     for (WordData word_data : words) {
                         String synonym = word_data.getWord();
                         synonyms.add(synonym);
@@ -75,14 +76,5 @@ public class NLProcessor  implements IWordProvider {
         return synonyms;
     }
 
-    public void checkMap(){
-        if(map.isEmpty()){
-            map = data_instance.getMap();
-        }
-    }
-
-    public void getDictionary(Language l){
-            dictionary_instance = data_instance.getDictionary(l);
-    }
 }
 

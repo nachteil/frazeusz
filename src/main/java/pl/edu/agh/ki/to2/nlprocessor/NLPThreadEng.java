@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 /**
  * Created by Mefju on 2016-01-10.
  */
-public class NLPThreadAng extends Thread {
+public class NLPThreadEng extends Thread {
     private Dictionary dictionary_instance;
     boolean finished_dictionary = false;
     String file_sep = File.separator;

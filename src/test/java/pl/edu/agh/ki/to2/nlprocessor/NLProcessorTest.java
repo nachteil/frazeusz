@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import static java.lang.Thread.sleep;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -38,6 +39,12 @@ public class NLProcessorTest {
 
     @Test
     public void returnsSetOfDiminutives(){
+        //protect from mixing dictionary
+        try {
+            sleep(300);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Set<String> result= nlProcessor.getDiminutives("dom");
         Set<String> expected_result = new HashSet<String>(Arrays.asList("domina", "domek"));
         assertEquals(expected_result,result);}
@@ -48,7 +55,6 @@ public class NLProcessorTest {
         Set<String> expected_result = new HashSet<String>();
         assertEquals(expected_result, result);
     }
- //TODO brak polskich znakow powoduje assert
     @Test
     public void returnSetOfVariants(){
         Set<String> result= nlProcessor.getVariants("Atlantydy");

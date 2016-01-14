@@ -14,14 +14,14 @@ public class NLProcessorDataProvider {
     private static NLProcessorDataProvider instance = null;
     public Map<String, String[]> map = new HashMap<String, String[]>();
     private Dictionary dictionary_instance = null;
-    NLPThreadPol nlpthreadPol = new NLPThreadPol();
-    NLPThreadAng nlpthreadAng = new NLPThreadAng();
+    NLPThreadPol nlpThreadPol = new NLPThreadPol();
+    NLPThreadEng nlpThreadEng = new NLPThreadEng();
 
     protected NLProcessorDataProvider(){
-        Thread nlpthreadPol2 = new Thread(nlpthreadPol);
-        nlpthreadPol2.start();
-        Thread nlpthreadAng2 = new Thread(nlpthreadAng);
-        nlpthreadAng2.start();
+        Thread nlpPol = new Thread(nlpThreadPol);
+        nlpPol.start();
+        Thread nlpEng = new Thread(nlpThreadEng);
+        nlpEng.start();
     }
 
     public static NLProcessorDataProvider getInstance(){
@@ -32,10 +32,10 @@ public class NLProcessorDataProvider {
     }
 
     public Map<String, String[]> getMap(){
-        map = nlpthreadPol.getMap();
+        map = nlpThreadPol.getMap();
         while(map==null){
-            map = nlpthreadPol.getMap();
-            sleep(1000);
+            map = nlpThreadPol.getMap();
+            sleep(100);
         }
         return map;
     }
@@ -44,12 +44,13 @@ public class NLProcessorDataProvider {
         do {
             switch (l) {
                 case POL:
-                    dictionary_instance = nlpthreadPol.getDictionary();
+                    dictionary_instance = nlpThreadPol.getDictionary();
                     break;
-                case ANG:
-                    dictionary_instance = nlpthreadAng.getDictionary();
+                case ENG:
+                    dictionary_instance = nlpThreadEng.getDictionary();
                     break;
             }
+            sleep(100);
         }while(dictionary_instance==null);
         return dictionary_instance;
     }
