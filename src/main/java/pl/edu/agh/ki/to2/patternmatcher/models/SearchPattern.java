@@ -2,7 +2,7 @@ package pl.edu.agh.ki.to2.patternmatcher.models;
 
 public class SearchPattern {
     private String pattern = "";
-    private Boolean caseSensitive = false;
+    private Boolean caseSensitive = true;
     private Boolean synonyms = false;
     private Boolean variants = false;
     private Boolean diminutives = false;
@@ -20,6 +20,14 @@ public class SearchPattern {
         this.synonyms = synonyms;
         this.variants = variants;
         this.diminutives = diminutives;
+    }
+
+    public SearchPattern(SearchPattern pattern) {
+        this.pattern = pattern.getPattern();
+        this.caseSensitive = pattern.getCaseSensitive();
+        this.synonyms = pattern.getSynonyms();
+        this.variants = pattern.getVariants();
+        this.diminutives = pattern.getDiminutives();
     }
 
     public String getPattern() {

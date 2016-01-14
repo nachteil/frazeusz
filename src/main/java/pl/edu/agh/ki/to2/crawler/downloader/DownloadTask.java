@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.concurrent.BlockingQueue;
 
 public class DownloadTask implements Runnable {
@@ -48,7 +47,6 @@ public class DownloadTask implements Runnable {
     }
 
     private ParserFile getContent() throws IOException, UnsupportedFileException {
-
         HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
         int responseCode = httpConn.getResponseCode();
         String contentType;
@@ -61,6 +59,10 @@ public class DownloadTask implements Runnable {
         // check HTTP response code first
         if (responseCode == HttpURLConnection.HTTP_OK) {
             contentType = httpConn.getContentType();
+            if(! ParserFile.isFileExtentionSupported(contentType)){
+                httpConn.disconnect();
+                return null;
+            }
             //contentLength = httpConn.getContentLength();
             downloadedSize = 0;
 

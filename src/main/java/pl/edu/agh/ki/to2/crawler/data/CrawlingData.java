@@ -10,6 +10,7 @@ public class CrawlingData {
     private List<String> urls;
     private int maxDepth;
     private int maxNumberOfFiles;
+    private int filesPerSecond;
 
     public CrawlingData(){
         this.urls = new ArrayList<>();
@@ -37,5 +38,14 @@ public class CrawlingData {
 
     public void setMaxNumberOfFiles(int maxNumberOfFiles) {
         this.maxNumberOfFiles = maxNumberOfFiles;
+    }
+
+
+    public int getFilesPerSecond() {
+        return filesPerSecond;
+    }
+
+    public void setFilesPerSecond(int filesPerSecond) {
+        this.filesPerSecond = filesPerSecond;
     }
 }

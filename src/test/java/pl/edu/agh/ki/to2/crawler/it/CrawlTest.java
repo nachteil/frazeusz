@@ -72,7 +72,7 @@ public class CrawlTest {
     private class TaskQueueTakingTestCrawler extends Crawler{
 
         public TaskQueueTakingTestCrawler(int workersPool, int maxSites, int maxDepth, List<String> urls) {
-            super(workersPool, maxSites, maxDepth, urls);
+            super(workersPool, maxSites, maxDepth, urls, 100);
         }
 
         private TaskQueue makeTaskQueue(BlockingQueue<ParserFile> fileQueue, int maxDepth,
