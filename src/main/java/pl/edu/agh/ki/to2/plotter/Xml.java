@@ -63,16 +63,18 @@ public class Xml implements IFile {
                     url = lowerEntry.getKey();
                     list = lowerEntry.getValue();
 
-                    occurrence = doc.createElement("occurrence");
-                    searchPattern.appendChild(occurrence);
+                    if(!list.isEmpty()) {
+                        occurrence = doc.createElement("occurrence");
+                        searchPattern.appendChild(occurrence);
 
-                    occurrence.setAttribute("url", url);
-                    for (String value : list) {
+                        occurrence.setAttribute("url", url);
+                        for (String value : list) {
 
-                        match = doc.createElement("match");
-                        match.appendChild(doc.createTextNode(value));
-                        occurrence.appendChild(match);
+                            match = doc.createElement("match");
+                            match.appendChild(doc.createTextNode(value));
+                            occurrence.appendChild(match);
 
+                        }
                     }
                 }
             }
